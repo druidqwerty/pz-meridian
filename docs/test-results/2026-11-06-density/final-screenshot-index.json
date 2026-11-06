@@ -1,0 +1,147 @@
+[
+  {
+    "label": "world_selection",
+    "file": "final-world-selection.png",
+    "original": "screenshot_06-11-2026_15-43-16.png"
+  },
+  {
+    "label": "spawn_selection",
+    "file": "final-spawn-selection.png",
+    "original": "screenshot_06-11-2026_15-43-18.png"
+  },
+  {
+    "label": "spawn",
+    "file": "final-spawn.png",
+    "original": "screenshot_06-11-2026_15-43-42.png"
+  },
+  {
+    "label": "Large office activity zones",
+    "file": "final-large-office-activity-zones.png",
+    "original": "screenshot_06-11-2026_15-44-04.png"
+  },
+  {
+    "label": "Large office activity zones_after_stairs",
+    "file": "final-large-office-activity-zones-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-44-24.png"
+  },
+  {
+    "label": "Large office activity zones native night switch",
+    "file": "final-large-office-activity-zones-native-night-switch.png",
+    "original": "screenshot_06-11-2026_15-44-36.png"
+  },
+  {
+    "label": "Large office activity zones native night switch_night_native_light_on",
+    "file": "final-large-office-activity-zones-native-night-switch-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_15-44-44.png"
+  },
+  {
+    "label": "Large office activity zones native night switch_night_native_light_off",
+    "file": "final-large-office-activity-zones-native-night-switch-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_15-44-54.png"
+  },
+  {
+    "label": "School classroom activity zones",
+    "file": "final-school-classroom-activity-zones.png",
+    "original": "screenshot_06-11-2026_15-45-08.png"
+  },
+  {
+    "label": "School classroom activity zones_after_stairs",
+    "file": "final-school-classroom-activity-zones-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-45-28.png"
+  },
+  {
+    "label": "Large retail sales floor",
+    "file": "final-large-retail-sales-floor.png",
+    "original": "screenshot_06-11-2026_15-45-40.png"
+  },
+  {
+    "label": "Large retail sales floor_after_stairs",
+    "file": "final-large-retail-sales-floor-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-46-00.png"
+  },
+  {
+    "label": "Public dining activity zones",
+    "file": "final-public-dining-activity-zones.png",
+    "original": "screenshot_06-11-2026_15-46-12.png"
+  },
+  {
+    "label": "Public dining activity zones_after_stairs",
+    "file": "final-public-dining-activity-zones-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-46-32.png"
+  },
+  {
+    "label": "Storage activity and clear aisles",
+    "file": "final-storage-activity-and-clear-aisles.png",
+    "original": "screenshot_06-11-2026_15-46-44.png"
+  },
+  {
+    "label": "Storage activity and clear aisles_after_stairs",
+    "file": "final-storage-activity-and-clear-aisles-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-47-04.png"
+  },
+  {
+    "label": "B1 public kitchen activity zones",
+    "file": "final-b1-public-kitchen-activity-zones.png",
+    "original": "screenshot_06-11-2026_15-47-16.png"
+  },
+  {
+    "label": "B1 public kitchen activity zones_after_stairs",
+    "file": "final-b1-public-kitchen-activity-zones-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-47-36.png"
+  },
+  {
+    "label": "B1 public kitchen activity zones native night switch",
+    "file": "final-b1-public-kitchen-activity-zones-native-night-switch.png",
+    "original": "screenshot_06-11-2026_15-47-48.png"
+  },
+  {
+    "label": "B1 public kitchen activity zones native night switch_night_native_light_on",
+    "file": "final-b1-public-kitchen-activity-zones-native-night-switch-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_15-47-57.png"
+  },
+  {
+    "label": "B1 public kitchen activity zones native night switch_night_native_light_off",
+    "file": "final-b1-public-kitchen-activity-zones-native-night-switch-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_15-48-06.png"
+  },
+  {
+    "label": "B1 dormitory activity zones",
+    "file": "final-b1-dormitory-activity-zones.png",
+    "original": "screenshot_06-11-2026_15-48-20.png"
+  },
+  {
+    "label": "B1 dormitory activity zones_after_stairs",
+    "file": "final-b1-dormitory-activity-zones-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-48-40.png"
+  },
+  {
+    "label": "Density candidate tower ordinary stair",
+    "file": "final-density-candidate-tower-ordinary-stair.png",
+    "original": "screenshot_06-11-2026_15-48-52.png"
+  },
+  {
+    "label": "Density candidate tower ordinary stair_after_stairs",
+    "file": "final-density-candidate-tower-ordinary-stair-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-49-12.png"
+  },
+  {
+    "label": "Density candidate public bunker ordinary descent",
+    "file": "final-density-candidate-public-bunker-ordinary-descent.png",
+    "original": "screenshot_06-11-2026_15-49-24.png"
+  },
+  {
+    "label": "Density candidate public bunker ordinary descent_after_stairs",
+    "file": "final-density-candidate-public-bunker-ordinary-descent-after-stairs.png",
+    "original": "screenshot_06-11-2026_15-49-44.png"
+  },
+  {
+    "label": "native_atlas_overview",
+    "file": "final-native-atlas-overview.png",
+    "original": "screenshot_06-11-2026_15-49-50.png"
+  },
+  {
+    "label": "native_atlas_street_zoom",
+    "file": "final-native-atlas-street-zoom.png",
+    "original": "screenshot_06-11-2026_15-49-56.png"
+  }
+]

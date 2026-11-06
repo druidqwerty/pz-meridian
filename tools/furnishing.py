@@ -40,7 +40,9 @@ def palette(base, seed):
     return result
 
 
-def furnish_room(role, x, y, w, h, seed=0, base=None, blocked=()):
+def furnish_room(role, x, y, w, h, seed=0, base=None, blocked=(), *,
+                 programme=None, activity=(), obstacles=(), reports=None, z=0,
+                 loot_role=None):
     """Cluster-based replacement for the fixed-facing sparse legacy decorator.
 
     All blocked coordinates are absolute CELL-local squares. Group placement
@@ -50,8 +52,14 @@ def furnish_room(role, x, y, w, h, seed=0, base=None, blocked=()):
         from architecture import TILES
         base = TILES
     from themed_rooms import PROPS
-    from interior_layouts import furnish_room as layout
-    yield from layout(role, x, y, w, h, seed, base | EXTRAS | PROPS, blocked)
+    from area_furnishing import plan_furnishing
+    props, report = plan_furnishing(role, x, y, w, h, seed,
+        base | EXTRAS | PROPS, blocked, programme=programme, activity=activity,
+        obstacles=obstacles)
+    report.update(z=z, lootRole=loot_role or role)
+    if reports is not None:
+        reports.append(report)
+    yield from props
 
 
 def enrich(out,role,x,y,w,h,seed,base):

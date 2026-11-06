@@ -124,3 +124,60 @@ missing planned compound building. See EXPEDITION.md/HABITAT.md for scope.
 
 These tests pass against the installed B42.21 metadata. They do not replace the
 separate live-game pickup/unbarricade and appearance checks in `docs/QA.md`.
+
+
+## Area-aware furnishing integration (0.2.1-alpha.1 candidate)
+
+The pure six-module `native_b42` room planner is vendored under
+`tools/native_b42`, with its original MIT notice and canonical-LF SHA-256
+provenance. No sibling checkout, game artwork or map database is needed to
+reproduce the generation. `tools/area_furnishing.py` adapts actual cell-local
+rooms, clips the building-wide door masks to each rectangle and memoizes only
+immutable local props/serialized reports. Every furnished rectangle gets its own
+report; unfurnished axial circulation is not assigned a density pass.
+
+Functional rectangles at least 96 tiles and six tiles wide use the planner.
+Fitted small rooms,
+including 10×10 lounges whose two-wide cross would leave unusable seating bays,
+retain compact recipes. Thin shopping-centre corridors are explicit circulation,
+not rooms to fill with cabinets. Compact/circulation reports say
+`densityAudited:false, accepted:null`; they are not presented as passing the
+new density gate. Native door/stair and sprite checks still cover them.
+
+A zoned plan is accepted only after density, empty-patch and connected-floor
+gates pass. Up to four deterministic seed-phase activity layouts may be tried;
+failed attempts and their warnings remain in the accepted room report. A room
+that still fails stops generation rather than silently falling back to compact
+furniture or random filler. This is a layout revision, not a relaxed density
+target. Primary kitchen appliances are placed once per logical room.
+
+Diner/shopping-centre kitchens explicitly use `restaurantkitchen`; their food
+seating uses `dining`. Military/fire-service sleeping quarters use `dormitory`.
+The underground shelter no longer repeats a whole kitchen/bedroom recipe every
+12×10 bay. Its actual 28×40 / 96×96 logical rooms are each planned once as public
+facilities: kitchen→restaurantkitchen, bedroom→dormitory, bathroom→shower.
+Native loot RoomDef names are unchanged; these are only furnishing programmes.
+Caches are explicit solid obstacle masks before furnishing, with their cabinet
+use space protected. Compact recipes preserve the solid's one-tile apron too.
+
+Manifest surface `records[].furnishing[]` and `bunker.furnishing[]` contain the
+actual used reports: `rect` in world coordinates, `z`, `lootRole`,
+`requestedRole`, `purpose`, `policy`, `accepted`, `warnings`, density metrics,
+empty-square location and complete activity `groups`. Narrow/compact entries
+carry an explicit reason. Parent QA samples these actual new rooms, not generic
+building spawn coordinates. Native room switches and backed lighting fixtures
+remain the existing architectural layer; sanctuary/infestation rules are not
+changed.
+
+Initial focused verification: eight new integration checks, three furnishing
+checks, three native interior checks, three native architecture checks and
+three all-wing habitat checks pass. The all-wing habitat suite takes 179.867 seconds
+(native loot/sprites, second exits, stairs and service-ring traversal).
+All kinds at seed 7 take 0.953 seconds; one full bunker cell takes 9.594 seconds
+on this host before further cache hits. These are structural/offline results,
+not fresh gameplay/rendering proof. The 0.2.0 release evidence does not certify
+this candidate's new furnishings; fresh large-room game inspection is required.
+
+The release audit separately rejects stale version/acceptance flags and rechecks
+density from occupied/furnishable footprints, complete group footprint counts
+and empty-patch size. Five negative-control tests cover rejected evidence.

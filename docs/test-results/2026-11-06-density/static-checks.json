@@ -1,0 +1,61 @@
+{
+  "version": "0.2.1-alpha.1",
+  "nativeBuild": {
+    "cells": 2387,
+    "structures": 1188,
+    "seconds": 133.5,
+    "decodeRoundTrip": true
+  },
+  "meridianDiscovery": {
+    "tests": 57,
+    "seconds": 290.793,
+    "result": "PASS",
+    "note": "Final two cache/mask tests added during independent review are covered by final area rerun."
+  },
+  "finalReruns": {
+    "area": {
+      "tests": 8,
+      "seconds": 2.796,
+      "result": "PASS"
+    },
+    "nativeArchitecture": {
+      "tests": 3,
+      "seconds": 32.97,
+      "result": "PASS"
+    },
+    "reviewerNativeInteriors": {
+      "tests": 3,
+      "result": "PASS"
+    },
+    "furnishingAuditNegativeControls": {
+      "tests": 5,
+      "result": "PASS",
+      "note": "Independent booleans/density/empty-patch/footprint/version gates; frozen compiled manifest re-audited."
+    },
+    "bunkerQueue": {
+      "tests": 10,
+      "result": "PASS",
+      "seconds": 0.009,
+      "note": "Parent rerun of final scheduler; reviewer also reran five existing runtime checks including all Lua syntax."
+    },
+    "densityTargets": {
+      "tests": 4,
+      "result": "PASS",
+      "note": "Actual-purpose selection regression prevents nursery/commercial kitchen substituting classroom/dining coverage."
+    }
+  },
+  "mapTools": {
+    "commit": "4df2e98",
+    "furnishing": 16,
+    "urban": 10,
+    "result": "PASS",
+    "historicalDiscovery": {
+      "tests": 471,
+      "failures": 1,
+      "errors": 4,
+      "skipped": 10,
+      "note": "Unavailable retired geography/receipts and optional compiler fixtures; retained in map-tools MODLOG, not restored."
+    }
+  },
+  "kind": "Static/simulation/native-property checks, NOT game rendering evidence"
+}

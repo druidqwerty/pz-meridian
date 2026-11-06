@@ -37,14 +37,17 @@ class NativeInteriorAcceptance(unittest.TestCase):
                 self.assertEqual(by_pos[x, y+1], 'furniture_bedding_01_8')
             else:
                 self.assertEqual(by_pos[x, y-1], 'furniture_bedding_01_9')
-        kitchen = {(x, y): s for x, y, s in
-                   furnish_room('kitchen', 10, 10, 12, 10, 1, TILES)}
-        # South-wall kitchen counter/appliances face into the room, uniformly.
-        self.assertEqual(self.db[kitchen[11, 10]]['Facing'], 'S')
-        self.assertEqual(self.db[kitchen[12, 10]]['Facing'], 'S')
-        self.assertEqual(self.db[kitchen[13, 10]]['Facing'], 'S')
-        self.assertEqual(self.db[kitchen[12, 18]]['Facing'], 'N')
-        self.assertEqual(self.db[kitchen[13, 17]]['Facing'], 'W')
+        kitchen = list(furnish_room('kitchen', 10, 10, 16, 14, 1, TILES))
+        # Inspect native-facing fronts, not obsolete fixed wall coordinates.
+        occupied = {(x, y) for x, y, _ in kitchen}
+        fronts = dict(N=(0, -1), E=(1, 0), S=(0, 1), W=(-1, 0))
+        primary = set(FACING['oven'].values()) | set(FACING['fridge'].values())
+        appliances = [(x, y, sprite) for x, y, sprite in kitchen if sprite in primary]
+        self.assertEqual(len(appliances), 2)
+        for x, y, sprite in appliances:
+            dx, dy = fronts[self.db[sprite]['Facing']]
+            self.assertNotIn((x+dx, y+dy), occupied)
+        self.assertTrue(any(sprite in FACING['chair'].values() for _, _, sprite in kitchen))
 
     def test_each_room_gets_real_switch_circuit_and_luminous_fixture_roundtrip(self):
         tiles = {(x, y, 0): ['floors_interior_tilesandwood_01_40']

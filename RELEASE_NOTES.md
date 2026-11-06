@@ -1,102 +1,88 @@
-# Meridian: The Long Way Home — 0.2.0-alpha.1
+# Meridian: The Long Way Home — 0.2.1-alpha.1
 
 ## English
 
-GitHub-only urban/interior rebuilding alpha for Project Zomboid **42.21**.
-Start a **NEW Sandbox world on Meridian**; old saves are not migrated.
+GitHub-only large-interior furnishing alpha for Project Zomboid **42.21**.
+Start a **NEW Sandbox world on Meridian**; existing saves are not migrated.
 
 ### What changed
 
-- Replaced the near-universal four-room building with 53 building programmes:
-  compact homes, L-plan ranches, duplexes, row houses, garages, sentry huts,
-  schools, police/fire stations, shops, workshops and classified facilities.
-- Small towns have different building mixes, sizes and setbacks. Regional
-  centres grow taller along the route. Meridian contains **248 surface buildings,
-  including 140 with at least six occupied storeys**; towers reach 13 storeys.
-  Every occupied floor has real rooms and native physical stairs.
-- Four separate **96×72-tile, two-storey shopping centres** contain anchor shops,
-  smaller units, food seating, kitchens and service rooms. Their broad concrete
-  parking lots have native markings and open drive aisles; forecourts use tile.
-- **13 small gun shops** use native gun-store loot distributions and gun racks.
-  Building-specific vanilla signs and setback road signs add visual identity.
-- Corrected furniture facing, complete bed/sofa groups, usable seats, supported
-  appliances and denser activity clusters. Compact homes no longer have a giant
-  empty five-tile-deep lobby.
-- Real native room-light metadata, wall switches and visible powered fixtures
-  above and below ground. Ordinary electricity shutoff/generator/bulb rules apply.
-- Two-wide sidewalks continue to native-cell seams. Building approaches use a
-  collision-aware route instead of a broken line through a neighbouring building.
-- Rebuilt the city wall as a **13-tile-deep, eight-storey fortification**, with
-  an upper walkway, actual stair access and a 21-tile-wide, four-storey-clear gate.
-- Bunker pavilions have more role-specific furnishings, backed signs and contrasting
-  floor guidance to their real stairs. [Entrance guide](https://github.com/druidqwerty/pz-meridian/blob/main/docs/BUNKER-ACCESS.md):
-  west gate → east to X48256 → north to south door **48259,1424**;
-  upper stair landing **48255,1408**, lower approach **48259,1408,-1**.
+- Large rooms receive one purpose-led plan: workstations, teaching areas,
+  retail shelves, preparation benches, storage and seating form activity zones
+  with clear circulation.
+- Shelter rooms are planned once, instead of repeating complete kitchens or
+  bedrooms in every small bay. Public kitchens have one main appliance line,
+  distributed preparation and pantry zones. Sleeping facilities explicitly use
+  dormitory layouts. Native loot room categories are preserved.
+- Fixed facing and use-space conflicts in reusable groups, including cabinets
+  blocked by packing crates and opposing preparation surfaces.
+- Generation checks furnishing density, oversized empty patches, connected floor
+  and approaches. Unresolved large plans stop generation; small fitted rooms and
+  dedicated corridors remain explicit separate policies, not density-audited.
+- Fixed bunker horde queue starvation: unloaded old areas no longer delay
+  newly visited rooms behind stale jobs. Persistent first-visit population,
+  player safety distance and normal sandbox zombie switches are retained.
+- Reusable improvements remain in PZ Map Tools; Meridian vendors pure hash-bound
+  MIT planner source for reproducible builds without a sibling checkout.
 
-### Inventory and verification boundary
+The road, districts, towers, shopping centres, lighting, sanctuary surface,
+infected underground and existing gameplay remain. No new quests, NPCs,
+power-restoration rules or mandatory dependencies are added.
 
-**2,387 native cell pairs; 1,188 surface structures; 25,423 native rooms.**
-The original 128.256km road, seven chapters, six regional detours, ten landmark
-compounds, twelve stop types, seven possible bases, sixteen underground wings,
-twelve main bunker entrances, thirteen archives and existing gameplay remain.
-This is map content, not new quests, NPCs, working trade or power-restoration rules.
+### Verification and limitations
 
-Static/native gates and separate live-game results are recorded in the
-[QA ledger](https://github.com/druidqwerty/pz-meridian/blob/main/docs/QA.md).
-Native tile/room data is decoded and round-tripped during compilation. No game
-artwork, other mods or private test drivers are bundled. Pure validated recipes
-were also retained in the reusable pz-map-tools repository; no retired map revived.
-
-### Known limitations
-
-This is an alpha, not hand-polished final art. Multiplayer and full-route driving
-or a fivefold travel-time ratio are not certified. Viewpoint remains optional;
-terrain-texture bands near some underground ceiling edges are still a known
-camera limitation. Reference motifs are original native adaptations, not copies
-of Louisville, Pullman or downloaded map assets. New world required.
-
-Created with AI assistance. Original code/geometry MIT; format references and
-third-party notices are in ATTRIBUTION.md and CODEC-LICENSE.txt.
+The version-specific [QA ledger](https://github.com/druidqwerty/pz-meridian/blob/main/docs/QA.md)
+records exact static and live-game evidence and its limits. Sampling rooms is
+not visual hand-polishing of every interior. Multiplayer, full-route driving
+and a fivefold driving-time ratio remain uncertified. Optional Viewpoint's
+underground ceiling/terrain bands remain a known limitation.
 No Steam or Boosty publication is authorized for this map.
+
+[Bunker entrance guide](https://github.com/druidqwerty/pz-meridian/blob/main/docs/BUNKER-ACCESS.md):
+west gate → east to X48256 → north to south door **48259,1424**;
+upper stair landing **48255,1408**.
+
+Created with AI assistance. Original code/geometry: MIT; retained source notices
+are documented in ATTRIBUTION.md. Game artwork is not included.
+
+Copyright © 2026 druidqwerty. Project Zomboid belongs to The Indie Stone.
 
 ## Русский
 
-Альфа **0.2.0-alpha.1** для PZ **42.21**, публикация только на GitHub.
+Альфа **0.2.1-alpha.1** для PZ **42.21**, публикация только на GitHub.
 Нужна **новая игра Sandbox на карте Meridian**. Старые сохранения не переносятся.
 
-- Вместо одного четырёхкомнатного шаблона — 53 программы зданий: компактные
-  дома, ранчо с двором, дуплексы, таунхаусы, гаражи, сторожки, школы, полиция,
-  пожарные станции, торговые ряды и ведомственные объекты.
-- Разные составы городков и нарастание этажности к финалу. В Meridian **248 зданий,
-  из них 140 — от шести обитаемых этажей**. Высотки достигают 13 этажей;
-  внутри есть настоящие помещения и лестницы.
-- Четыре крупных двухэтажных ТЦ 96×72 клетки, большие бетонные парковки с
-  разметкой и проездами, плиточные площади; 13 небольших оружейных магазинов.
-- Тематические игровые вывески, дорожные знаки, связные тротуары и подходы,
-  которые обходят здания и доходят до границ клеток карты.
-- Исправлен поворот мебели; кровати и диваны ставятся целиком. Добавлены
-  функциональные группы мебели вместо пустых залов и одиночных предметов.
-- Настоящие комнатные выключатели и светильники. Электричество работает по
-  обычным правилам игры, без скрытого бесконечного питания.
-- Объёмная стена: **13 клеток толщины, 8 этажей высоты**, верхний проход,
-  лестница и ворота шириной 21 клетку с четырёхэтажным просветом.
-- Входные павильоны бункера стали заметнее и подробнее обставлены; добавлены
-  указатели и контрастная дорожка к лестнице. Ближайший общественный вход:
-  от западных ворот на восток до X48256, затем на север к двери **48259,1424**;
-  верхняя площадка **48255,1408**, нижний подход **48259,1408,-1**.
+- Большие комнаты получают единый план по назначению: рабочие места,
+  учебные зоны, торговые стеллажи, подготовка продуктов, хранение и отдых
+  связаны проходами, а не заполнены случайной мебелью.
+- Подземные помещения планируются целиком. Вместо повторения полной кухни
+  в каждом отсеке — одна основная линия техники, зоны подготовки и кладовые.
+  Спальные помещения используют общественные схемы размещения;
+  игровые категории комнат для добычи сохранены.
+- В инструменте карт исправлены поворот мебели и подходы: ящики не занимают
+  место перед шкафами, рабочие поверхности не перекрывают доступ друг к другу.
+- Генератор проверяет плотность, крупные пустоты, связность пола и подходы.
+  Неудачный большой план останавливает сборку. Малые комнаты и выделенные
+  коридоры остаются отдельными явными политиками.
+- Исправлена очередь заселения бункера: старые выгруженные зоны больше
+  не задерживают заражённых в новых комнатах. Безопасная дистанция появления,
+  постоянство заселения и настройки зомби сохранены.
+- Универсальный планировщик сохранён в PZ Map Tools; Meridian содержит его
+  чистые MIT-исходники с контрольными суммами без зависимости от соседнего проекта.
 
-Итог: **2 387 пар нативных клеток, 1 188 наземных зданий, 25 423 помещения**.
-Главная дорога и прежнее экспедиционное наполнение сохранены; новых игровых
-систем, NPC, торговли, квестового журнала и запуска электростанций нет.
+Дорога, районы, высотки, ТЦ, освещение, безопасная поверхность города,
+заражённое подземелье и прежние механики сохранены. Новых квестов, NPC,
+обязательных модов или запуска электростанций нет.
 
-Точные результаты автоматических и игровых проверок находятся в QA.
-Мультиплеер, полный автопробег и пятикратное время поездки не сертифицированы.
-Полосы текстуры поверхности у некоторых подземных потолков Viewpoint остаются
-известным ограничением. Это тестовая альфа, не завершённая ручная полировка.
-Исходники созданы с помощью ИИ; рабочие универсальные решения сохранены отдельно
-в pz-map-tools, без восстановления старой карты. Без публикации Steam/Boosty.
+Точные проверки и границы доказательств — в QA. Выборочная проверка не означает
+ручную полировку всех помещений. Мультиплеер, полный автопробег и пятикратное
+время поездки не сертифицированы; известные подземные полосы потолка/поверхности
+Viewpoint остаются. Без публикации Steam/Boosty.
 
-Copyright © 2026 druidqwerty. Original Meridian code and geometry: MIT.
-Project Zomboid artwork and game belong to The Indie Stone; not included.
-Авторское право © 2026 druidqwerty. Исходный код и геометрия Meridian: MIT.
-Графика и игра Project Zomboid принадлежат The Indie Stone и не включены.
+Вход в бункер: от западных ворот на восток до X48256, затем на север к двери
+**48259,1424**; верхняя лестничная площадка **48255,1408**. Схема — по ссылке выше.
+
+Создано с помощью ИИ. Оригинальные исходники и геометрия — MIT;
+сторонние уведомления сохранены. Игровые изображения не распространяются.
+
+Copyright © 2026 druidqwerty. Project Zomboid принадлежит The Indie Stone.

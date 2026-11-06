@@ -2,13 +2,41 @@
 from pathlib import Path
 import json,re,sys
 from map_binary import _Reader
+from collections import Counter
+from version import VERSION
 
 ROOT=Path(__file__).resolve().parents[1]
 GAME=Path('G:/Steam/steamapps/common/ProjectZomboid')
 
 
+def audit_furnishing(m):
+    """Reject stale/truthy acceptance flags and independently check metrics."""
+    assert m['version']==VERSION, 'Rebuild this version before auditing'
+    furnishing=[r for c in m['cells']
+        for owner in c['records']+([c['bunker']] if c.get('bunker') else [])
+        for r in owner.get('furnishing',[])]
+    assert furnishing, 'Missing actual room furnishing evidence'
+    zoned=[r for r in furnishing if r['policy']=='zoned']
+    assert zoned, 'No area-aware room plans'
+    for r in furnishing:
+        assert r['policy'] in ('zoned','compact','circulation'),r
+        if r['policy']=='zoned':
+            assert r['densityAudited'] is True and r['accepted'] is True and not r['warnings'],r
+            assert r['connectedFloor'] is True and isinstance(r['groups'],list) and r['groups'],r
+            assert r['floorSquares']==r['rect'][2]*r['rect'][3],r
+            assert 0<r['furnishingSquares']<=r['floorSquares'],r
+            assert r['occupiedSquares']==sum(g['footprint'] for g in r['groups']),r
+            density=r['occupiedSquares']/r['furnishingSquares']
+            assert r['targetDensity'][0]<=density<=r['targetDensity'][1],r
+            assert r['largestEmptySquare']['side']<=r['maxEmptySide'],r
+        else:
+            assert r['accepted'] is None and r['densityAudited'] is False and r['reason'],r
+    return furnishing,zoned
+
+
 def main():
     m=json.loads((ROOT/'build/manifest.json').read_text())
+    furnishing,zoned=audit_furnishing(m)
     folder=ROOT/'mod/common/media/maps/Meridian'
     defs=(GAME/'media/newtiledefinitions.tiles.txt').read_text()
     sprites=set(re.findall(r'// (\S+)\s+tile\s*\{',defs))
@@ -48,7 +76,12 @@ def main():
     caches += [(p['x'],p['y'],p['z']) for c in m['cells'] if c.get('bunker') for p in c['bunker']['caches']]
     assert len(caches)==len(set(caches)), 'Duplicate supply lockers'
     assert len({(o['x'],o['y'],o['z']) for o in road_objects})==len(road_objects),'Overlapping road props'
-    report=dict(native_pairs=len(m['cells']),rooms=rooms,buildings=buildings,
+    report=dict(version=VERSION,
+        furnishing_reports=len(furnishing),
+        furnishing_policies=dict(Counter(r['policy'] for r in furnishing)),
+        zoned_programmes=dict(Counter(r['purpose'] for r in zoned)),
+        all_zoned_rooms_accepted=True,
+        native_pairs=len(m['cells']),rooms=rooms,buildings=buildings,
         native_bytes=sum(c['bytes'] for c in m['cells']),safe_zero_density_cells=safe,
         unknown_sprites=sorted(unknown),metadata_part0_bytes=part0,
         effective_native_cell_bounds=[-250,-250,250,250],

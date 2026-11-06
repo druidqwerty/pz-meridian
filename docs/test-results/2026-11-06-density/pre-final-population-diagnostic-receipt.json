@@ -1,0 +1,57 @@
+{
+  "run": "20261106-153757-558389",
+  "wrapperStatus": "passed",
+  "nativeReportProduced": true,
+  "nativeResult": [
+    "PASS"
+  ],
+  "config": {
+    "folder": "Meridian",
+    "x": 544,
+    "y": 48676,
+    "z": 0,
+    "targets": [
+      {
+        "name": "Diagnostic B1 kitchen centre",
+        "x": 49088,
+        "y": 1984,
+        "z": -1,
+        "room": true,
+        "zoom": 2.0,
+        "noViewpoint": true,
+        "populationDiagnostics": true
+      },
+      {
+        "name": "Diagnostic B1 dormitory centre",
+        "x": 48704,
+        "y": 1600,
+        "z": -1,
+        "room": true,
+        "zoom": 2.0,
+        "noViewpoint": true,
+        "populationDiagnostics": true
+      }
+    ],
+    "resume": true,
+    "token": "20261106-152839-433264"
+  },
+  "boundSpriteNames": 184,
+  "mapResourceErrors": [],
+  "knownStockStartupWarnings": [
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/fonts/zomboidDialogue.bmfc_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at CraftRecipeComponentScript.getIconTexture> CraftRecipeComponentScript: Recipe Piano missing UiConfigScript - falling back to SpriteConfigScript first world object face for recipe icon."
+  ],
+  "luaErrorLines": [],
+  "luaErrorContext": [],
+  "candidateBinding": {
+    "files": 4796,
+    "equal": false,
+    "treeSHA256": "faed6541e662b0f113420deb425058c59ecb4524d926596107c28a7e2725b55f",
+    "source": "mod",
+    "copy": "isolated reload cache copy"
+  }
+}

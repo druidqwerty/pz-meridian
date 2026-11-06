@@ -204,3 +204,101 @@ Superseded by active urban/interior revision below; these are alpha.1 receipts.
   diagram delivered successfully; root memory updated. No notification retry
   needed. New density-rule tool is complete separately in pz-map-tools (14new
   +10urban tests PASS); it is NOT included in the frozen released map files.
+
+
+## Active area-aware interiors integration — 2026-11-06
+- DONE: vendored six pure native_b42 modules with canonicalLF SHA256provenance
+  and originalMIT notice; no sibling checkout/game artwork/geography dependency.
+- DONE: area_furnishing adapter caches immutable local props/reports, clips
+  cell-wide door masks, records every actualroom's programme/density/access.
+  Functional rooms>=96tiles use zoning; small fittedlounges/rooms and thin
+  circulation keep explicit policies with densityAudited=false/accepted=null.
+- DONE: up to4deterministic legitimate activity layouts; retain failedattempt
+  warnings; stop generation if nonepass, never filler/hiddenlarge-room fallback.
+- DONE: commercial kitchens/foodseating and institutional beds use explicit
+  publicprogrammes. Bunker nowplans each real28x40/96x96room ONCE rather than
+  multiplying whole kitchenlines per12x10bay; publickitchens/dorms/washrooms
+  retain their native lootnames. Cachecontainers are solidobstacle masks.
+- DONE: surface/bunker furnishingreports exported in compile_cell manifest
+  with worldcoords, floor, lootRole, purpose, actualgroups and acceptance metrics.
+  Roomlights/stairs/doors/sanctuarysurface/undergroundinfection unchanged.
+- Focusedtests:6newarea+3furnishing+3nativeinteriors+3nativearchitecturePASS.
+  Surface allkinds seed7:0.953s,605reports(389zoned/212compact/4circulation);
+  full188,4bunker9.594s with43logicalroomplans. All16winghabitat3testsPASS in179.867s (native doors/stairs/seams/loot/sprites).
+- NEXT parent: fullbuild/audit, fresh isolatedlarge-room visual/access QA,
+  onlythen any install/package/GitHubrelease. Old0.2.0gameproof is not newproof.
+
+## Independent furnishing review — 2026-11-06
+- Fixed an actual post-plan surface cache obstruction (visitor seed0/28): the
+  cabinet was inserted in front of a south-facing counter after acceptance.
+  Surface caches now enter room planning as solids, with their own S use square
+  reserved before any furnishing; no longer chosen from arbitrary bare floor.
+- Compact fitted recipes also honor explicit activity/solid masks. Solids reserve
+  a one-tile apron; overlapping solid/walkable masks fail rather than silently
+  clipping groups. Compact acceptance deliberately remains null, not density-pass.
+- Eight area integration tests and three native interior tests PASS; an independent
+  265-layout sweep (all53kinds x seeds0/7/14/21/28) found no cache-blocked native
+  container/appliance fronts, and each cache's own S front was empty.
+- Vendor six-module canonical-LF hashes match current map-tools source exactly.
+
+## Loaded bunker infection scheduling — 2026-11-06
+- Fresh density QA exposed empty newly visited B1 kitchen/dormitory samples.
+  Actual compiled kitchen retains6739conservative free squares and140buckets
+  outside player14tile safety; dense furniture was not exhausting spawn floor.
+  Old FIFO simulation:256unloaded jobs before1loaded job yielded0spawns after
+  720ticks. Native same-candidate diagnostic independently ruled out1600cap:
+  kitchen/dormitory remained0global zombies at15/30/60seconds despite thousands
+  of eligible loaded floor tiles. Failed receipts are preserved, not a release pass.
+- Replaced FIFO with bounded loaded-job scheduling:3nearest jobs (same-floor
+  first, safety-overlap buckets last) plus1oldest eligible job per60ticks.
+  Full64square candidate search still runs for atmost4jobs, not every queued job.
+- Unloaded/already-seeded jobs are pruned. Saturated2048queues prune anchor-only
+  at most once/tick for admission, so stale work cannot discard a new room load.
+  Temporary blocked/player-protected/capped jobs retry while loaded after120ticks,
+  with fair rotated age; moving away needs no new square-load event.
+- Preserved authority, no-zombie/live-disable, player14tile exclusion,1600cap,
+  once-per-save/bucket/floor persistence and native addZombiesInOutfit behavior.
+  No debug exports or oracle-specific runtime behavior added.
+- Ten queue negative-control regressions and five existing runtime tests PASS.
+  Geometry unchanged. Parent must freeze/reinstall changed runtime and run a
+  fresh native density tour plus reload; old failed build is not successful proof.
+
+## Density candidate build gates — 2026-11-06
+- Source version 0.2.1-alpha.1; full Meridian discovery PASS:57 checks in290.793s.
+  Following final cache/compact fix:8area checks PASS(2.796s),3native architecture
+  checks PASS(32.970s); reviewer also reran3native interiors PASS.
+- Map-tools access/mask fixes committed locally4df2e98; no remote configured.
+  Relevant16furnishing+10urban checks PASS; historical all-discovery fixture
+  failures are retained in that repo MODLOG, not repaired by reviving retired data.
+- Static audit now requires current manifest version and actual per-room furnishing
+  reports; all zoned plans must be accepted/connected with no final warnings.
+  Compact/circulation policies remain explicitly not density-audited.
+- Full native build in progress. No new game result/release claimed yet.
+
+## Final density/runtime acceptance — 2026-11-06
+- Runtime-only queue fix installed with backup; geometry not rebuilt again.
+  Final4796file tree c3f2943fba4181fb70ee805324dd1675d5064ca8e5792632f92fecfee8d49435.
+- Fresh154258-021984 native+wrapperPASS:7real10tileaisles,2realstairs,2native
+  night-light deltas0.400000006/0.235294104;B1kitchen103/dorm74nearbybelow.
+  184sprites0missing0invalidtextures7seasonalproxies;0Lua/0unknownresources,
+  6stockstartupdiagnostics retained. Oldfailed+readonlydiagnosis preserved.
+- Reload155013-062068 PASS token/exactposition/floor;439below retained;all4796
+  reloadedfiles equal finaltree. No user saves/settings or unrelatedmods touched.
+- Semanticcoverage fix: original Schoollabel chose nursery;Dininglabel chose
+  commercialkitchen. Rawtargets/runs unchanged;futurepreparer filtersactualpurpose.
+  FourtargetchecksPASS. Supplemental155309-686353 actualclassroom+dining both
+  ordinary10tilewalksPASS;native/wrapper/reload/sprite/resource gatesPASS.
+- Root inspected finalkitchen/dorm/retail+bothnightpairs and actualclassroom/dining
+  PNGs. Complete localgroups/aisles/visibleinfected/brightnesschanges shown;FoV
+  hidesfarsides. No everyroom,fullroute,MP,combat or perfectViewpointceilingclaim.
+- Evidence docs/test-results/2026-11-06-density retains failed29+diagnostic5+
+  final29+reload1+supplement7 actualframes and sanitizedreceipts. Private
+  diagnosticdrivers staysource-only;playableZIP nowexcludesdocs codeextensions.
+- NEXT: packageONCE,release_verify against finalfresh154258,sourcecommit/push,
+  GitHubONLY prerelease0.2.1-alpha.1 +anonymousasset/hashcheck. NoSteam/Boosty.
+
+- DONE packaged0.2.1-alpha.1 ONCE155309776bytes ZIP SHA256
+  8c21ac7a31b694af665734aede696daeff12e805d443bbb71718eff5fc4bb5fc.
+  release_verify PASS:all4796sourcefiles==installed==successfulfresh==ZIP.
+  Sanitizedbinding in density/release-binding.json; no map rebuild/repackage.
+  NEXTcommit/push,GitHubprerelease,anonymousZIP+checksumretrieval.

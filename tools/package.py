@@ -20,12 +20,16 @@ def main():
         z.write(ROOT/'tools/CODEC-LICENSE.txt','MeridianLongWayHome/CODEC-LICENSE.txt')
         z.write(ROOT/'tools/CODEC-LICENSE.txt','MeridianLongWayHome/tools/CODEC-LICENSE.txt')
         for p in sorted((ROOT/'docs').rglob('*')):
-            if p.is_file():z.write(p,'MeridianLongWayHome/docs/'+p.relative_to(ROOT/'docs').as_posix())
+            # Evidence stays inspectable; private observation drivers are source
+            # repository material, not files to distribute with the playable mod.
+            if p.is_file() and p.suffix.lower() not in ('.py','.lua','.java','.jar','.class'):
+                z.write(p,'MeridianLongWayHome/docs/'+p.relative_to(ROOT/'docs').as_posix())
         z.write(ROOT/'RUNTIME.md','MeridianLongWayHome/RUNTIME.md')
     with zipfile.ZipFile(target) as z:
         assert z.testzip() is None
         names=z.namelist()
         assert not any('PrivateOracle' in n or n.endswith(('.jar','.class')) for n in names)
+        assert not any('/docs/' in n and n.endswith(('.py','.lua','.java')) for n in names)
         assert len([n for n in names if n.endswith('.lotheader')])==audit['native_pairs']
     digest=hashlib.sha256(target.read_bytes()).hexdigest()
     checksum=dist/'SHA256SUMS.txt';checksum.write_text(digest+'  '+target.name+'\n')

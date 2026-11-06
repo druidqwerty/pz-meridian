@@ -55,9 +55,9 @@ def wall(tiles,x,y,z,direction,kind='solid',palette=16):
         sheet = 'fixtures_doors_01_' if kind == 'door' else 'fixtures_windows_01_'
         put(tiles,x,y,z,sheet+str(int(direction == 'N')))
 
-def room_furniture(role,x,y,w,h,seed=0,blocked=()):
+def room_furniture(role,x,y,w,h,seed=0,blocked=(),**kwargs):
     """Verified facing and complete furniture grids, respecting actual doors."""
-    yield from furnish_room(role,x,y,w,h,seed,base=TILES,blocked=blocked)
+    yield from furnish_room(role,x,y,w,h,seed,base=TILES,blocked=blocked,**kwargs)
 
 
 def plan(w,h,roles):
@@ -82,7 +82,8 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
     if kind=='house' and seed%3==0: levels=2
     # Variation affects the actual skyline, never an unbounded random floor count.
     if kind in ('residentialtower','officetower'):levels+=seed%3-1
-    indices=[];barricades=[];lighting=[];stair_tests=[]
+    indices=[];barricades=[];lighting=[];stair_tests=[];furnishing=[];caches=[]
+    cache_point=None
     footprint=set()
     for z in range(levels):
         parts,doors,owners=layout(w,h,roles,kind,seed,z,levels)
@@ -103,6 +104,19 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
         if kind=='bigboxmall':
             blocked|={(x+dx,y+dy) for dx in range(w) for dy in (32,33)}
             blocked|={(x+dx,y+dy) for dx in (w//2-1,w//2) for dy in range(h)}
+        if z==0 and seed%7==0:
+            # Cache cabinets are solids, not post-plan decorations on any bare
+            # square: an empty square may be a protected use apron/main aisle.
+            # Pick inside one actual room and preserve the cabinet's S front;
+            # the room planner must then solve around the real obstruction.
+            candidates=[(dx,dy) for (dx,dy),owner in sorted(owners.items(),reverse=True)
+                if owner and (x+dx,y+dy) not in blocked
+                and (x+dx,y+dy+1) not in blocked
+                and all(owners.get((dx+ox,dy+oy))==owner
+                        for ox,oy in ((-1,0),(1,0),(0,-1),(0,1)))]
+            if candidates:
+                dx,dy=candidates[0];cache_point=(x+dx,y+dy)
+                blocked.add((x+dx,y+dy+1))
         floor_rooms=[]
         for i,room in enumerate(parts):
             indices.append(len(rooms)); rr=dict(name=room['name'],level=z,
@@ -115,8 +129,17 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
             if i or kind=='bigboxmall':
                 for rx,ry,rw,rh in rr['rects']:
                     if i==0 and (rw<8 or rh<6):continue
-                    for xx,yy,sprite in room_furniture(room.get('theme',room['name']),
-                            rx,ry,rw,rh,seed+z*17+i,blocked=blocked):
+                    role=room.get('theme',room['name'])
+                    programme = ('restaurantkitchen' if role=='kitchen' and
+                        kind in ('bigboxmall','diner') else 'dining' if
+                        role=='assembly' and kind in ('bigboxmall','diner') else
+                        'dormitory' if role=='bedroom' and kind in
+                        ('military','barracks','firestation') else role)
+                    for xx,yy,sprite in room_furniture(role,
+                            rx,ry,rw,rh,seed+z*17+i,blocked=blocked,
+                            programme=programme,reports=furnishing,z=z,
+                            loot_role=room['name'],
+                            obstacles=(cache_point,) if z==0 and cache_point else ()):
                         put(tiles,xx,yy,z,sprite)
         # Derive the outside shell from the actual footprint, including courts
         # and setbacks; it is no longer always one rectangular bounding box.
@@ -188,16 +211,12 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
         for dx,key in ((2,'crate'),(3,'crate'),(4,'metalcrate')):
             tiles[x+dx,y+h+1,0]=[PAVING,TILES[key]]
             barricades.append([x+dx,y+h+1,0])
-    caches=[]
-    if seed%7==0:
-        available=[(x+dx,y+dy,0) for dx,dy in sorted(footprint,reverse=True)
-                   if (x+dx,y+dy) not in blocked and 1<dx<w-1 and 1<dy<h-2
-                   and len(tiles.get((x+dx,y+dy,0),[]))==1]
-        if available:
-            cache=list(available[0]);tiles[tuple(cache)].append(TILES['metal']);caches.append(cache)
+    if cache_point:
+        cache=[*cache_point,0];tiles[tuple(cache)].append(TILES['metal']);caches.append(cache)
     buildings.append(indices)
     document=archive_desk(tiles,x,y,w,h,kind)
     return dict(kind=kind,rect=[x,y,w,h],levels=levels,spawn=[x+w//2,y+h-2,0],
                 entrance=[x+w//2,y+h,0],cache=caches[0] if caches else None,
                 caches=caches,barricades=barricades,archiveDesk=document,
-                lighting=lighting,stairTests=stair_tests,layout=kind)
+                lighting=lighting,stairTests=stair_tests,layout=kind,
+                furnishing=furnishing)

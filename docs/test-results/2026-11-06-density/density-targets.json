@@ -1,0 +1,170 @@
+[
+  {
+    "name": "Large office activity zones",
+    "x": 3376,
+    "y": 29368,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 1.5,
+    "walkTo": {
+      "x": 3383,
+      "y": 29371,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal"
+  },
+  {
+    "name": "Large office activity zones native night switch",
+    "x": 3370,
+    "y": 29360,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 1.5,
+    "lighting": {
+      "x": 3370,
+      "y": 29360,
+      "z": 0,
+      "sprite": "lighting_indoor_01_0"
+    }
+  },
+  {
+    "name": "School classroom activity zones",
+    "x": 48670,
+    "y": 1246,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 1.5,
+    "walkTo": {
+      "x": 48676,
+      "y": 1250,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal",
+    "safeSurface": true
+  },
+  {
+    "name": "Large retail sales floor",
+    "x": 5217,
+    "y": 29223,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 2.0,
+    "walkTo": {
+      "x": 5227,
+      "y": 29223,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal"
+  },
+  {
+    "name": "Public dining activity zones",
+    "x": 5178,
+    "y": 29260,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 2.0,
+    "walkTo": {
+      "x": 5188,
+      "y": 29260,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal"
+  },
+  {
+    "name": "Storage activity and clear aisles",
+    "x": 931,
+    "y": 48164,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 1.5,
+    "walkTo": {
+      "x": 941,
+      "y": 48164,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal"
+  },
+  {
+    "name": "B1 public kitchen activity zones",
+    "x": 49088,
+    "y": 1984,
+    "z": -1,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 2.0,
+    "walkTo": {
+      "x": 49098,
+      "y": 1984,
+      "z": -1
+    },
+    "walkLabel": "activity_aisle_traversal",
+    "infected": true
+  },
+  {
+    "name": "B1 public kitchen activity zones native night switch",
+    "x": 49132,
+    "y": 1936,
+    "z": -1,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 1.5,
+    "lighting": {
+      "x": 49132,
+      "y": 1936,
+      "z": -1,
+      "sprite": "lighting_indoor_01_0"
+    }
+  },
+  {
+    "name": "B1 dormitory activity zones",
+    "x": 48704,
+    "y": 1600,
+    "z": -1,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 2.0,
+    "walkTo": {
+      "x": 48714,
+      "y": 1600,
+      "z": -1
+    },
+    "walkLabel": "activity_aisle_traversal",
+    "infected": true
+  },
+  {
+    "name": "Density candidate tower ordinary stair",
+    "x": 48157,
+    "y": 1205,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "walkTo": {
+      "x": 48153,
+      "y": 1205,
+      "z": 1
+    },
+    "noViewpoint": true,
+    "zoom": 1.5
+  },
+  {
+    "name": "Density candidate public bunker ordinary descent",
+    "x": 48255,
+    "y": 1408,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "walkTo": {
+      "x": 48259,
+      "y": 1408,
+      "z": -1
+    },
+    "noViewpoint": true,
+    "zoom": 1.5
+  }
+]

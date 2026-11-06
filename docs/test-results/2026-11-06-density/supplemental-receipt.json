@@ -1,0 +1,67 @@
+{
+  "run": "20261106-155309-686353",
+  "wrapperStatus": "passed",
+  "nativeReportProduced": true,
+  "nativeResult": [
+    "PASS"
+  ],
+  "config": {
+    "folder": "Meridian",
+    "x": 544,
+    "y": 48676,
+    "z": 0,
+    "targets": [
+      {
+        "name": "Supplemental actual classroom programme",
+        "x": 607,
+        "y": 48742,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5,
+        "walkTo": {
+          "x": 614,
+          "y": 48745,
+          "z": 0
+        },
+        "walkLabel": "activity_aisle_traversal"
+      },
+      {
+        "name": "Supplemental actual public dining programme",
+        "x": 5155,
+        "y": 29260,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 2.0,
+        "walkTo": {
+          "x": 5165,
+          "y": 29260,
+          "z": 0
+        },
+        "walkLabel": "activity_aisle_traversal"
+      }
+    ],
+    "resume": true,
+    "token": "20261106-154258-021984"
+  },
+  "boundSpriteNames": 184,
+  "mapResourceErrors": [],
+  "knownStockStartupWarnings": [
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/fonts/zomboidDialogue.bmfc_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at CraftRecipeComponentScript.getIconTexture> CraftRecipeComponentScript: Recipe Piano missing UiConfigScript - falling back to SpriteConfigScript first world object face for recipe icon."
+  ],
+  "luaErrorLines": [],
+  "luaErrorContext": [],
+  "candidateBinding": {
+    "files": 4796,
+    "equal": true,
+    "treeSHA256": "c3f2943fba4181fb70ee805324dd1675d5064ca8e5792632f92fecfee8d49435",
+    "source": "mod",
+    "copy": "isolated reload cache copy"
+  }
+}

@@ -284,3 +284,123 @@ outside this acceptance boundary.
 See [urban evidence](test-results/2026-11-06-urban/README.md) for untouched failed
 pre-final reports, final/reload receipts and actual screenshots. Those failed
 runs were not relabeled as proof of the final candidate.
+
+
+## Area-aware interiors — 0.2.1-alpha.1
+
+This version changes furnishing geometry; the earlier 0.2.0 live run is historical,
+not proof of these bytes. The initial 4,796-file candidate tree SHA-256 was
+`744d2fa695c22d4eaff072befe2513ba7c15666d890b0964f64ed4254dece47b`;
+its retained failed run found underground population queue starvation. The final
+post-fix runtime is bound separately below.
+
+### Compilation and static gates
+
+All 2,387 native cell pairs are compiled, decoded and round-tripped. The world
+retains 1,188 surface structures, 25,423 native rooms, 1,234 BuildingDefs and the
+128.256km principal road. There are 639,745 furnishing sprite instances; that
+instance count is not an occupied-floor-area measurement. No unknown native
+sprites were found; all sixteen sanctuary cells retain zero surface density.
+
+The manifest contains 22,022 reports for actual furnished rectangles:
+13,944 zoned, 8,062 compact and sixteen circulation rectangles. Every zoned
+plan passes final density, maximum-empty-square and connected-floor/approach
+gates. The separate release audit rechecks footprint counts, density arithmetic,
+empty-square limits and strict boolean acceptance. Compact/circulation reports
+remain explicitly `accepted:null, densityAudited:false`, not density passes.
+RoomDef coverage is broader than furnishing-report coverage: connecting halls
+and open-air areas are not all furnished or density-certified.
+
+The 57-check broad Meridian discovery passes, followed by final eight-area and
+three-native-architecture reruns after the cache fix, three reviewer native
+interior checks and five audit negative controls. Reusable Map Tools passes
+sixteen furnishing and ten urban checks. Its historical 471-test discovery
+retains one failure/four errors/ten skips for unavailable retired geography,
+receipts and optional compiler fixtures; no retired product was restored.
+See the machine-readable [static receipts](test-results/2026-11-06-density/static-checks.json)
+and [compiled audit](test-results/2026-11-06-density/static-audit.json).
+
+The installed Meridian copy has a recoverable backup of the previous version;
+all 4,796 copied files are SHA-256 verified. User saves, profiles and unrelated
+mods are untouched. Changes require a new Sandbox world, not an old-save upgrade.
+
+### Retained failed candidate and read-only population diagnosis
+
+Fresh run `20261106-152839-433264` failed only the selected B1 kitchen/dormitory
+infestation assertions. Seven real aisle walks, two real stairs and two native
+night-light toggles passed, but those results did not erase the failed population
+samples. Its 29 actual PNGs and unchanged report remain `pre-final-failed-*`.
+
+Read-only diagnostic reload `20261106-153757-558389` observed the same product:
+both room centres stayed at zero loaded/nearby zombies at 15/30/60 seconds,
+with 6,587/6,296 eligible free interior squares respectively. The global
+1,600-zombie cap was not reached. This was an observation-tour PASS, not release
+acceptance. Five further PNGs, report and exact private probe source are retained.
+
+Source analysis and a regression reproduced FIFO starvation behind unloaded
+buckets. The repaired runtime prioritizes three nearby loaded jobs plus one
+oldest eligible job per 60 ticks, still inspecting at most four full buckets.
+Stale anchors are pruned, including admission to a saturated queue; temporary
+protected/blocked/capped jobs retry while loaded instead of being lost after
+three attempts. Player safety distance, authority, sandbox switches, population
+cap and once-per-save seeding remain. Ten queue regressions and the five existing
+runtime checks pass. Geometry was not rebuilt for this runtime-only repair.
+
+See [all density evidence](test-results/2026-11-06-density/README.md) for exact
+failed/diagnostic receipts and the separately bound final results below.
+
+### Repaired fresh run and exact isolated reload
+
+Final product tree: **4,796 files**, SHA-256
+`c3f2943fba4181fb70ee805324dd1675d5064ca8e5792632f92fecfee8d49435`.
+
+Fresh `20261106-154258-021984`: native and wrapper **PASS** with the same
+eleven target definitions and original sample timing as the failed candidate.
+All seven ordinary ten-tile aisle walks, tower z0→1 and public bunker z0→-1
+ordinary stair traversals pass. The formerly empty kitchen/dormitory samples
+now contain **103 / 74 nearby below-ground zombies** after about twelve seconds;
+same-floor infected are also visible in the selected actual PNGs. No test
+queue/spawn helper or population deletion was used to obtain this result.
+
+Authored native switches at night, with the diagnostic torch off, produce
+brightness deltas **0.400000006 / 0.235294104** in office/B1 kitchen views.
+All 184 compiled sprite names resolve: zero missing or invalid textureless
+sprites, seven valid seasonal proxies; registry size and negative control pass.
+Zero Lua and unknown map-resource errors; six known stock font/Piano startup
+diagnostics are retained rather than called a warning-free log.
+
+Reload `20261106-155013-062068`: native and wrapper **PASS** for saved token,
+exact position/floor and physical floor. All 4,796 source/reloaded files match
+the final tree; 439 nearby below-ground zombies remain. This is an isolated
+test-world reload, not long-term save or multiplayer certification.
+
+The root reviewer inspected final prep/storage zones, complete bed/locker/
+nightstand groups, retail activity clusters and both native night ON/OFF pairs.
+Clear local aisles and visible light changes are shown. Native field of view
+occludes far sides; these images do not certify every room tile or all angles.
+Original target labels are retained verbatim: the native classroom sample's
+actual programme is nursery, and the surface dining-labelled sample is a public
+kitchen. The exact purposes are in the checklist; they are not falsely claimed
+as classroom/dining-seating visual coverage.
+
+All reports, 29 fresh frames and the reload frame are in the
+[density evidence](test-results/2026-11-06-density/README.md). Existing Viewpoint
+ceiling/terrain bands, full-route driving/time ratio, combat balance and
+multiplayer remain outside this acceptance boundary.
+
+### Actual-purpose coverage supplement
+
+Supplemental isolated reload-tour `20261106-155309-686353` passes native and
+wrapper gates with the same final product bytes. It adds only the two genuine
+programmes missing from the original semantic selection: `classroom` at
+[600,48737,15,10] and `dining` at [5144,29244,23,32]. Both ordinary ten-tile
+aisle walks pass, as do reload token/position/floor, sprite and Lua/resource
+gates. This is new narrow coverage, not a relabeled repeat of the original run.
+
+The root inspected both actual programme PNGs: complete student desk/chair
+groups and dining table/chair plus refreshments groups flank open circulation.
+Seven supplemental PNGs are retained. Future target preparation now filters
+actual furnishing purpose as well as native loot names; four target-safety tests
+including the semantic-selection regression pass. Original target JSON, labels
+and reports remain immutable. These samples still do not certify every classroom
+or dining room's visual finish, combat, multiplayer or the complete journey.

@@ -1,0 +1,419 @@
+{
+  "kind": "Supplementary purpose-corrected preparation, NOT executed evidence",
+  "policies": {
+    "compact": 8062,
+    "zoned": 13944,
+    "circulation": 16
+  },
+  "zonedRooms": 13944,
+  "unacceptedZoned": 0,
+  "warningCounts": {},
+  "selected": [
+    {
+      "label": "Supplemental actual classroom programme",
+      "cell": [
+        2,
+        190
+      ],
+      "nativeRoomIndex": 28,
+      "nativeRoom": {
+        "name": "classroom",
+        "level": 0,
+        "rects": [
+          [
+            88,
+            97,
+            15,
+            10
+          ]
+        ],
+        "objects": [
+          [
+            7,
+            89,
+            97
+          ]
+        ]
+      },
+      "furnishing": {
+        "rect": [
+          600,
+          48737,
+          15,
+          10
+        ],
+        "requestedRole": "classroom",
+        "purpose": "classroom",
+        "seed": 1,
+        "accepted": true,
+        "warnings": [],
+        "floorSquares": 150,
+        "furnishingSquares": 66,
+        "occupiedSquares": 23,
+        "floorDensity": 0.1533,
+        "furnishingDensity": 0.3485,
+        "targetDensity": [
+          0.18,
+          0.38
+        ],
+        "largestEmptySquare": {
+          "x": 612,
+          "y": 48738,
+          "side": 2
+        },
+        "maxEmptySide": 5,
+        "groups": [
+          {
+            "activity": "teacher",
+            "x": 601,
+            "y": 48738,
+            "width": 2,
+            "height": 2,
+            "footprint": 3
+          },
+          {
+            "activity": "students",
+            "x": 610,
+            "y": 48739,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "students",
+            "x": 604,
+            "y": 48739,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "students",
+            "x": 602,
+            "y": 48744,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "students",
+            "x": 610,
+            "y": 48744,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "students",
+            "x": 605,
+            "y": 48744,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          }
+        ],
+        "decorLayers": 0,
+        "connectedFloor": true,
+        "attempts": [
+          {
+            "seed": 1,
+            "accepted": true,
+            "warnings": []
+          }
+        ],
+        "policy": "zoned",
+        "densityAudited": true,
+        "z": 0,
+        "lootRole": "classroom"
+      },
+      "preparedWalkDistance": 10
+    },
+    {
+      "label": "Supplemental actual public dining programme",
+      "cell": [
+        20,
+        114
+      ],
+      "nativeRoomIndex": 4,
+      "nativeRoom": {
+        "name": "hall",
+        "level": 0,
+        "rects": [
+          [
+            24,
+            60,
+            23,
+            32
+          ]
+        ],
+        "objects": [
+          [
+            7,
+            25,
+            60
+          ]
+        ]
+      },
+      "furnishing": {
+        "rect": [
+          5144,
+          29244,
+          23,
+          32
+        ],
+        "requestedRole": "assembly",
+        "purpose": "dining",
+        "seed": 2,
+        "accepted": true,
+        "warnings": [],
+        "floorSquares": 736,
+        "furnishingSquares": 532,
+        "occupiedSquares": 123,
+        "floorDensity": 0.1671,
+        "furnishingDensity": 0.2312,
+        "targetDensity": [
+          0.18,
+          0.38
+        ],
+        "largestEmptySquare": {
+          "x": 5149,
+          "y": 29245,
+          "side": 3
+        },
+        "maxEmptySide": 5,
+        "groups": [
+          {
+            "activity": "refreshments",
+            "x": 5145,
+            "y": 29245,
+            "width": 3,
+            "height": 1,
+            "footprint": 3
+          },
+          {
+            "activity": "coffee",
+            "x": 5147,
+            "y": 29247,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5151,
+            "y": 29247,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5159,
+            "y": 29247,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5163,
+            "y": 29247,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5147,
+            "y": 29251,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5151,
+            "y": 29251,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5159,
+            "y": 29251,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5163,
+            "y": 29251,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5147,
+            "y": 29255,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5151,
+            "y": 29255,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5159,
+            "y": 29255,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5163,
+            "y": 29255,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5147,
+            "y": 29263,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5151,
+            "y": 29263,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5159,
+            "y": 29263,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5163,
+            "y": 29263,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "dining",
+            "x": 5147,
+            "y": 29267,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5151,
+            "y": 29267,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5159,
+            "y": 29267,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5163,
+            "y": 29267,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "coffee",
+            "x": 5147,
+            "y": 29271,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5151,
+            "y": 29271,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5159,
+            "y": 29271,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "dining",
+            "x": 5163,
+            "y": 29271,
+            "width": 3,
+            "height": 3,
+            "footprint": 5
+          },
+          {
+            "activity": "coffee",
+            "x": 5151,
+            "y": 29258,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          },
+          {
+            "activity": "coffee",
+            "x": 5163,
+            "y": 29258,
+            "width": 2,
+            "height": 2,
+            "footprint": 4
+          }
+        ],
+        "decorLayers": 11,
+        "connectedFloor": true,
+        "attempts": [
+          {
+            "seed": 2,
+            "accepted": true,
+            "warnings": []
+          }
+        ],
+        "policy": "zoned",
+        "densityAudited": true,
+        "z": 0,
+        "lootRole": "hall"
+      },
+      "preparedWalkDistance": 10
+    }
+  ]
+}

@@ -27,6 +27,8 @@ def compile_cell(job):
     from furnishing import EXTRAS, PALETTES
     from themed_rooms import PROPS
     from furniture_orientation import ALL_SPRITES
+    from area_furnishing import world_reports
+    from native_b42.activity_clusters import EXTRA_FACING
     cx,cy,features,site,bunker=job
     ground,tiles=raster(cx,cy,features)
     rooms,buildings,records=[],[],[]
@@ -57,6 +59,7 @@ def compile_cell(job):
             for flight in rec.get('stairTests',[]):
                 for key in ('from','to'):
                     flight[key][0]+=cx*256;flight[key][1]+=cy*256
+            world_reports(rec.get('furnishing',[]),cx,cy)
             records.append(rec)
             if kind=='fuel':
                 # Actual vanilla pumps carry fuelAmount=20000, not decorative art.
@@ -76,6 +79,7 @@ def compile_cell(job):
     under=None
     if bunker:
         under=build_bunker(tiles,rooms,buildings,cx,cy,bunker)
+        world_reports(under.get('furnishing',[]),cx,cy)
         from bunker_wayfinding import decorate as bunker_wayfinding
         from building_signs import place_building_sign
         under['wayfinding']=bunker_wayfinding(tiles,cx,cy,under)
@@ -93,6 +97,7 @@ def compile_cell(job):
     # Every compiled cell is decoded and its exact tile ordering round-tripped.
     audit_cell(OUT,cx,cy,tiles)
     furnishing_names=set(TILES.values())|set(EXTRAS.values())|set(PROPS.values())|ALL_SPRITES|{s for values in PALETTES.values() for s in values}
+    furnishing_names.update(sprite for variants in EXTRA_FACING.values() for sprite in variants.values())
     return dict(cell=[cx,cy],squares=stats['squares'],rooms=len(rooms),
                 buildings=len(buildings),bytes=stats['bytes'],density=[min(density),max(density)],
                 records=records,bunker=under,roadside=roadside,

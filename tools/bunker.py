@@ -61,7 +61,7 @@ def build_bunker(tiles,rooms,buildings,cx,cy,config):
     shaft=(cx in (loX,hiX) or cy in (loY,hiY))
     entrances=[]; caches=[]; indices=[]; total_area=0; coverage={}; obstacles=[]
     wing=wing_for(cx,cy,config)
-    room_roles=[]
+    room_roles=[];furnishing=[]
     for z in (-2,-1):
         owner={}; specs=[dict(name='hall',role='hall')]; doors=set()
         def fill(x,y,w,h,i=0):
@@ -103,12 +103,26 @@ def build_bunker(tiles,rooms,buildings,cx,cy,config):
             x,y,w,h=spec['rect']
             room_roles.append(dict(role=spec['role'],name=spec['name'],z=z,
                                    rect=[cx*256+x,cy*256+y,w,h]))
-            # Furnished bays, not a single line of props in an empty mega-room.
-            for bx in range(x,x+w-6,14):
-                for by in range(y,y+h-6,12):
-                    for xx,yy,sprite in room_furniture(spec['role'],bx,by,min(12,x+w-bx),min(10,y+h-by)):
-                        put(tiles,xx,yy,z,sprite)
-            if (cx+cy+i+z)%9==0:
+            # Plan the actual logical room once. Repeating small kitchen/bedroom
+            # recipes per bay duplicated whole appliance lines and private beds.
+            # Public shelter facilities are explicitly public programmes while
+            # native loot RoomDef names remain unchanged.
+            programme={'kitchen':'restaurantkitchen','bedroom':'dormitory',
+                       'bathroom':'shower'}.get(spec['role'],spec['role'])
+            cache_point=(x+w-2,y+2) if (cx+cy+i+z)%9==0 else None
+            blocked=set()
+            for dx,dy,direction in doors:
+                if direction=='W':
+                    blocked.update((dx+a,dy) for a in (-1,0,1))
+                else:
+                    blocked.update((dx,dy+b) for b in (-1,0,1))
+            for xx,yy,sprite in room_furniture(spec['role'],x,y,w,h,
+                    seed=cx*1000+cy*31+i+z*17,blocked=blocked,
+                    programme=programme,reports=furnishing,z=z,
+                    loot_role=spec['name'],
+                    obstacles=(cache_point,) if cache_point else ()):
+                put(tiles,xx,yy,z,sprite)
+            if cache_point:
                 caches.append(dict(x=cx*256+x+w-2,y=cy*256+y+2,z=z,kind=spec['name']))
                 put(tiles,x+w-2,y+2,z,TILES['metal'])
         # Emit canonical N/W boundary edges once. Internal galleries remain open
@@ -180,6 +194,7 @@ def build_bunker(tiles,rooms,buildings,cx,cy,config):
                 wing=wing_summary(wing),roomRoles=room_roles,
                 serviceRing=dict(rect=[12,12,232,232],width=4),
                 obstacles=obstacles,ceilingTiles=ceiling_tiles,lighting=lighting,
+                furnishing=furnishing,
                 metalDoorSprites=['fixtures_doors_01_68','fixtures_doors_01_69'],
                 bulkheads=[dict(x=cx*256+48,y=cy*256+128,z=z,direction='W',
                     sprite='fixtures_doors_01_68') for z in (-2,-1)],

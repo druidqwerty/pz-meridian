@@ -12,6 +12,13 @@ project names in that notice do not revive an old map. The format documentation
 also credits KnoxMap by euclid80tr, https://github.com/spytheeuclidean-a11y/knoxmap.
 No external compiler or upstream game map is bundled.
 
+The pure purpose-led furnishing planner is retained from PZ Map Tools under
+`tools/native_b42`. Its six modules are bound to canonical-LF SHA-256 hashes in
+[PROVENANCE.json](tools/native_b42/PROVENANCE.json), with the original MIT notice
+in [LICENSE-PZ-MAP-TOOLS.txt](tools/native_b42/LICENSE-PZ-MAP-TOOLS.txt).
+These are reusable original recipes and vanilla sprite names, not game artwork
+or geography. The runtime map does not require PZ Map Tools to be installed.
+
 Project Zomboid sprite identifiers refer to assets supplied by the player's own
 installed game. The Indie Stone owns the game and its artwork; these are not
 included in the release. Real USA was available as an inspection reference only;

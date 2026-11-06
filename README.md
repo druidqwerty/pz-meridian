@@ -13,7 +13,17 @@ infected. The two-storey Continuity habitat beneath them is not.
 
 ## Test build
 
-**0.2.0-alpha.1 — urban/interior rebuilding.** The old near-identical four-room
+**0.2.1-alpha.1 — purpose-led large interiors.** Large offices, classrooms,
+shops, storage and shelter facilities now receive a single room-wide plan with
+activity zones and clear circulation. Public kitchens have one main appliance
+line with distributed preparation/storage, rather than a complete kitchen
+repeated in every bay. Small fitted rooms retain their compact layouts.
+A bunker population-queue fix also prevents unloaded old areas delaying infection
+in newly visited underground rooms.
+See [furnishing policy](docs/ARCHITECTURE.md#area-aware-furnishing-integration-021-alpha1-candidate)
+and the version-specific [QA ledger](docs/QA.md).
+
+The urban/interior rebuilding from 0.2.0 remains. The old near-identical four-room
 stock is replaced by compact homes, L-plan ranches, duplexes, row houses,
 garages, guard huts, schools, police/fire stations and mixed-use shopping rows.
 Native room switches, powered fixtures and verified furniture facing replace
@@ -136,6 +146,13 @@ GitHub-only prerelease. No Steam or Boosty publication is authorized for this ma
 функциональных крыльев с бытовыми, общественными и техническими помещениями.
 Двенадцать входов ведут в разные сектора, служебные кольца дают пути отхода.
 Через существующие архивы и следы оставленных вещей проходит история колонны17.
+
+В обновлении **0.2.1-alpha.1** большие комнаты получают единый план по назначению:
+рабочие места, подготовка продуктов, хранение и отдых связаны проходами.
+Подземная кухня больше не повторяется целиком в каждом отсеке; общественные
+спальные помещения используют явную схему общежития. Малые комнаты сохраняют
+компактные планировки. Проверки плотности и выборочные игровые проверки описаны
+в [QA](docs/QA.md); это не ручная полировка каждого помещения.
 
 В обновлении 0.2.0-alpha.1 переработаны сами планировки: небольшие дома, ранчо с
 двором, дуплексы, гаражи, сторожки, школы, полиция, пожарные станции и торговые

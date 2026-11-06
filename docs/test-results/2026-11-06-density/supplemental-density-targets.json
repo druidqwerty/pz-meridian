@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Supplemental actual classroom programme",
+    "x": 607,
+    "y": 48742,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 1.5,
+    "walkTo": {
+      "x": 614,
+      "y": 48745,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal"
+  },
+  {
+    "name": "Supplemental actual public dining programme",
+    "x": 5155,
+    "y": 29260,
+    "z": 0,
+    "room": true,
+    "noViewpoint": true,
+    "zoom": 2.0,
+    "walkTo": {
+      "x": 5165,
+      "y": 29260,
+      "z": 0
+    },
+    "walkLabel": "activity_aisle_traversal"
+  }
+]

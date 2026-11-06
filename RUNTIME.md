@@ -40,7 +40,12 @@ right-click option when within eight tiles of their site, on the same floor.
   squares. Once per site/8x8 bucket/floor for the lifetime of that save. Four
   buckets per 60 ticks at most; loaded population cap 1,600. Three zombies per
   bucket by default. Never spawns within fourteen tiles of a same-floor player.
-  Failed/blocked buckets remain eligible on subsequent square loads.
+  Scheduling selects three nearby loaded jobs (same-floor first, outside safety
+  overlap first) and one oldest eligible job per pulse. Unloaded/already-seeded
+  anchors are pruned; a saturated queue prunes stale anchors before admitting new
+  rooms. Temporary blocked/player-protected/capped jobs retry after 120 ticks
+  while loaded, with rotated age; moving away needs no new square-load event.
+  Unloaded unseeded buckets may enqueue again when their squares load.
 - Bunker scripted spawns respect `Zombies=6` (None),
   `ZombieConfig.PopulationMultiplier=0`, and live `BunkerHordes=false`.
   Disabling does not erase existing zombies. No on-revisit scripted respawn.
@@ -116,3 +121,9 @@ python -m unittest discover -s projects/pz-meridian/tests -p test_runtime.py -v
 Five tests: safe-zone floor/edge/client authority; No Zombies and persistent
 bunker seeding; no-repeat supplies; one vehicle/fuel/key; all Lua syntax and
 EN/RU key parity. Passing simulation does **not** prove in-game render or APIs.
+
+`tests/test_bunker_queue.py` adds ten scheduling regressions: stale/saturated
+queues, nearest/fair four-job budget, safety deferral without another load event,
+temporary blocking, unloaded requeue, population cap/live-disable, saved-bucket
+reload persistence and client authority. Native failed samples, read-only delay
+diagnosis and the separately bound repaired-candidate results are retained in QA.

@@ -1,0 +1,33 @@
+{
+  "source": "pz-map-tools/tools/native_b42",
+  "version": "0.2.0",
+  "license": "MIT; see LICENSE-PZ-MAP-TOOLS.txt",
+  "scope": "Pure furnishing planner and vanilla sprite names only; no geography, game art or game binaries.",
+  "normalization": "CRLF converted to canonical LF; no code changes. __init__.py is a minimal local adapter.",
+  "files": [
+    {
+      "path": "room_planner.py",
+      "sha256": "9fb79c6ea602692ab6269a81fc588220fa9d6479b74968616e16515aa26c19e2"
+    },
+    {
+      "path": "room_program.py",
+      "sha256": "8bbe45d455bce4dd9cb2aa98cf4bbd50569775ca53a8f6d84b0e6a7e29520420"
+    },
+    {
+      "path": "activity_clusters.py",
+      "sha256": "253769f991ed9ee476c25ab09a244ebcc5437ba3f042d76d180c36db31d9a658"
+    },
+    {
+      "path": "furnishing_audit.py",
+      "sha256": "92122a69edd70a58c46afe9e414ab123545197c3ef1087ec8adeb670ebc63b5b"
+    },
+    {
+      "path": "palette.py",
+      "sha256": "7a685f918057b8450133f4e0187169887cbf2bae33c681c620f0693d03a7ae9c"
+    },
+    {
+      "path": "furniture_orientation.py",
+      "sha256": "e6415b2ddd7c4429734337e107f6c45ee4c8745ed80d65c7e63aabc3e1ff650e"
+    }
+  ]
+}
