@@ -19,7 +19,7 @@ in the lobby. These thirteen existing archives also carry the Convoy17 story.
 | Hush Array | 30887 | 10800 | 0 |
 | Gatehouse Nine | 38567 | 10800 | 0 |
 | Continuity Annex | 41127 | 4144 | 0 |
-| Meridian | 48424 | 1268 | 0 |
+| Meridian | 48672 | 1508 | 0 |
 
 No new quest or radio system; records are optional exploration.
 Copyright © 2026 druidqwerty. MIT.
