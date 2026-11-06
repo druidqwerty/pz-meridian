@@ -194,3 +194,11 @@ Superseded by active urban/interior revision below; these are alpha.1 receipts.
   tools/release_verify.py PASS: all4796sourcefiles==installed==successfulgamecopy
   ==releaseZIP; frozen candidate tree unchanged. Gitdiffcheck clean.
   Next: commit/push, publish GitHub prerelease and anonymous asset/hash retrieval.
+- DONE source/evidence commit22e2111 pushed origin/main. GitHub ONLY prerelease:
+  https://github.com/druidqwerty/pz-meridian/releases/tag/0.2.0-alpha.1
+  Published ZIP111962694bytes +SHA256SUMS.txt105bytes; both anonymously downloaded
+  and exact-byte/hash matched. docs/test-results/2026-11-06-urban now retains
+  sanitized release-binding.json/public-release.json. No Steam/Boosty, no duplicate
+  game tests or map builds/installs, no player saves touched. ZIP not repackaged.
+  Remaining owner-facing completion: Telegram notification and root memory update;
+  new density-rule tool work is tracked separately in pz-map-tools.

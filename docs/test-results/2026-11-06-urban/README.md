@@ -77,3 +77,14 @@ terrain/ceiling bands remain an alpha limitation.
 
 The successful fresh run above uses a newly created world and the final bytes;
 the unsuccessful reports were not rewritten or relabeled as successful.
+
+## Published artifact
+
+[GitHub prerelease 0.2.0-alpha.1](https://github.com/druidqwerty/pz-meridian/releases/tag/0.2.0-alpha.1)
+was published from source commit `22e2111`. The packaged ZIP is 111,962,694 bytes,
+SHA-256 `29c386ca41b28b4420d8a45704ba2da32ea994f08b0b8f63d163ef3538e5526d`.
+All 4,796 mod files match the successful fresh-game copy and installed copy;
+archive CRC verification passed. See [release binding](release-binding.json).
+Both release assets were downloaded anonymously and matched their local bytes:
+[public retrieval receipt](public-release.json). These repository receipts were
+added after publication; the already-verified ZIP was not repackaged.
