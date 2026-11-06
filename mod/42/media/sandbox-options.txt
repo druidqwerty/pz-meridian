@@ -1,0 +1,25 @@
+VERSION = 1,
+
+option MeridianLongWayHome.BunkerHordes
+{
+    type = boolean,
+    default = true,
+    page = MeridianLongWayHome,
+    translation = MeridianLongWayHome_BunkerHordes,
+}
+
+option MeridianLongWayHome.StarterVehicle
+{
+    type = boolean,
+    default = true,
+    page = MeridianLongWayHome,
+    translation = MeridianLongWayHome_StarterVehicle,
+}
+
+option MeridianLongWayHome.SupplyCaches
+{
+    type = boolean,
+    default = true,
+    page = MeridianLongWayHome,
+    translation = MeridianLongWayHome_SupplyCaches,
+}

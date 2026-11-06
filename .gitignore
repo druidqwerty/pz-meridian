@@ -1,0 +1,10 @@
+build/
+dist/
+.venv/
+__pycache__/
+*.pyc
+mod/common/media/maps/Meridian/*.lotheader
+mod/common/media/maps/Meridian/*.lotpack
+mod/common/media/maps/Meridian/worldmap.xml*
+mod/common/media/maps/Meridian/objects.lua
+mod/42/media/lua/shared/Meridian/00_Config.lua

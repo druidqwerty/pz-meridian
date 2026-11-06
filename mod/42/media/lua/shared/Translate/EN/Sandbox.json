@@ -1,0 +1,9 @@
+{
+  "Sandbox_MeridianLongWayHome": "Meridian: The Long Way Home",
+  "Sandbox_MeridianLongWayHome_BunkerHordes": "Infected underground refuges",
+  "Sandbox_MeridianLongWayHome_BunkerHordes_tooltip": "Populate newly explored bunker rooms. Respects No Zombies and zero population. Disabling stops new scripted spawns; existing zombies remain.",
+  "Sandbox_MeridianLongWayHome_StarterVehicle": "Expedition service SUV",
+  "Sandbox_MeridianLongWayHome_StarterVehicle_tooltip": "One repaired, fuelled SUV and its key at the southwest departure point. No vehicle respawn after loss.",
+  "Sandbox_MeridianLongWayHome_SupplyCaches": "Sealed emergency supply caches",
+  "Sandbox_MeridianLongWayHome_SupplyCaches_tooltip": "Supplement designated supply containers on their first fill. Does not refill looted containers."
+}

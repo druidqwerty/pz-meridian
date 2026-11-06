@@ -1,0 +1,9 @@
+{
+  "Sandbox_MeridianLongWayHome": "Меридиан: долгая дорога домой",
+  "Sandbox_MeridianLongWayHome_BunkerHordes": "Заражённые подземные убежища",
+  "Sandbox_MeridianLongWayHome_BunkerHordes_tooltip": "Заселять новые комнаты бункеров. Учитывает отсутствие зомби и нулевую популяцию. Выключение останавливает новые появления; существующие зомби остаются.",
+  "Sandbox_MeridianLongWayHome_StarterVehicle": "Служебный внедорожник экспедиции",
+  "Sandbox_MeridianLongWayHome_StarterVehicle_tooltip": "Один исправный заправленный внедорожник с ключом у юго-западной точки отправления. Потерянная машина не восстанавливается.",
+  "Sandbox_MeridianLongWayHome_SupplyCaches": "Тайники аварийного снабжения",
+  "Sandbox_MeridianLongWayHome_SupplyCaches_tooltip": "Дополнять назначенные контейнеры при первом заполнении. Забранный лут не восстанавливается."
+}
