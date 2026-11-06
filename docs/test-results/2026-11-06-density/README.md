@@ -164,3 +164,14 @@ Files: `supplemental-report.txt`, `supplemental-receipt.json`,
 `supplemental-screenshot-index.json`, **seven actual PNGs**,
 `supplemental-density-targets.json` and `supplemental-density-checklist.json`.
 Native field-of-view still occludes the far side; no all-room/all-angle claim.
+
+## Published artifact binding
+
+[GitHub prerelease 0.2.1-alpha.1](https://github.com/druidqwerty/pz-meridian/releases/tag/0.2.1-alpha.1)
+was published from source commit `09db0ae`. The playable ZIP is 155,309,776 bytes,
+SHA-256 `8c21ac7a31b694af665734aede696daeff12e805d443bbb71718eff5fc4bb5fc`.
+All 4,796 runtime files match the successful fresh game copy, current source
+and installed copy; see `release-binding.json`. ZIP and `SHA256SUMS.txt` were
+then anonymously downloaded and exactly matched (`public-release.json`).
+Post-publication receipts are source-repository evidence, not retroactively
+inserted into the already bound ZIP. No Steam/Boosty publication or save changes.

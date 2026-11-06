@@ -18,3 +18,10 @@
   initialpopulationrun+readonlydiagnosis preserved;queue runtime repaired.
 - Next authorized:commit/push,GitHubONLY0.2.1-alpha.1 prerelease+anonymoushashcheck.
   NeverSteam/Boosty;do not touchplayer saves.
+
+- DONE GitHubONLY0.2.1-alpha.1 published from09db0ae:
+  https://github.com/druidqwerty/pz-meridian/releases/tag/0.2.1-alpha.1
+  ZIP155309776bytes+SHA256SUMS105bytes anonymouslydownloaded/exacthashmatched.
+  Publicreceipt density/public-release.json;source/tested/installed/ZIP stillbound.
+  NoSteam/Boosty,player saves/settings/unrelatedmods untouched;no repeatbuild/
+  install/game/package needed. Owner completion+memory filing next.

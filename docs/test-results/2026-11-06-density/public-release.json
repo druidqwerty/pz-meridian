@@ -1,0 +1,19 @@
+{
+  "version": "0.2.1-alpha.1",
+  "url": "https://github.com/druidqwerty/pz-meridian/releases/tag/0.2.1-alpha.1",
+  "prerelease": true,
+  "assets": [
+    {
+      "name": "MeridianLongWayHome-0.2.1-alpha.1.zip",
+      "bytes": 155309776,
+      "sha256": "8c21ac7a31b694af665734aede696daeff12e805d443bbb71718eff5fc4bb5fc",
+      "anonymousDownloadMatches": true
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 105,
+      "sha256": "0cfe8dec5b1ea50ddedde09bfae0420013cf79ce4373f541f1ebfedd56aa5aa5",
+      "anonymousDownloadMatches": true
+    }
+  ]
+}
