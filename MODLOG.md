@@ -41,9 +41,16 @@ retired; no restoration, game-art redistribution or user-save migration.
   all4784product bytes match the tested tree. ZIP SHA256:
   5982eb199d5c4e11ce21dc12c9286c681ddead12b574aa0179c5580fa4074c5e.
   Receipt:build/release-verification.json; dist/SHA256SUMS.txt ready.
-- NEXT commit/push own source→GitHub prerelease0.1.0-alpha.1 with ZIP+SHA256SUMS.
-  Never Steam/Boosty. Verify public assets/hashes,record completion in this journal
-  and the read-before-write daily note,then complete the progress card.
+- DONE source9154af7 pushed; GitHub prerelease0.1.0-alpha.1 published with ZIP and
+  SHA256SUMS: https://github.com/druidqwerty/pz-meridian/releases/tag/0.1.0-alpha.1.
+  Public anonymous downloads of BOTH assets match local bytes and SHA256; tag
+  resolves to9154af768f3ff7827c5a4edb136cb20e266d8b4a. Release notes match exactly.
+  Public verification:docs/test-results/2026-11-06-expansion/public-release.json
+  (post-publication receipt,not part of the already frozen ZIP). Anonymous API
+  quota was exhausted,so metadata used gh auth; actual downloads used NO auth.
+- COMPLETE authorized scope. No Steam/Boosty publication,no user-save changes.
+  User testing requires NEW Sandbox world on Meridian. Full-route driving,time
+  ratio,multiplayer and flawless Viewpoint ceilings remain explicitly unverified.
 
 ## Files and completed owners
 - world.py/expedition.py/expedition_sites.py/expedition_decor.py:static geography,
