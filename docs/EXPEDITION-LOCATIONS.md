@@ -33,7 +33,7 @@ Optional coordinate spoilers. All additions are native map content, not quests.
 | Reservoir Staff House / Дом персонала водохранилища | reservoir | 22144 | 29312 | 3 |
 | Forest Expedition Station / Лесная экспедиционная станция | forest | 25472 | 19840 | 3 |
 | Former Observation Post / Бывший наблюдательный пост | restricted | 35456 | 10368 | 3 |
-| Meridian Expedition Home / Экспедиционный дом Meridian | meridian | 48673 | 1062 | 1 |
+| Meridian Expedition Home / Экспедиционный дом Meridian | meridian | 48673 | 1126 | 1 |
 
 Six regional bypasses rejoin the principal road locally; service roads
 lead to these compounds. This is not a claim of a second128km highway.

@@ -1,0 +1,132 @@
+[
+  {
+    "label": "world_selection",
+    "file": "final-world-selection.png",
+    "original": "screenshot_06-11-2026_14-23-22.png"
+  },
+  {
+    "label": "spawn_selection",
+    "file": "final-spawn-selection.png",
+    "original": "screenshot_06-11-2026_14-23-24.png"
+  },
+  {
+    "label": "spawn",
+    "file": "final-spawn.png",
+    "original": "screenshot_06-11-2026_14-23-48.png"
+  },
+  {
+    "label": "Final cottage kitchen and native night lighting",
+    "file": "final-final-cottage-kitchen-and-native-night-lighting.png",
+    "original": "screenshot_06-11-2026_14-24-10.png"
+  },
+  {
+    "label": "Final cottage kitchen and native night lighting_night_native_light_on",
+    "file": "final-final-cottage-kitchen-and-native-night-lighting-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_14-24-19.png"
+  },
+  {
+    "label": "Final cottage kitchen and native night lighting_night_native_light_off",
+    "file": "final-final-cottage-kitchen-and-native-night-lighting-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_14-24-28.png"
+  },
+  {
+    "label": "Final cottage bed and furniture facing",
+    "file": "final-final-cottage-bed-and-furniture-facing.png",
+    "original": "screenshot_06-11-2026_14-24-42.png"
+  },
+  {
+    "label": "Final cottage living room",
+    "file": "final-final-cottage-living-room.png",
+    "original": "screenshot_06-11-2026_14-24-55.png"
+  },
+  {
+    "label": "Final tower room and native night lighting",
+    "file": "final-final-tower-room-and-native-night-lighting.png",
+    "original": "screenshot_06-11-2026_14-25-09.png"
+  },
+  {
+    "label": "Final tower room and native night lighting_night_native_light_on",
+    "file": "final-final-tower-room-and-native-night-lighting-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_14-25-17.png"
+  },
+  {
+    "label": "Final tower room and native night lighting_night_native_light_off",
+    "file": "final-final-tower-room-and-native-night-lighting-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_14-25-27.png"
+  },
+  {
+    "label": "Final tower actual flight 1",
+    "file": "final-final-tower-actual-flight-1.png",
+    "original": "screenshot_06-11-2026_14-25-40.png"
+  },
+  {
+    "label": "Final tower actual flight 1_after_stairs",
+    "file": "final-final-tower-actual-flight-1-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-26-00.png"
+  },
+  {
+    "label": "Final tower actual flight 12",
+    "file": "final-final-tower-actual-flight-12.png",
+    "original": "screenshot_06-11-2026_14-26-12.png"
+  },
+  {
+    "label": "Final tower actual flight 12_after_stairs",
+    "file": "final-final-tower-actual-flight-12-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-26-32.png"
+  },
+  {
+    "label": "Final wall upper actual flight",
+    "file": "final-final-wall-upper-actual-flight.png",
+    "original": "screenshot_06-11-2026_14-26-45.png"
+  },
+  {
+    "label": "Final wall upper actual flight_after_stairs",
+    "file": "final-final-wall-upper-actual-flight-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-27-05.png"
+  },
+  {
+    "label": "Final wall crown and city view",
+    "file": "final-final-wall-crown-and-city-view.png",
+    "original": "screenshot_06-11-2026_14-27-17.png"
+  },
+  {
+    "label": "Final mall parking apron",
+    "file": "final-final-mall-parking-apron.png",
+    "original": "screenshot_06-11-2026_14-27-30.png"
+  },
+  {
+    "label": "Final public bunker actual descent",
+    "file": "final-final-public-bunker-actual-descent.png",
+    "original": "screenshot_06-11-2026_14-27-44.png"
+  },
+  {
+    "label": "Final public bunker actual descent_after_stairs",
+    "file": "final-final-public-bunker-actual-descent-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-28-04.png"
+  },
+  {
+    "label": "Final B1 kitchen and native night lighting",
+    "file": "final-final-b1-kitchen-and-native-night-lighting.png",
+    "original": "screenshot_06-11-2026_14-28-16.png"
+  },
+  {
+    "label": "Final B1 kitchen and native night lighting_night_native_light_on",
+    "file": "final-final-b1-kitchen-and-native-night-lighting-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_14-28-24.png"
+  },
+  {
+    "label": "Final B1 kitchen and native night lighting_night_native_light_off",
+    "file": "final-final-b1-kitchen-and-native-night-lighting-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_14-28-34.png"
+  },
+  {
+    "label": "native_atlas_overview",
+    "file": "final-native-atlas-overview.png",
+    "original": "screenshot_06-11-2026_14-28-42.png"
+  },
+  {
+    "label": "native_atlas_street_zoom",
+    "file": "final-native-atlas-street-zoom.png",
+    "original": "screenshot_06-11-2026_14-28-48.png"
+  }
+]

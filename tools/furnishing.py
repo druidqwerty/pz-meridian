@@ -7,6 +7,8 @@ from random import Random
 
 EXTRAS = dict(
  side='furniture_storage_01_52', lamp='lighting_indoor_02_0',
+ sink_south='fixtures_sinks_01_2',
+ gunrack='location_shop_generic_01_110',
  radio='appliances_radio_01_0', tv='appliances_television_01_4',
  computer='appliances_com_01_72', phone='location_business_office_generic_02_16',
  microwave='appliances_cooking_01_28', coffee='appliances_cooking_01_56',
@@ -36,6 +38,20 @@ def palette(base, seed):
     for i,(key,values) in enumerate(PALETTES.items()):
         result[key]=values[(seed+i)%len(values)]
     return result
+
+
+def furnish_room(role, x, y, w, h, seed=0, base=None, blocked=()):
+    """Cluster-based replacement for the fixed-facing sparse legacy decorator.
+
+    All blocked coordinates are absolute CELL-local squares. Group placement
+    is transactional, so reserving a door cannot accidentally chop a bed/sofa.
+    """
+    if base is None:
+        from architecture import TILES
+        base = TILES
+    from themed_rooms import PROPS
+    from interior_layouts import furnish_room as layout
+    yield from layout(role, x, y, w, h, seed, base | EXTRAS | PROPS, blocked)
 
 
 def enrich(out,role,x,y,w,h,seed,base):

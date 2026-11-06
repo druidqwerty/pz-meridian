@@ -7,6 +7,7 @@ GitHub only (source+ZIP prerelease). NO Steam/Boosty. Retired Real Russia stays
 retired; no restoration, game-art redistribution or user-save migration.
 
 ## Current frozen candidate — 2026-11-06
+Superseded by active urban/interior revision below; these are alpha.1 receipts.
 - Version0.1.0-alpha.1; ID MeridianLongWayHome, map Meridian. New Sandbox world.
 - DONE2381native cellpairs,832surface structures,866BuildingDefs,6270RoomDefs;
   660745098native bytes. Full tile-order decode/roundtrip on every compiled cell.
@@ -95,3 +96,101 @@ retired; no restoration, game-art redistribution or user-save migration.
 - Allnew buildingroom names verified against native lootdistributions. Mechanical
   workshopprops are groundobjects, not tabletopgrinders; archiveplaques not floated.
 - New geometry requires NEW world; never load into user's old saves for tests.
+
+## Active owner review — urban/interior revision 2026-11-06
+- Goal: correct furniture facing/density; genuine native room switches/lights;
+  replace identical town templates with American small-town/service/civic/military
+  building families; progressive skyline ending in dense highrise Meridian;
+  replace paper-thin wall with tall wide walkable fortification.
+- Preserve original seven expedition chapters/landmarks/road networks and existing
+  map-only scope, user saves and GitHub-only publication restriction.
+- Root: regional programmes, generator integration, wall geometry, build/install/QA.
+- urban_buildings: distinct footprints/room layouts/towers/city programmes.
+- furniture_light: verified sprite orientation, useful furnishings, native type7
+  light-switch room metadata; tests and evidence notes.
+- references_plan: realizable online US references, plan recovery, QA target builder.
+- Next: integrate APIs, validate native rooms/stairs/lighting and street access,
+  compile then test representative interiors/night switch/towers/wall in isolation.
+- Existing alpha.1 publication is historical, NOT evidence for this new revision.
+- DONE root integration: regional_program.py gives six different civilian town
+  compositions, military build-up and mixed sizes/setbacks; world.py adds rear
+  service lanes. generate.py uses it instead of repeated eight-building list.
+- DONE root fortification.py: 13-tile deep, 8-storey wall with roof walkway,
+  four-storey high/21-tile wide west gate and north-gate bastion stair access.
+  Native geometry/tests/live proof still pending; do not call verified yet.
+- Steering incorporated: continuous sidewalks; 4dedicated96x72 shopping centres,
+  >20,000square-tile parking lots/plazas, local gunshops, native building/road signs.
+  New urban_destinations.py keeps large retail out of ordinary64tile house lots.
+- Owner cannot find bunker: nearest public entrance door48259,1424/stairs48255,1408
+  (westgate east125then north112). Added diagram+wayfinding task; entry positions
+  remain unchanged. Reusable native interior/publicrealm recipes will be retained
+  in pz-map-tools after validation, never game art or retired map data.
+- Root fortification tests3/3PASS. Intermediate global run30tests had1stale
+  barricadecount failure while architecture writer was active; rerun after freeze.
+- DONE final geometry build74.2s:2387cellpairs,1188surface structures,1234BuildingDefs,
+  25423RoomDefs,704173338nativebytes; every cell decoded/roundtripped. Corrected
+  new thickwall collision by pulling south/east edge plots216→200 behind wall241.
+- DONE static-audit PASS:0unknown propertynames,2,290,644metadataPart0 bytes;
+  248Meridian buildings,140six+storeys,max13;4largeTcs,13gunshops.
+  Roomlightcircuits25411 (12open-air crowns deliberately unlit),24505surface switches.
+- DONE streets summary: no unconnected approaches; four actual concrete lots
+  21449/22360/22432/22432squares;1209building signparts/1436roadside signs.
+- DONE installed4796files SHA256verified; priorinstall backup140728. Saves/options
+  untouched. Owner runninggame PID53024 left alone; existingworld will not migrate.
+- DONE46tests fullsuite PASS +all12pavilion wayfinding parameterizedPASS +actual
+  southeastcorner compiledroom/street/wall integrationPASS. Sharedtools9testsPASS.
+- NativeQA ACTIVE immutable4796file copy140755-162327,25targets. Foundtwo missing
+  runtime sprites vegetation_groundcover_01_18/21 despite sidecarpropertyexistence;
+  evidence retained, sourcefix and finalrebind pending. Add actualruntime registry
+  gate using IsoSpriteManager.getNamedMap (getSprite creates placeholders!).
+- Owner requested Telegram completion message. conversations_list empty, but enabled
+  Telegram CLI channel exists; linked historical Ivan recipient resolved. Send only
+  after completion, record actual delivery receipt; do not merely promise sent.
+- Final VISUAL fix: directly backedN/W lamps/switches only. E/S backattachments
+  are native-valid but looked floating when foregroundwall cut away in actualPNG.
+  Full rebuild75.4s+auditPASS,installed4796SHAfiles backup142056; native geometry
+  counts unchanged. Interiors3PASS; final allkind/3seed architecture rerun receipt
+  build/urban-final-architecture.txt. No further productmod edits planned.
+- PRE-FINALQA141459 contains genuine room/parking/tower/wall/bunker/ONOFF proofs
+  but is NOT final: used previouslampplacement and overstrict texturegate counted
+  native seasonal treeproxies. Preserve rawFAIL. Correctgate tree type+size1..8
+  independentlybytecodeverified; getSprite lookup creates placeholders, forbidden.
+- QAowner /root/references_plan now prepares FRESH11point condensedtour fromfinal
+  actual native roomgeometry/switchcoords, followedby save/reload and sanitizedQA.
+  Root must inspect selectedfinalPNGs, verify4796files tested==installed==ZIP.
+- Puretoolrecipes committed locally pz-map-tools8978e8b,10testsPASS. Owner
+  /root/urban_buildings fixes canonicalLF provenance/exports so clonehashes agree;
+  root must commit thatfix too. No remote configured for toolrepo.
+- Pending afterQA: finalize docsQA/MODLOG, package0.2.0-alpha.1 once, run
+  tools/release_verify.py --run <SUCCESSFRESH> --zip dist/MeridianLongWayHome-0.2.0-alpha.1.zip,
+  commit/pushproject, gh release create0.2.0-alpha.1 ZIP+SHA256SUMS --prerelease
+  --latest=false --target main --notes-file RELEASE_NOTES.md, publicdownload/hash.
+  GitHubONLY; noSteamBoosty. Update daily memory/MEMORY readbeforewrite.
+- Userexplicitly requested Telegramcompletion. Enabled channeldefault account;
+  no conversationsrefs available. Historical linkedIvan recipient resolved via
+  sessionssearch. Use CLI message send to confirmedprivateIvan chat afterDONE,
+  attach docs/BUNKER-ENTRANCE.png plus concise release/NEWworld/door48259,1424 text.
+  Record deliveryresult; never claim sent without success. RootfinalRussian must
+  include release link, actualscope, bunkercoordinates+schemalink and TGstatus.
+- DONE final fresh native QA20261106-142304-247195 overall+wrapperPASS:
+  all11targets,4actualstairtraversals,3native nightONOFF illuminationdeltas
+  0.396078/0.301961/0.301961;181actualcompiledsprites0missing0invalidtextures,
+  7verifiedseasonaltreeproxies.0Lua/0unknownmapresourceerrors;6startupfont/Piano
+  diagnostics retained. Frozen4796file treeSHA256
+  bce864b2bd7c0892a2351f69bb42f6697a8a64c8db91b274e71b9de52f0e7339.
+- DONE isolated reload20261106-142928-051777 native+wrapperPASS token/position/floor;
+  4796files equal finaltree. Exported final26frames+reload1frame with sanitized
+  reports/receipts and evidenceREADME in docs/test-results/2026-11-06-urban.
+  Rootinspected selectedfinalPNGs: realbrightness,backedlamps,bed,stairs,parking.
+  Wallcrownframe onlywalkway notpanorama; bunkershaftBEFOREoccluded,AFTERshowsB1
+  player+physicalstairs. No fullpavilionvisual/firstperson/fullroute/MPclaim.
+- Publication resumed after interruption: final fresh/reload receipts confirmed;
+  no build, install or game run repeated. QA ledger now links final urban evidence.
+  Packaging and exact-byte release binding are the next open publication steps.
+  The owner's new area/destination-aware density rule is a separate pz-map-tools
+  improvement, NOT part of the frozen, already-tested 0.2.0-alpha.1 map bytes.
+- DONE packaged0.2.0-alpha.1 ONCE:111962694bytes ZIP SHA256
+  29c386ca41b28b4420d8a45704ba2da32ea994f08b0b8f63d163ef3538e5526d.
+  tools/release_verify.py PASS: all4796sourcefiles==installed==successfulgamecopy
+  ==releaseZIP; frozen candidate tree unchanged. Gitdiffcheck clean.
+  Next: commit/push, publish GitHub prerelease and anonymous asset/hash retrieval.

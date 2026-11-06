@@ -5,6 +5,8 @@ classification, authored buildings, roads, cell margins, or the shaft reserve.
 """
 from random import Random
 import numpy as np
+from public_geometry import dilate, exterior_path
+from public_realm import public_realm, clear_exterior
 
 PAVING='floors_exterior_tilesandstone_01_0'
 ACCENT='floors_exterior_tilesandstone_01_1'
@@ -12,7 +14,9 @@ LAWN='blends_natural_01_48'
 BENCH=('furniture_seating_outdoor_01_0','furniture_seating_outdoor_01_1')
 LAMP='lighting_outdoor_01_0'
 PLANTER='vegetation_indoor_01_8'
-FLOWERS=('vegetation_groundcover_01_18','vegetation_groundcover_01_21')
+# These flowers are actually registered in B42.21, not merely listed in the
+# text sidecar (groundcover18/21 exist there but fail native CellLoader lookup).
+FLOWERS=('vegetation_indoor_01_4','vegetation_indoor_01_12')
 TREES=('vegetation_trees_01_8','vegetation_trees_01_9','vegetation_trees_01_13')
 
 def landscape(tiles,ground,cx,cy,records,site):
@@ -26,18 +30,12 @@ def landscape(tiles,ground,cx,cy,records,site):
     stats=dict(paving=0,trees=0,benches=0,planters=0,lamps=0)
     if not site:return stats
     city=site.get('kind')=='city'
-    if not city and site.get('kind') not in ('town','service','expedition'):return stats
     rng=Random(cx*1000003+cy*104729+60013)
     hard=np.zeros((256,256),dtype=bool)
     setback=np.zeros_like(hard)
     paths=np.zeros_like(hard)
     road=np.asarray(ground)==4
-    roadnear=np.zeros_like(hard)
-    for dy in range(-4,5):
-        for dx in range(-4,5):
-            ya,yb=max(0,dy),min(256,256+dy)
-            xa,xb=max(0,dx),min(256,256+dx)
-            roadnear[ya:yb,xa:xb]|=road[ya-dy:yb-dy,xa-dx:xb-dx]
+    roadnear=dilate(road,4)
     local=[]
     for rec in records:
         x,y,w,h=rec['rect'];x=x-cx*256 if x>=256 else x;y=y-cy*256 if y>=256 else y
@@ -47,13 +45,15 @@ def landscape(tiles,ground,cx,cy,records,site):
         setback[max(0,y-3):min(256,y+h+5),max(0,x-3):min(256,x+w+4)]=True
     # All potential annex and city shaft sites are left untouched, even when
     # this particular cell has no shaft. Baseline geometry is shared with QA.
-    hard[118:147,118:147]=True;setback[116:149,116:149]=True
+    shaft=site.get('reserveShaft',city and (cx in (188,191) or cy in (4,7)))
+    if shaft:
+        hard[118:147,118:147]=True;setback[116:149,116:149]=True
 
     def bare(x,y,props=False):
-        if not(6<=x<250 and 6<=y<250) or ground[y,x]==1 or road[y,x]:return False
+        if not(0<=x<256 and 0<=y<256) or ground[y,x]==1 or road[y,x]:return False
         if hard[y,x] or (props and (setback[y,x] or roadnear[y,x] or paths[y,x])):return False
         names=tiles.get((x,y,0),[])
-        return len(names)==1 and names[0].startswith(('blends_','floors_exterior_'))
+        return clear_exterior(names) if not props else len(names)==1 and clear_exterior(names)
     def pave(x,y,accent=False):
         if bare(x,y):
             tiles[x,y,0]=[ACCENT if accent else PAVING]
@@ -64,33 +64,33 @@ def landscape(tiles,ground,cx,cy,records,site):
         return False
     # Two-wide curbs outline actual road geometry, including road crossings,
     # while the drivable original asphalt squares remain byte-for-byte intact.
-    if city:
-        for y in range(6,250):
-            for x in range(6,250):
-                if road[y,x]:continue
-                near=road[max(0,y-2):min(256,y+3),max(0,x-2):min(256,x+3)]
-                if near.any():pave(x,y)
+    sidewalks=dilate(road,2)&~road
+    for y,x in zip(*np.nonzero(sidewalks)):pave(int(x),int(y))
+    realm,realm_mask=public_realm(tiles,ground,cx,cy,records,site,hard)
+    paths|=realm_mask
+    stats['publicRealm']=realm
     # Front-door approach connects to an existing nearby road by a short L.
     # Only floor-only exterior squares may be changed; it cannot eat walls.
+    obstacles=hard|(ground==1)
+    for (xx,yy,zz),names in tiles.items():
+        if zz==0 and not clear_exterior(names) and not road[yy,xx]:
+            obstacles[yy,xx]=True
+    targets=road|paths
     for x,y,w,h in local:
         sx,sy=x+w//2,y+h+3
-        targets=[]
-        for yy,xx in zip(*np.nonzero(road)):
-            d=abs(int(xx)-sx)+abs(int(yy)-sy)
-            if d<60:targets.append((d,int(xx),int(yy)))
-        if targets:
-            _,tx,ty=min(targets)
-            # Prefer a horizontal first leg below the south facade. It remains
-            # passable even when the nearest avenue is behind the building.
-            for xx in range(min(sx,tx),max(sx,tx)+1):
-                for off in (0,1):pave(xx,sy+off)
-            for yy in range(min(sy,ty),max(sy,ty)+1):
-                for off in (0,1):pave(tx+off,yy)
+        path=exterior_path((sx,sy),targets,obstacles,limit=120)
+        if path:
+            for xx,yy in path:
+                for dx,dy in ((0,0),(1,0),(0,1)):pave(xx+dx,yy+dy)
+            targets|=paths
+        else:
+            stats.setdefault('unconnectedApproaches',[]).append([sx,sy])
     # Sixteen little landscaped squares break the strict built grid into
     # planted blocks. Elsewhere, smaller roadside-town gardens are less formal.
     origins=[(x,y) for x in (8,72,136,200) for y in (8,72,136,200)]
     if not city:origins=origins[::5]
     for gx,gy in origins:
+        if paths[gy:gy+13,gx:gx+13].any():continue
         if not all(bare(x,y) for x,y in ((gx,gy),(gx+12,gy+12))):continue
         for x in range(gx,gx+13):
             for y in range(gy,gy+13):

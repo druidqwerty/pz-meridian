@@ -1,0 +1,343 @@
+{
+  "run": "20261106-140755-162327",
+  "wrapperStatus": "exited-without-report",
+  "nativeReportProduced": false,
+  "nativeResult": [],
+  "config": {
+    "folder": "Meridian",
+    "x": 544,
+    "y": 48676,
+    "z": 0,
+    "targets": [
+      {
+        "name": "Last Light furnished home",
+        "x": 544,
+        "y": 48676,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Early garage",
+        "x": 615,
+        "y": 49070,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Early police station",
+        "x": 550,
+        "y": 48752,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Early school",
+        "x": 617,
+        "y": 48758,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Small retail frontage",
+        "x": 14249,
+        "y": 41588,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Large shopping centre",
+        "x": 13896,
+        "y": 48990,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Gun shop",
+        "x": 676,
+        "y": 48810,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Guard hut or checkpoint",
+        "x": 541,
+        "y": 49056,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Regional centre height sample",
+        "x": 7271,
+        "y": 29748,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Late approach height sample",
+        "x": 23273,
+        "y": 12086,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Meridian tallest tower ground floor",
+        "x": 48169,
+        "y": 1206,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Meridian tower top occupied floor",
+        "x": 48153,
+        "y": 1205,
+        "z": 12,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 2.0
+      },
+      {
+        "name": "Meridian tower actual flight 1",
+        "x": 48157,
+        "y": 1205,
+        "z": 0,
+        "room": true,
+        "walkTo": {
+          "x": 48153,
+          "y": 1205,
+          "z": 1
+        },
+        "noViewpoint": true
+      },
+      {
+        "name": "Meridian tower actual flight 12",
+        "x": 48157,
+        "y": 1205,
+        "z": 11,
+        "room": true,
+        "walkTo": {
+          "x": 48153,
+          "y": 1205,
+          "z": 12
+        },
+        "noViewpoint": true
+      },
+      {
+        "name": "Last Light native room-light toggle",
+        "x": 544,
+        "y": 48676,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25,
+        "lighting": {
+          "x": 544,
+          "y": 48665,
+          "z": 0,
+          "sprite": "lighting_indoor_01_2"
+        }
+      },
+      {
+        "name": "Meridian native room-light toggle",
+        "x": 48169,
+        "y": 1206,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.25,
+        "lighting": {
+          "x": 48169,
+          "y": 1177,
+          "z": 0,
+          "sprite": "lighting_indoor_01_2"
+        }
+      },
+      {
+        "name": "Meridian west fortification approach",
+        "x": 48108,
+        "y": 1536,
+        "z": 0,
+        "noViewpoint": true,
+        "zoom": 2.0
+      },
+      {
+        "name": "Meridian west gate inner court",
+        "x": 48156,
+        "y": 1536,
+        "z": 0,
+        "safeSurface": true,
+        "noViewpoint": true,
+        "zoom": 2.0
+      },
+      {
+        "name": "Shopping centre parking apron",
+        "x": 13858,
+        "y": 49019,
+        "z": 0,
+        "noViewpoint": true,
+        "zoom": 2.5
+      },
+      {
+        "name": "Fortification first actual stair flight",
+        "x": 48135,
+        "y": 1512,
+        "z": 0,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48131,
+          "y": 1512,
+          "z": 1
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Fortification crown and city skyline",
+        "x": 48131,
+        "y": 1512,
+        "z": 8,
+        "safeSurface": true,
+        "noViewpoint": true,
+        "zoom": 2.5
+      },
+      {
+        "name": "Public bunker entrance actual descent",
+        "x": 48255,
+        "y": 1408,
+        "z": 0,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48259,
+          "y": 1408,
+          "z": -1
+        },
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "B1 native room-light toggle",
+        "x": 48203,
+        "y": 1297,
+        "z": -1,
+        "room": true,
+        "infected": true,
+        "lighting": {
+          "x": 48203,
+          "y": 1297,
+          "z": -1,
+          "sprite": "lighting_indoor_01_2"
+        },
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Fortification upper actual stair flight",
+        "x": 48135,
+        "y": 1512,
+        "z": 7,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48131,
+          "y": 1512,
+          "z": 8
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "B1 reception kitchen furnished wing",
+        "x": 48190,
+        "y": 1316,
+        "z": -1,
+        "room": true,
+        "infected": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      }
+    ],
+    "resume": null,
+    "token": "20261106-140755-162327"
+  },
+  "boundSpriteNames": 0,
+  "mapResourceErrors": [
+    "ERROR: General      f:0 at CellLoader.DoTileObjectCreation     > CellLoader> missing tile vegetation_groundcover_01_18",
+    "ERROR: General      f:0 at CellLoader.DoTileObjectCreation     > CellLoader> missing tile vegetation_groundcover_01_21"
+  ],
+  "knownStockStartupWarnings": [
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/fonts/zomboidDialogue.bmfc_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at CraftRecipeComponentScript.getIconTexture> CraftRecipeComponentScript: Recipe Piano missing UiConfigScript - falling back to SpriteConfigScript first world object face for recipe icon."
+  ],
+  "luaErrorLines": [
+    "ERROR: General      f:7924 at KahluaThread.flushErrorMessage      > dumping Lua stack trace",
+    "ERROR: General      f:7924 at KahluaThread.flushErrorMessage      > dumping Lua stack trace"
+  ],
+  "luaErrorContext": [
+    "ERROR: General      f:7924 at KahluaThread.flushErrorMessage      > -------------------------------------------------------------",
+    "attempted index: size of non-table: null",
+    "ERROR: General      f:7924 at KahluaThread.flushErrorMessage      > dumping Lua stack trace",
+    "-----------------------------------------",
+    "STACK TRACE",
+    "-----------------------------------------",
+    "\tLua((MOD:Meridian Private Oracle)).room_light_count(World.lua:214)",
+    "\tLua((MOD:Meridian Private Oracle)).optionalLightValue(World.lua:205)",
+    "attempted index: size of non-table: null",
+    "ERROR: General      f:7924 at KahluaThread.flushErrorMessage      > dumping Lua stack trace",
+    "-----------------------------------------",
+    "STACK TRACE",
+    "-----------------------------------------",
+    "\tLua((MOD:Meridian Private Oracle)).room_light_count(World.lua:214)",
+    "\tLua((MOD:Meridian Private Oracle)).optionalLightValue(World.lua:205)",
+    "\tLua((MOD:Meridian Private Oracle)).nativeLightSample(World.lua:214)",
+    "ERROR: General      f:7924> Lua((MOD:Meridian Private Oracle)).room_light_count> Exception thrown",
+    "\tjava.lang.RuntimeException: attempted index: size of non-table: null at KahluaThread.tableget(KahluaThread.java:1430).",
+    "\tStack trace:",
+    "\t\tse.krka.kahlua.vm.KahluaThread.tableget(KahluaThread.java:1430)",
+    "\t\tLua((MOD:Meridian Private Oracle)).room_light_count(World.lua:214)",
+    "\t\tLua((MOD:Meridian Private Oracle)).optionalLightValue(World.lua:205)",
+    "\t\tLua((MOD:Meridian Private Oracle)).nativeLightSample(World.lua:214)",
+    "\t\tLua((MOD:Meridian Private Oracle)).lightingOnFrame(World.lua:284)",
+    "\t\tjava.base/java.lang.Thread.run(Unknown Source)",
+    "ERROR: General      f:7924 at KahluaThread.flushErrorMessage      > dumping Lua stack trace",
+    "-----------------------------------------",
+    "STACK TRACE",
+    "-----------------------------------------",
+    "\tLua((MOD:Meridian Private Oracle)).room_light_count(World.lua:214)",
+    "\tLua((MOD:Meridian Private Oracle)).optionalLightValue(World.lua:205)",
+    "\tLua((MOD:Meridian Private Oracle)).nativeLightSample(World.lua:214)"
+  ],
+  "candidateBinding": {
+    "files": 4796,
+    "treeSHA256": "2ed719547a3754fb3add3dd1651a5cef92536bbf24d868110d4b72cfa68884d7",
+    "equal": true,
+    "source": "mod",
+    "copy": "isolated oracle cache copy"
+  }
+}

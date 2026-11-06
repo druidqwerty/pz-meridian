@@ -44,14 +44,6 @@ def dress(cx,cy,ground,tiles,town=False):
             tiles[int(x),int(y),0].append('street_trafficlines_01_0')
 
 
-def city_wall(cx,cy,tiles):
-    if not (188<=cx<=191 and 4<=cy<=7):return
-    # Three-storey continuous vanilla masonry, with one road-width west gate.
-    def fort(x,y,direction):
-        for z in (0,1,2):
-            tiles.setdefault((x,y,z),[]).append('walls_exterior_house_02_'+str(17 if direction=='N' else 16))
-    for a in range(256):
-        if cy==4:fort(a,2,'N')
-        if cy==7:fort(a,253,'N')
-        if cx==188 and abs(cy*256+a-1536)>10:fort(2,a,'W')
-        if cx==191:fort(253,a,'W')
+def city_wall(cx,cy,tiles,rooms=None,buildings=None):
+    from fortification import build_wall
+    return build_wall(cx,cy,tiles,rooms,buildings)

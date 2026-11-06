@@ -1,6 +1,7 @@
 """Package a tested candidate with source notices, not test drivers/game files."""
 from pathlib import Path
 import hashlib,json,zipfile
+from version import VERSION
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -9,7 +10,7 @@ def main():
     audit=json.loads((ROOT/'build/static-audit.json').read_text())
     assert not audit['unknown_sprites'] and audit['safe_zero_density_cells']==16
     dist=ROOT/'dist';dist.mkdir(exist_ok=True)
-    target=dist/'MeridianLongWayHome-0.1.0-alpha.1.zip'
+    target=dist/f'MeridianLongWayHome-{VERSION}.zip'
     source=ROOT/'mod'
     files=[p for p in source.rglob('*') if p.is_file()]
     with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:

@@ -1,0 +1,172 @@
+[
+  {
+    "label": "world_selection",
+    "file": "pre-final-floating-lamps-world-selection.png",
+    "original": "screenshot_06-11-2026_14-15-17.png"
+  },
+  {
+    "label": "spawn_selection",
+    "file": "pre-final-floating-lamps-spawn-selection.png",
+    "original": "screenshot_06-11-2026_14-15-19.png"
+  },
+  {
+    "label": "spawn",
+    "file": "pre-final-floating-lamps-spawn.png",
+    "original": "screenshot_06-11-2026_14-15-43.png"
+  },
+  {
+    "label": "Cottage furnished kitchen",
+    "file": "pre-final-floating-lamps-cottage-furnished-kitchen.png",
+    "original": "screenshot_06-11-2026_14-16-05.png"
+  },
+  {
+    "label": "Cottage complete bed and facing",
+    "file": "pre-final-floating-lamps-cottage-complete-bed-and-facing.png",
+    "original": "screenshot_06-11-2026_14-16-19.png"
+  },
+  {
+    "label": "Cottage furnished living room",
+    "file": "pre-final-floating-lamps-cottage-furnished-living-room.png",
+    "original": "screenshot_06-11-2026_14-16-32.png"
+  },
+  {
+    "label": "Cottage kitchen native night lighting",
+    "file": "pre-final-floating-lamps-cottage-kitchen-native-night-lighting.png",
+    "original": "screenshot_06-11-2026_14-16-46.png"
+  },
+  {
+    "label": "Cottage kitchen native night lighting_night_native_light_on",
+    "file": "pre-final-floating-lamps-cottage-kitchen-native-night-lighting-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_14-16-54.png"
+  },
+  {
+    "label": "Cottage kitchen native night lighting_night_native_light_off",
+    "file": "pre-final-floating-lamps-cottage-kitchen-native-night-lighting-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_14-17-04.png"
+  },
+  {
+    "label": "Shopping centre sales floor",
+    "file": "pre-final-floating-lamps-shopping-centre-sales-floor.png",
+    "original": "screenshot_06-11-2026_14-17-17.png"
+  },
+  {
+    "label": "Gun shop sales and storage",
+    "file": "pre-final-floating-lamps-gun-shop-sales-and-storage.png",
+    "original": "screenshot_06-11-2026_14-17-31.png"
+  },
+  {
+    "label": "Meridian top furnished room",
+    "file": "pre-final-floating-lamps-meridian-top-furnished-room.png",
+    "original": "screenshot_06-11-2026_14-17-44.png"
+  },
+  {
+    "label": "Meridian tower native night lighting",
+    "file": "pre-final-floating-lamps-meridian-tower-native-night-lighting.png",
+    "original": "screenshot_06-11-2026_14-17-58.png"
+  },
+  {
+    "label": "Meridian tower native night lighting_night_native_light_on",
+    "file": "pre-final-floating-lamps-meridian-tower-native-night-lighting-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_14-18-06.png"
+  },
+  {
+    "label": "Meridian tower native night lighting_night_native_light_off",
+    "file": "pre-final-floating-lamps-meridian-tower-native-night-lighting-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_14-18-16.png"
+  },
+  {
+    "label": "Meridian tower actual flight 1",
+    "file": "pre-final-floating-lamps-meridian-tower-actual-flight-1.png",
+    "original": "screenshot_06-11-2026_14-18-29.png"
+  },
+  {
+    "label": "Meridian tower actual flight 1_after_stairs",
+    "file": "pre-final-floating-lamps-meridian-tower-actual-flight-1-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-18-49.png"
+  },
+  {
+    "label": "Meridian tower actual flight 12",
+    "file": "pre-final-floating-lamps-meridian-tower-actual-flight-12.png",
+    "original": "screenshot_06-11-2026_14-19-02.png"
+  },
+  {
+    "label": "Meridian tower actual flight 12_after_stairs",
+    "file": "pre-final-floating-lamps-meridian-tower-actual-flight-12-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-19-22.png"
+  },
+  {
+    "label": "Meridian west gate inner court",
+    "file": "pre-final-floating-lamps-meridian-west-gate-inner-court.png",
+    "original": "screenshot_06-11-2026_14-19-34.png"
+  },
+  {
+    "label": "Shopping centre parking apron",
+    "file": "pre-final-floating-lamps-shopping-centre-parking-apron.png",
+    "original": "screenshot_06-11-2026_14-19-47.png"
+  },
+  {
+    "label": "Fortification first actual stair flight",
+    "file": "pre-final-floating-lamps-fortification-first-actual-stair-flight.png",
+    "original": "screenshot_06-11-2026_14-20-01.png"
+  },
+  {
+    "label": "Fortification first actual stair flight_after_stairs",
+    "file": "pre-final-floating-lamps-fortification-first-actual-stair-flight-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-20-21.png"
+  },
+  {
+    "label": "Fortification crown and city skyline",
+    "file": "pre-final-floating-lamps-fortification-crown-and-city-skyline.png",
+    "original": "screenshot_06-11-2026_14-20-33.png"
+  },
+  {
+    "label": "Public bunker entrance actual descent",
+    "file": "pre-final-floating-lamps-public-bunker-entrance-actual-descent.png",
+    "original": "screenshot_06-11-2026_14-20-47.png"
+  },
+  {
+    "label": "Public bunker entrance actual descent_after_stairs",
+    "file": "pre-final-floating-lamps-public-bunker-entrance-actual-descent-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-21-07.png"
+  },
+  {
+    "label": "B1 native room-light toggle",
+    "file": "pre-final-floating-lamps-b1-native-room-light-toggle.png",
+    "original": "screenshot_06-11-2026_14-21-19.png"
+  },
+  {
+    "label": "B1 native room-light toggle_night_native_light_on",
+    "file": "pre-final-floating-lamps-b1-native-room-light-toggle-night-native-light-on.png",
+    "original": "screenshot_06-11-2026_14-21-27.png"
+  },
+  {
+    "label": "B1 native room-light toggle_night_native_light_off",
+    "file": "pre-final-floating-lamps-b1-native-room-light-toggle-night-native-light-off.png",
+    "original": "screenshot_06-11-2026_14-21-37.png"
+  },
+  {
+    "label": "Fortification upper actual stair flight",
+    "file": "pre-final-floating-lamps-fortification-upper-actual-stair-flight.png",
+    "original": "screenshot_06-11-2026_14-21-50.png"
+  },
+  {
+    "label": "Fortification upper actual stair flight_after_stairs",
+    "file": "pre-final-floating-lamps-fortification-upper-actual-stair-flight-after-stairs.png",
+    "original": "screenshot_06-11-2026_14-22-10.png"
+  },
+  {
+    "label": "B1 reception kitchen furnished wing",
+    "file": "pre-final-floating-lamps-b1-reception-kitchen-furnished-wing.png",
+    "original": "screenshot_06-11-2026_14-22-22.png"
+  },
+  {
+    "label": "native_atlas_overview",
+    "file": "pre-final-floating-lamps-native-atlas-overview.png",
+    "original": "screenshot_06-11-2026_14-22-30.png"
+  },
+  {
+    "label": "native_atlas_street_zoom",
+    "file": "pre-final-floating-lamps-native-atlas-street-zoom.png",
+    "original": "screenshot_06-11-2026_14-22-36.png"
+  }
+]

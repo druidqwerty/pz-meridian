@@ -20,6 +20,8 @@ REUSABLE = ROOT.parent / 'pz-map-tools/tools'
 sys.path.insert(0, str(REUSABLE))
 from game_smoke import DEFAULT_GAME, DEFAULT_JAVAC, options, compile_prompt_helper
 from gameplay_probe import CONTENT
+from lighting_probe import CONTENT as LIGHTING_CONTENT
+from sprite_probe import CONTENT as SPRITE_CONTENT
 
 MENU = r'''
 local step,due=0,nil
@@ -102,7 +104,11 @@ end
 function MeridianTest.run(fn)
  if MeridianTest.done then return end
  local ok,err=pcall(fn)
- if not ok then MeridianTest.record("exception",err); MeridianTest.failed=true; MeridianTest.finish() end
+ if not ok then
+  MeridianTest.record("exception",err); MeridianTest.failed=true
+  if MeridianTest.restoreLighting then pcall(MeridianTest.restoreLighting,"exception_cleanup") end
+  MeridianTest.finish()
+ end
 end
 require "MeridianTest/Menu"
 '''
@@ -112,6 +118,19 @@ require "TimedActions/WalkToTimedAction"
 local phase,due,index,startX,startY,target=0,0,0,nil,nil,nil
 local testCar
 local function shot(name) MeridianTest.record("screenshot",name); takeScreenshot() end
+local isoZoomGoal,isoZoomDue,isoZoomSteps=nil,0,0
+local function updateIsoZoom()
+ if not isoZoomGoal or getTimestampMs()<isoZoomDue then return end
+ local core=getCore(); local current=core:getZoom(0)
+ if math.abs(current-isoZoomGoal)<0.04 or isoZoomSteps>=12 then isoZoomGoal=nil; return end
+ local direction=current<isoZoomGoal and 1 or -1
+ local nextZoom=core:getNextZoom(0,direction)
+ if nextZoom==current or math.abs(nextZoom-isoZoomGoal)>math.abs(current-isoZoomGoal)+0.02 then
+  isoZoomGoal=nil; return
+ end
+ core:doZoomScroll(0,direction); isoZoomSteps=isoZoomSteps+1
+ isoZoomDue=getTimestampMs()+450
+end
 local function inspectPoint(label,expected)
  local p=getPlayer(); local sq=p:getSquare()
  MeridianTest.record(label.."_position",p:getX()..","..p:getY()..","..p:getZ())
@@ -163,6 +182,7 @@ local function inspectPoint(label,expected)
  shot(label)
 end
 local function tick()
+ updateIsoZoom()
  if getTimestampMs()<due then return end
  local p=getPlayer()
  if phase==0 then
@@ -188,13 +208,25 @@ local function tick()
  elseif phase==2 then
   index=index+1; target=MeridianTestConfig.targets[index]
   if not target then phase=8; return end
+  if MeridianTestConfig.viewpoint and target.noViewpoint and not RRViewpointProbe.select("isometric") then
+   index=index-1; due=getTimestampMs()+500; return
+  end
+  if target.zoom then
+   getCore():setAutoZoom(0,false)
+   isoZoomGoal=math.max(getCore():getMinZoom(),math.min(getCore():getMaxZoom(),target.zoom))
+   isoZoomSteps=0; isoZoomDue=0
+  end
   p:teleportTo(target.x+0.5,target.y+0.5,target.z or 0)
   MeridianTest.record("target_teleport",target.name)
   phase=3; due=getTimestampMs()+12000
  elseif phase==3 then
   inspectPoint(target.name,target)
+  MeridianTest.record(target.name.."_isometric_zoom",getCore():getZoom(0))
   if target.metalDoor then inspectMetalDoor(target.metalDoor,target.name) end
-  if target.unbarricade then
+  if target.lighting then
+   if beginLighting(target.lighting,target.name) then phase=21; due=getTimestampMs()+8000
+   else phase=2; due=getTimestampMs()+1000 end
+  elseif target.unbarricade then
    if beginUnbarricade(target.unbarricade,target.name) then phase=17; due=getTimestampMs()+25000
    else phase=2 end
   elseif target.salvage then
@@ -239,7 +271,20 @@ local function tick()
    ISTimedActionQueue.add(ISWalkToTimedAction:new(p,dest))
    MeridianTest.record(target.name.."_action","real_ISWalkToTimedAction_no_teleport")
    phase=11; due=getTimestampMs()+20000
-  elseif MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
+  elseif MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4
+  else phase=2; due=getTimestampMs()+1500 end
+ elseif phase==21 then
+  lightingOnFrame(target.name)
+  phase=22; due=getTimestampMs()+1500
+ elseif phase==22 then
+  lightingSwitchOff(target.name)
+  phase=23; due=getTimestampMs()+8000
+ elseif phase==23 then
+  lightingOffFrame(target.name)
+  phase=24; due=getTimestampMs()+1500
+ elseif phase==24 then
+  restoreLighting(target.name)
+  if MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
  elseif phase==18 then
   local ready=salvageUnloadReady(target.name)
   if ready==true then
@@ -323,6 +368,7 @@ local function tick()
 end
 Events.OnGameStart.Add(function()
  MeridianTest.record("game_started",MeridianTestConfig.folder)
+ MeridianTest.run(function() inspectSpriteRegistry(MeridianTestConfig.spriteNames) end)
  local p=getPlayer(); p:setGodMod(true); p:setGhostMode(true)
  MeridianTest.check("lab_protection",p:isGodMod() and p:isGhostMode())
  -- Diagnostic light only; never added to the shipped product or user saves.
@@ -355,6 +401,37 @@ def tree_binding(folder):
             result[path.relative_to(folder).as_posix()]={
                 'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
     return result
+
+
+def native_sprite_names(folder):
+    """Names from the actual isolated compiled product, not stale source metadata."""
+    from map_binary import _Reader
+    names=set()
+    for file in folder.rglob('*.lotheader'):
+        header=_Reader(file.read_bytes())
+        if header.take(4)!=b'LOTH' or header.uint()!=1:
+            raise ValueError(f'Invalid native header: {file.name}')
+        names.update(header.line() for _ in range(header.count()))
+    return sorted(names)
+
+
+def classify_resource_errors(log):
+    """Keep exact observed stock startup-font failures distinct from map failures."""
+    stock_root=re.escape(DEFAULT_GAME.as_posix()+'/media/')
+    baseline_font=re.compile(r'^ERROR: General\s+f:0 at AngelCodeFont\.parseFnt\s+> '
+        r'AngelCodeFont failed to load page 0 texture '+stock_root+
+        r'(?:mainfont_0\.png|mainfont2_0\.png|fonts/zomboidDialogue\.bmfc_0\.png)$')
+    baseline_piano=re.compile(r'^ERROR: General\s+f:0 at CraftRecipeComponentScript\.getIconTexture> '
+        r'CraftRecipeComponentScript: Recipe Piano missing UiConfigScript - falling back to '
+        r'SpriteConfigScript first world object face for recipe icon\.$')
+    errors=[];known=[]
+    for line in log.splitlines():
+        lower=line.lower()
+        if 'missing tile ' in lower or ('texture' in lower and 'error:' in lower and
+                any(word in lower for word in ('missing','not found','failed'))):
+            known_line=baseline_font.fullmatch(line.replace('\\','/')) or baseline_piano.fullmatch(line)
+            (known if known_line else errors).append(line)
+    return errors,known
 
 
 def lua(value):
@@ -425,10 +502,12 @@ def prepare(args):
              '-Dzomboid.steam=0','-Djava.library.path=./win64/;./','-cp','./;projectzomboid.jar',
              'zombie.gameStates.MainScreenState',f'-cachedir={cache}','-nosteam','-debug']
     driver=cache/'mods/MeridianPrivateOracle/42/media/lua/client/MeridianTest'
+    cfg['spriteNames']=native_sprite_names(cache/'mods')
     write(driver/'Config.lua','MeridianTestConfig='+lua(cfg)+'\n')
     write(driver/'Menu.lua',MENU)
     write(driver/'Core.lua',CORE)
-    write(driver/'World.lua',WORLD.replace('local function tick()',CONTENT+'\nlocal function tick()',1))
+    probes=CONTENT+'\n'+LIGHTING_CONTENT+'\n'+SPRITE_CONTENT+'\nlocal function tick()'
+    write(driver/'World.lua',WORLD.replace('local function tick()',probes,1))
     if cfg.get('viewpoint'):
         write(driver/'ZZ_LoadProbe.lua','require "MeridianTest/ViewpointProbe"\n')
     meta=dict(run=str(run),cache=str(cache),command=cmd,config=cfg,game=str(args.game),status='prepared')
@@ -469,6 +548,12 @@ def main():
                 log=console.read_text(encoding='utf-8',errors='replace') if console.exists() else ''
                 errors=[line for line in log.splitlines() if 'dumping Lua stack trace' in line or 'ERROR: Lua' in line]
                 meta['lua_error_lines']=errors
+                resource_errors,known_resource_warnings=classify_resource_errors(log)
+                meta['runtime_resource_errors']=resource_errors
+                meta['known_stock_startup_resource_warnings']=known_resource_warnings
+                if resource_errors:
+                    meta['status']='failed-native-resource-log'
+                    print('Native resource gate: '+json.dumps(resource_errors),flush=True)
                 if errors:
                     meta['status']='failed-lua-log'
                     print('Lua log gate: '+json.dumps(errors),flush=True)

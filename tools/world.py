@@ -48,6 +48,11 @@ def make_plan():
                                 x=round(p.x),y=round(p.y),fraction=fraction))
         for a,b in cells:
             add(box(a*256,b*256,(a+1)*256,(b+1)*256),'town')
+            # Small-town main streets and rear service lanes connect the new
+            # mixed-use blocks, rather than marooning sixteen houses in grass.
+            for off in (64,192):
+                pts=[(a*256,b*256+off),((a+1)*256,b*256+off)]
+                add(LineString(pts).buffer(3,cap_style=2),'road',('highway','residential'))
             for axis in (0,1):
                 pts=[(a*256+128,b*256),(a*256+128,(b+1)*256)] if axis==0 else [
                     (a*256,b*256+128),((a+1)*256,b*256+128)]
@@ -76,6 +81,8 @@ def make_plan():
     # New content is static geography only; existing primary geometry and all
     # pre-existing settlement/shaft coordinates remain unchanged.
     enrich_plan(features,settlements,ROUTE,SIZE,SAFE)
+    from urban_destinations import add_destinations
+    add_destinations(features,settlements,ROUTE,SIZE)
     by_cell=defaultdict(list)
     for rec in features:
         a,b,c,d=rec[0].bounds

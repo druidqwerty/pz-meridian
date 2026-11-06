@@ -16,7 +16,7 @@ def sprites():
         for raw in file.read_text(encoding='utf-8-sig').splitlines():
             line=raw.strip()
             if line.startswith('// '):
-                candidate=line[3:]; name=candidate if re.fullmatch(r'\w+_\d+',candidate) else None
+                candidate=line[3:]; name=candidate if re.fullmatch(r'[\w-]+_\d+',candidate) else None
                 if name: data.setdefault(name,{})
             elif name and '=' in line:
                 k,v=line.split('=',1); data[name][k.strip()]=v.strip()

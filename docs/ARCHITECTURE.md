@@ -1,5 +1,11 @@
 # Meridian native architecture
 
+**Historical alpha.1 baseline.** The catalogue, dimensions, repeated four-room
+layout and test timings below describe the previous build, not 0.2.0. Current
+architecture is documented in [URBANISM](URBANISM.md),
+[furniture and lighting](FURNITURE_LIGHTING.md), [public realm](PUBLIC_REALM.md)
+and the versioned [QA ledger](QA.md). Native format/stair principles still apply.
+
 Original fiction and layouts; no Real Russia content, copied Real USA
 buildings, extracted artwork, or custom tile dependencies.
 

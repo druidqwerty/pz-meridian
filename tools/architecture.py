@@ -4,10 +4,11 @@ Native coordinates are local to a 256-tile cell. Entrances face south. The
 unfurnished axial hall/lobby makes every named room and stair accessible.
 """
 from random import Random
-from furnishing import EXTRAS, enrich, palette as furniture_palette, lobby
+from furnishing import EXTRAS, furnish_room
 from content_catalog import KINDS as CONTENT_KINDS, THEMES
 from themed_rooms import furnish as furnish_themed
 from story_scenes import archive_desk
+from building_layouts import layout
 
 WOOD = 'floors_interior_tilesandwood_01_40'
 TILE = 'floors_interior_tilesandwood_01_16'
@@ -26,7 +27,7 @@ TILES.update(EXTRAS)
 KINDS = {
  'house': (18,16,1,('kitchen','bedroom','livingroom','bathroom')),
  'cottage': (16,14,1,('kitchen','bedroom','livingroom','bathroom')),
- 'apartment': (28,24,3,('kitchen','bedroom','livingroom','bathroom')),
+ 'apartment': (28,30,4,('kitchen','bedroom','livingroom','bathroom')),
  'shop': (24,18,1,('grocery','storage','grocery','bathroom')),
  'fuel': (22,16,1,('gasstore','storage','office','bathroom')),
  'gas': (22,16,1,('gasstore','storage','office','bathroom')),
@@ -35,10 +36,10 @@ KINDS = {
  'lab': (30,26,2,('laboratory','medicalstorage','office','bathroom')),
  'hospital': (30,28,2,('hospitalroom','medicalstorage','medical','bathroom')),
  'clinic': (26,22,1,('medical','medicalstorage','office','bathroom')),
- 'civic': (30,26,2,('library','office','office','bathroom')),
- 'school': (30,26,2,('classroom','classroom','office','bathroom')),
- 'warehouse': (30,24,1,('storage','storage','office','bathroom')),
- 'police': (26,22,1,('policestorage','office','office','bathroom')),
+ 'civic': (32,30,3,('library','office','office','bathroom')),
+ 'school': (34,32,2,('classroom','classroom','office','bathroom')),
+ 'warehouse': (34,26,1,('storage','storage','office','bathroom')),
+ 'police': (28,26,2,('policestorage','office','office','bathroom')),
 }
 KINDS.update(CONTENT_KINDS)
 
@@ -54,52 +55,10 @@ def wall(tiles,x,y,z,direction,kind='solid',palette=16):
         sheet = 'fixtures_doors_01_' if kind == 'door' else 'fixtures_windows_01_'
         put(tiles,x,y,z,sheet+str(int(direction == 'N')))
 
-def room_furniture(role,x,y,w,h,seed=0):
-    """Yield complete furniture pairs and leave a generous clear door rim."""
-    out = {}
-    furnishing_tiles=furniture_palette(TILES,seed)
-    def add(dx,dy,key):
-        if 1 <= dx < w-1 and 0 <= dy < h-1:
-            out[(x+dx,y+dy)] = [furnishing_tiles[key]]
-    def sink(dx):
-        add(dx,0,'counter')
-        if (x+dx,y) in out: out[x+dx,y].append(furnishing_tiles['sink'])
-    if role == 'kitchen':
-        add(1,0,'fridge'); add(2,0,'oven'); sink(3)
-        if w >= 7 and h >= 6:
-            add(2,h-3,'table'); add(2,h-2,'chair')
-    elif role in ('bedroom','hospitalroom','medical'):
-        for dx in range(1,w-2,4 if role != 'bedroom' else 5):
-            prefix = 'bed' if role == 'bedroom' else 'medical'
-            add(dx,0,prefix+'_head'); add(dx,1,prefix+'_foot')
-        add(w-2,h-2,'dresser' if role == 'bedroom' else 'metal')
-        if role == 'medical': sink(w-2)
-    elif role == 'bathroom':
-        add(1,0,'toilet'); sink(w-2)
-    elif role == 'livingroom':
-        add(1,0,'armchair'); add(3,0,'armchair'); add(2,0,'lowtable')
-        add(w-2,h-2,'shelves')
-    elif role in ('storage','armystorage','medicalstorage','policestorage'):
-        for dx in range(1,w-1,3):
-            add(dx,0,'metal')
-            if h >= 7: add(dx,h-2,'metal')
-    elif role in ('laboratory','office','classroom'):
-        for dx in range(1,w-2,4):
-            add(dx,0,'counter' if role == 'laboratory' else 'desk')
-            add(dx,1,'chair')
-            if role == 'classroom' and h >= 8:
-                add(dx,4,'desk'); add(dx,5,'chair')
-        add(w-2,h-2,'files' if role == 'office' else 'metal')
-        if role == 'laboratory': sink(w-2)
-    elif role in ('grocery','gasstore','library'):
-        for dx in range(1,w-1,3):
-            add(dx,0,'shelves')
-            if h >= 8: add(dx,h-3,'shelves')
-        if role != 'library': add(1,h-2,'fridge')
-    enrich(out,role,x,y,w,h,seed,furnishing_tiles)
-    furnish_themed(out,role,x,y,w,h,furnishing_tiles)
-    for (xx,yy),sprites in out.items():
-        for sprite in sprites: yield xx,yy,sprite
+def room_furniture(role,x,y,w,h,seed=0,blocked=()):
+    """Verified facing and complete furniture grids, respecting actual doors."""
+    yield from furnish_room(role,x,y,w,h,seed,base=TILES,blocked=blocked)
+
 
 def plan(w,h,roles):
     left,split,lobby = (w-3)//2,(h-5)//2,h-5
@@ -114,62 +73,116 @@ def plan(w,h,roles):
     return rooms,set(doors)
 
 def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
-    """Create one original building and return local bounds/spawn/cache metadata."""
+    """Create a function-specific building with native rooms, doors and stairs."""
     if kind not in KINDS: raise ValueError(f'Unknown structure kind: {kind}')
     w,h,levels,roles=KINDS[kind]
     if not(1<=x and x+w<255 and 1<=y and y+h+3<255):
         raise ValueError('Building requires an intact cell-local margin')
-    rng=Random(seed); palette=rng.choice([0,16,32,48]) if kind in ('house','cottage','apartment') else 16
+    rng=Random(seed); palette=rng.choice([0,16,32,48])
     if kind=='house' and seed%3==0: levels=2
-    parts,doors=plan(w,h,roles); owners={}; indices=[]; barricades=[]
-    for i,room in enumerate(parts):
-        for rx,ry,rw,rh in room['rects']:
-            for xx in range(rx,rx+rw):
-                for yy in range(ry,ry+rh): owners[xx,yy]=i
+    # Variation affects the actual skyline, never an unbounded random floor count.
+    if kind in ('residentialtower','officetower'):levels+=seed%3-1
+    indices=[];barricades=[];lighting=[];stair_tests=[]
+    footprint=set()
     for z in range(levels):
+        parts,doors,owners=layout(w,h,roles,kind,seed,z,levels)
+        # Native room names and presentation themes remain separate.
+        themes=THEMES.get(kind)
+        if themes and len(parts)==5:
+            for i,room in enumerate(parts[1:]):room['theme']=themes[i]
+        blocked={(x+w//2,y+h-2),(x+w//2,y+h-1)}
+        if kind in ('garage','firestation','depot'):
+            blocked|={(x+dx,y+dy) for dx in range(2,7) for dy in range(0,6)}
+        if levels>1:
+            blocked|={(x+dx,y+h-3+dy) for dx in range(1,7) for dy in (-1,0,1)}
+        for dx,dy,direction in doors:
+            if direction=='W':
+                blocked|={(x+dx+a,y+dy) for a in (-1,0,1)}
+            else:
+                blocked|={(x+dx,y+dy+b) for b in (-1,0,1)}
+        if kind=='bigboxmall':
+            blocked|={(x+dx,y+dy) for dx in range(w) for dy in (32,33)}
+            blocked|={(x+dx,y+dy) for dx in (w//2-1,w//2) for dy in range(h)}
+        floor_rooms=[]
         for i,room in enumerate(parts):
             indices.append(len(rooms)); rr=dict(name=room['name'],level=z,
                 rects=[(x+a,y+b,c,d) for a,b,c,d in room['rects']],objects=[])
-            rooms.append(rr)
+            rooms.append(rr);floor_rooms.append(rr)
             floor=TILE if room['name'] not in ('bedroom','livingroom','hall') else WOOD
             for rx,ry,rw,rh in rr['rects']:
                 for xx in range(rx,rx+rw):
                     for yy in range(ry,ry+rh): tiles[xx,yy,z]=[floor]
-            if i:
+            if i or kind=='bigboxmall':
                 for rx,ry,rw,rh in rr['rects']:
-                    role=THEMES.get(kind,roles)[i-1]
-                    for xx,yy,sprite in room_furniture(role,rx,ry,rw,rh,seed+z*17+i): put(tiles,xx,yy,z,sprite)
-        barricades.extend(lobby(put,tiles,x,y,w,h,z,TILES,seed+z))
-        for xx in range(x,x+w):
-            for yy in (y,y+h):
-                k='door' if yy==y+h and xx==x+w//2 and z==0 else ('window' if (xx-x)%5==2 else 'solid')
-                wall(tiles,xx,yy,z,'N',k,palette)
-        for yy in range(y,y+h):
-            for xx in (x,x+w): wall(tiles,xx,yy,z,'W','window' if (yy-y)%5==2 else 'solid',palette)
-        # Vanilla MOBarricade replaces these authored frames with IsoBarricade.
-        # Never seal the entrance or the internal circulation doors.
+                    if i==0 and (rw<8 or rh<6):continue
+                    for xx,yy,sprite in room_furniture(room.get('theme',room['name']),
+                            rx,ry,rw,rh,seed+z*17+i,blocked=blocked):
+                        put(tiles,xx,yy,z,sprite)
+        # Derive the outside shell from the actual footprint, including courts
+        # and setbacks; it is no longer always one rectangular bounding box.
+        edges={}
+        for dx,dy in owners:
+            for ox,oy,direction in ((-1,0,'W'),(1,0,'W'),(0,-1,'N'),(0,1,'N')):
+                if (dx+ox,dy+oy) not in owners:
+                    edge=(max(dx,dx+ox),max(dy,dy+oy),direction)
+                    edges[edge]='window' if ((dx if direction=='N' else dy)+seed)%4==2 else 'solid'
+        edges[w//2,h,'N']='door' if z==0 else 'window'
+        if z==0 and kind=='stripmall':
+            # Each retail unit has its own public entrance onto a paved arcade.
+            for room in parts[1:]:
+                if room['name']!='grocery':continue
+                a,b,c,d=room['rects'][0]
+                edges[0,b+d//2,'W']='door'
+        for (dx,dy,direction),style in edges.items():
+            wall(tiles,x+dx,y+dy,z,direction,style,palette)
+        if z==0 and kind in ('garage','firestation','depot'):
+            # Verified native three-part metal garage door, not three singles.
+            for dx,index in ((3,3),(4,4),(5,5)):
+                names=tiles[x+dx,y,0]
+                tiles[x+dx,y,0]=[n for n in names if not n.startswith(
+                    ('walls_exterior_house_02_','fixtures_windows_01_','fixtures_doors_01_'))]
+                put(tiles,x+dx,y,0,'walls_garage_01_'+str(index))
+            for dx in range(2,7):
+                for dy in range(max(-3,-y),0):tiles[x+dx,y+dy,0]=[PAVING]
         if z==0 and seed%3!=2:
+            # Preserve ordinary native crowbar/hammer window barricades.
             planks=2+seed%3
-            for xx,yy,index in ((x+2,y,9+2*(planks-1)),
-                                (x+7,y+h-1,1+2*(planks-1))):
-                put(tiles,xx,yy,z,'carpentry_01_'+str(index))
-                barricades.append([xx,yy,z])
+            north=[(dx,dy) for (dx,dy,d),s in edges.items()
+                   if d=='N' and s=='window' and dy==0
+                   and 'fixtures_windows_01_1' in tiles.get((x+dx,y+dy,z),[])]
+            for dx,dy in north[:2]:
+                put(tiles,x+dx,y+dy,z,'carpentry_01_'+str(9+2*(planks-1)))
+                barricades.append([x+dx,y+dy,z])
         for (dx,dy),i in owners.items():
             for ox,oy,d in [(-1,0,'W'),(0,-1,'N')]:
-                if owners.get((dx+ox,dy+oy),i)!=i:
+                if (dx+ox,dy+oy) in owners and owners[dx+ox,dy+oy]!=i:
                     wall(tiles,x+dx,y+dy,z,d,'door' if (dx,dy,d) in doors else 'solid',palette)
+        if kind=='bigboxmall':
+            # Complete native wall-sign grids over the fashion/sports units.
+            for start,offset in ((2,24),((w-4)//4+2,20)):
+                sheet='location_shop_accessories_genericsigns_01_' if offset==24 else 'location_shop_mall_signs_02_'
+                for delta in range(4):put(tiles,x+start+delta,y+30,z,sheet+str(offset+delta))
+        # Compact entrances get a side table/plant, not five tiles of empty lobby.
+        if w>=16:
+            put(tiles,x+w-2,y+h-1,z,TILES['plant'])
         if z>0:
             for dx in (2,3,4): tiles.pop((x+dx,y+h-3,z),None)
         if z<levels-1:
             for dx,idx in [(4,0),(3,1),(2,2)]: put(tiles,x+dx,y+h-3,z,'fixtures_stairs_01_'+str(idx))
-        put(tiles,x+w//2,y+h-1,z,'lighting_indoor_01_3')
-    for xx in range(x,x+w):
-        for yy in range(y,y+h): tiles[xx,yy,levels]=[ROOF]
+            stair_tests.append({'from':[x+5,y+h-3,z],'to':[x+1,y+h-3,z+1]})
+        from room_lighting import place_room_lighting
+        for rr in floor_rooms:lighting.extend(place_room_lighting(tiles,rr,blocked=blocked))
+        footprint.update(owners)
+    for dx,dy in footprint:tiles[x+dx,y+dy,levels]=[ROOF]
+    if kind=='stripmall':
+        for dy in range(h+1):
+            for dx in (-2,-1):
+                if x+dx>=0:tiles[x+dx,y+dy,0]=[PAVING]
     # Sheltered entry apron gives each facade depth; no collision in the doorway.
     for xx in range(x+w//2-3,x+w//2+4):
         for yy in range(y+h+1,y+h+3): tiles[xx,yy,0]=[PAVING]
         for yy in range(y+h,y+h+3): put(tiles,xx,yy,1,ROOF)
-    if seed%4 in (1,2):
+    if seed%4 in (1,2) and kind not in ('house','cottage','ranch','guardhut','duplex','rowhouse'):
         # Moveable/scrappable shipping crates outside the facade, with an open
         # entrance apron and a walking route around both ends.
         for dx,key in ((2,'crate'),(3,'crate'),(4,'metalcrate')):
@@ -177,11 +190,14 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
             barricades.append([x+dx,y+h+1,0])
     caches=[]
     if seed%7==0:
-        cache=[x+w-2,y+2,0]
-        tiles[tuple(cache)]=[TILE,TILES['metal']]
-        caches.append(cache)
+        available=[(x+dx,y+dy,0) for dx,dy in sorted(footprint,reverse=True)
+                   if (x+dx,y+dy) not in blocked and 1<dx<w-1 and 1<dy<h-2
+                   and len(tiles.get((x+dx,y+dy,0),[]))==1]
+        if available:
+            cache=list(available[0]);tiles[tuple(cache)].append(TILES['metal']);caches.append(cache)
     buildings.append(indices)
     document=archive_desk(tiles,x,y,w,h,kind)
     return dict(kind=kind,rect=[x,y,w,h],levels=levels,spawn=[x+w//2,y+h-2,0],
                 entrance=[x+w//2,y+h,0],cache=caches[0] if caches else None,
-                caches=caches,barricades=barricades,archiveDesk=document)
+                caches=caches,barricades=barricades,archiveDesk=document,
+                lighting=lighting,stairTests=stair_tests,layout=kind)

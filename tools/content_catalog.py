@@ -26,6 +26,21 @@ KINDS = {
  'laundry': (30,24,1,('laundry','laundry','office','bathroom')),
  'gym': (32,28,1,('gym','gym','storage','bathroom')),
  'kindergarten': (30,26,1,('classroom','livingroom','kitchen','bathroom')),
+ 'ranch': (28,20,1,('kitchen','bedroom','livingroom','bathroom')),
+ 'duplex': (30,26,2,('kitchen','bedroom','livingroom','bathroom')),
+ 'rowhouse': (20,28,3,('kitchen','bedroom','livingroom','bathroom')),
+ 'garage': (20,16,1,('storage','office','storage','bathroom')),
+ 'guardhut': (10,10,1,('office','office','office','office')),
+ 'generalstore': (20,20,1,('grocery','storage','office','bathroom')),
+ 'stripmall': (34,30,1,('grocery','grocery','office','bathroom')),
+ 'firestation': (32,28,2,('storage','bedroom','office','bathroom')),
+ 'checkpoint': (18,18,1,('armystorage','office','office','bathroom')),
+ 'midrise': (28,30,5,('kitchen','bedroom','livingroom','bathroom')),
+ 'officeblock': (30,30,6,('office','office','storage','bathroom')),
+ 'residentialtower': (32,32,10,('kitchen','bedroom','livingroom','bathroom')),
+ 'officetower': (34,32,12,('office','office','storage','bathroom')),
+ 'gunshop': (24,20,1,('gunstore','gunstorestorage','office','bathroom')),
+ 'bigboxmall': (96,72,2,('departmentstore','grocery','kitchen','bathroom')),
 }
 
 THEMES = {
@@ -49,26 +64,28 @@ THEMES = {
 
 
 def city_program(cx, cy):
-    """Four identifiable districts, not the same eight buildings in every cell.
+    """Dense metropolitan skyline over four different working districts.
 
-    Plots stay inside the existing64tile grid and out of the shaft reservation.
-    The northwest medical site used by previous live QA is retained.
+    Every lot fits the street grid; shafts remain in the reserved centre strips.
+    Over half the city stock has six or more occupied storeys. Homes and service
+    buildings remain between towers, instead of replacing the city with offices.
     """
     if cx < 190 and cy < 6:
-        zone = 'civic'; kinds = ['apartment','house','shop','civic','hospital',
-            'archive','school','police','library','kindergarten','museum','gym',
-            'clinic','laundry','house','shop']
+        zone = 'civic'; kinds = ['officetower','residentialtower','officetower','civic',
+            'hospital','residentialtower','school','police','officeblock','officetower',
+            'residentialtower','officetower','clinic','officeblock','house','residentialtower']
     elif cx >= 190 and cy < 6:
-        zone = 'residential'; kinds = ['house','apartment','house','kindergarten',
-            'shop','laundry','house','clinic','house','apartment','school','house',
-            'library','gym','house','shop']
+        zone = 'residential'; kinds = ['residentialtower','house','residentialtower','kindergarten',
+            'stripmall','residentialtower','house','clinic','residentialtower','officeblock',
+            'school','residentialtower','duplex','residentialtower','house','residentialtower']
     elif cx < 190:
-        zone = 'utilities'; kinds = ['depot','workshop','warehouse','waterworks',
-            'laundry','warehouse','house','gatehouse','workshop','relay','warehouse',
-            'fuel','house','clinic','warehouse','diner']
+        zone = 'utilities'; kinds = ['depot','workshop','officeblock','waterworks',
+            'laundry','residentialtower','house','gatehouse','firestation','relay',
+            'officeblock','fuel','residentialtower','clinic','warehouse','diner']
     else:
-        zone = 'council'; kinds = ['house','house','civic','library','house','house',
-            'museum','archive','house','clinic','civic','house','gym','house',
-            'shop','house']
+        zone = 'council'; kinds = ['officetower','residentialtower','officetower','officeblock',
+            'residentialtower','officetower','museum','residentialtower','officetower',
+            'residentialtower','officeblock','officetower','residentialtower','officetower',
+            'library','residentialtower']
     return zone, [dict(x=x,y=y,kind=kinds[i]) for i,(x,y) in enumerate(
         ( (x,y) for x in (24,88,152,216) for y in (24,88,152,216) ))]

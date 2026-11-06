@@ -1,0 +1,243 @@
+{
+  "run": "20261106-141459-061956",
+  "wrapperStatus": "failed-native-resource-log",
+  "nativeReportProduced": true,
+  "nativeResult": [
+    "FAIL"
+  ],
+  "config": {
+    "folder": "Meridian",
+    "x": 544,
+    "y": 48676,
+    "z": 0,
+    "targets": [
+      {
+        "name": "Cottage furnished kitchen",
+        "x": 539,
+        "y": 48666,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Cottage complete bed and facing",
+        "x": 548,
+        "y": 48668,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Cottage furnished living room",
+        "x": 539,
+        "y": 48672,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Cottage kitchen native night lighting",
+        "x": 539,
+        "y": 48666,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5,
+        "lighting": {
+          "x": 542,
+          "y": 48665,
+          "z": 0,
+          "sprite": "lighting_indoor_01_2"
+        }
+      },
+      {
+        "name": "Shopping centre sales floor",
+        "x": 13859,
+        "y": 48935,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Gun shop sales and storage",
+        "x": 669,
+        "y": 48801,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Meridian top furnished room",
+        "x": 48159,
+        "y": 1179,
+        "z": 12,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Meridian tower native night lighting",
+        "x": 48159,
+        "y": 1180,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5,
+        "lighting": {
+          "x": 48166,
+          "y": 1177,
+          "z": 0,
+          "sprite": "lighting_indoor_01_2"
+        }
+      },
+      {
+        "name": "Meridian tower actual flight 1",
+        "x": 48157,
+        "y": 1205,
+        "z": 0,
+        "room": true,
+        "walkTo": {
+          "x": 48153,
+          "y": 1205,
+          "z": 1
+        },
+        "noViewpoint": true
+      },
+      {
+        "name": "Meridian tower actual flight 12",
+        "x": 48157,
+        "y": 1205,
+        "z": 11,
+        "room": true,
+        "walkTo": {
+          "x": 48153,
+          "y": 1205,
+          "z": 12
+        },
+        "noViewpoint": true
+      },
+      {
+        "name": "Meridian west gate inner court",
+        "x": 48156,
+        "y": 1536,
+        "z": 0,
+        "safeSurface": true,
+        "noViewpoint": true,
+        "zoom": 2.0
+      },
+      {
+        "name": "Shopping centre parking apron",
+        "x": 13858,
+        "y": 49019,
+        "z": 0,
+        "noViewpoint": true,
+        "zoom": 2.5
+      },
+      {
+        "name": "Fortification first actual stair flight",
+        "x": 48135,
+        "y": 1512,
+        "z": 0,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48131,
+          "y": 1512,
+          "z": 1
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Fortification crown and city skyline",
+        "x": 48131,
+        "y": 1512,
+        "z": 8,
+        "safeSurface": true,
+        "noViewpoint": true,
+        "zoom": 2.5
+      },
+      {
+        "name": "Public bunker entrance actual descent",
+        "x": 48255,
+        "y": 1408,
+        "z": 0,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48259,
+          "y": 1408,
+          "z": -1
+        },
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "B1 native room-light toggle",
+        "x": 48203,
+        "y": 1297,
+        "z": -1,
+        "room": true,
+        "infected": true,
+        "lighting": {
+          "x": 48203,
+          "y": 1297,
+          "z": -1,
+          "sprite": "lighting_indoor_01_2"
+        },
+        "noViewpoint": true,
+        "zoom": 1.25
+      },
+      {
+        "name": "Fortification upper actual stair flight",
+        "x": 48135,
+        "y": 1512,
+        "z": 7,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48131,
+          "y": 1512,
+          "z": 8
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "B1 reception kitchen furnished wing",
+        "x": 48190,
+        "y": 1316,
+        "z": -1,
+        "room": true,
+        "infected": true,
+        "noViewpoint": true,
+        "zoom": 1.25
+      }
+    ],
+    "resume": null,
+    "token": "20261106-141459-061956"
+  },
+  "boundSpriteNames": 183,
+  "mapResourceErrors": [],
+  "knownStockStartupWarnings": [
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/fonts/zomboidDialogue.bmfc_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at CraftRecipeComponentScript.getIconTexture> CraftRecipeComponentScript: Recipe Piano missing UiConfigScript - falling back to SpriteConfigScript first world object face for recipe icon."
+  ],
+  "luaErrorLines": [],
+  "candidateBinding": {
+    "files": 4796,
+    "treeSHA256": "d11e17372f608eb75fbae44a9417aff000acb0f221303ca9613abe0a1f3eaa9c",
+    "equal": true,
+    "source": "mod",
+    "copy": "isolated oracle cache copy"
+  }
+}

@@ -29,7 +29,12 @@ def convoy_trace(tiles,ground,cx,cy,records,site):
         names=tiles.get((x,y,0),[])
         return len(names)==1 and names[0].startswith(('blends_','floors_exterior_'))
     # Paired abandoned belongings/fieldtables carry a visual motif along route.
-    for x,y in ((52,60),(56,60),(60,60),(52,64),(60,64),(56,68)):
+    candidates=[(52,60),(56,60),(60,60),(52,64),(60,64),(56,68)]
+    # Taller/wider blocks must not erase the physical story. Search adjacent
+    # vacant setbacks if the former small-house cluster is now occupied.
+    candidates += [(x,y) for y in range(16,240,4) for x in range(16,240,4)]
+    for x,y in candidates:
+        if len(props)>=6:break
         if not free(x,y):continue
         key=('chest','crate','side','chair','basket','metal')[len(props)%6]
         sprite=EXTRAS.get(key,'appliances_laundry_01_24')

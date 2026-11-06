@@ -1,0 +1,178 @@
+{
+  "run": "20261106-142304-247195",
+  "wrapperStatus": "passed",
+  "nativeReportProduced": true,
+  "nativeResult": [
+    "PASS"
+  ],
+  "config": {
+    "folder": "Meridian",
+    "x": 544,
+    "y": 48676,
+    "z": 0,
+    "targets": [
+      {
+        "name": "Final cottage kitchen and native night lighting",
+        "x": 539,
+        "y": 48666,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5,
+        "lighting": {
+          "x": 542,
+          "y": 48664,
+          "z": 0,
+          "sprite": "lighting_indoor_01_0"
+        }
+      },
+      {
+        "name": "Final cottage bed and furniture facing",
+        "x": 548,
+        "y": 48668,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Final cottage living room",
+        "x": 539,
+        "y": 48672,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Final tower room and native night lighting",
+        "x": 48159,
+        "y": 1180,
+        "z": 0,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5,
+        "lighting": {
+          "x": 48154,
+          "y": 1176,
+          "z": 0,
+          "sprite": "lighting_indoor_01_0"
+        }
+      },
+      {
+        "name": "Final tower actual flight 1",
+        "x": 48157,
+        "y": 1205,
+        "z": 0,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48153,
+          "y": 1205,
+          "z": 1
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Final tower actual flight 12",
+        "x": 48157,
+        "y": 1205,
+        "z": 11,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48153,
+          "y": 1205,
+          "z": 12
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Final wall upper actual flight",
+        "x": 48135,
+        "y": 1512,
+        "z": 7,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48131,
+          "y": 1512,
+          "z": 8
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Final wall crown and city view",
+        "x": 48131,
+        "y": 1512,
+        "z": 8,
+        "safeSurface": true,
+        "noViewpoint": true,
+        "zoom": 2.5
+      },
+      {
+        "name": "Final mall parking apron",
+        "x": 13858,
+        "y": 49019,
+        "z": 0,
+        "noViewpoint": true,
+        "zoom": 2.5
+      },
+      {
+        "name": "Final public bunker actual descent",
+        "x": 48255,
+        "y": 1408,
+        "z": 0,
+        "room": true,
+        "safeSurface": true,
+        "walkTo": {
+          "x": 48259,
+          "y": 1408,
+          "z": -1
+        },
+        "noViewpoint": true,
+        "zoom": 1.5
+      },
+      {
+        "name": "Final B1 kitchen and native night lighting",
+        "x": 48190,
+        "y": 1316,
+        "z": -1,
+        "room": true,
+        "noViewpoint": true,
+        "zoom": 1.5,
+        "lighting": {
+          "x": 48187,
+          "y": 1296,
+          "z": -1,
+          "sprite": "lighting_indoor_01_0"
+        },
+        "infected": true
+      }
+    ],
+    "resume": null,
+    "token": "20261106-142304-247195"
+  },
+  "boundSpriteNames": 181,
+  "mapResourceErrors": [],
+  "knownStockStartupWarnings": [
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/fonts/zomboidDialogue.bmfc_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont_0.png",
+    "ERROR: General      f:0 at AngelCodeFont.parseFnt              > AngelCodeFont failed to load page 0 texture <GAME>/media/mainfont2_0.png",
+    "ERROR: General      f:0 at CraftRecipeComponentScript.getIconTexture> CraftRecipeComponentScript: Recipe Piano missing UiConfigScript - falling back to SpriteConfigScript first world object face for recipe icon."
+  ],
+  "luaErrorLines": [],
+  "luaErrorContext": [],
+  "candidateBinding": {
+    "files": 4796,
+    "treeSHA256": "bce864b2bd7c0892a2351f69bb42f6697a8a64c8db91b274e71b9de52f0e7339",
+    "equal": true,
+    "source": "mod",
+    "copy": "isolated oracle cache copy"
+  }
+}

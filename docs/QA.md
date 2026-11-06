@@ -228,3 +228,59 @@ Actual screenshots, unchanged failed reports, final reload PASS and sanitized
 binding receipts: [expansion evidence](test-results/2026-11-06-expansion/README.md).
 No full-route driving, driving-time ratio, long-term balance, every entrance,
 all camera angles or multiplayer certification is implied.
+
+## Urban/interior revision — 0.2.0-alpha.1
+
+Frozen final candidate: **2,387 native cell pairs / 4,796 mod files**,
+tree SHA-256 `bce864b2bd7c0892a2351f69bb42f6697a8a64c8db91b274e71b9de52f0e7339`.
+It contains 1,188 surface structures, 25,423 RoomDefs and 1,234 BuildingDefs;
+25,411 native room-light circuits exclude twelve deliberately open-air crowns.
+Meridian has 248 surface buildings, including 140 with six or more occupied
+storeys (maximum thirteen); four large shopping centres and thirteen gun shops
+are present across the map. Static counts are not visual acceptance of every room.
+
+The completed static/native suite contains 48 passing checks, including the
+twelve-entrance parameterized wayfinding and compiled southeast-perimeter checks.
+The final architecture and interior regressions were also rechecked after the
+supported-lamp fix. These checks do not replace the actual-game evidence below.
+
+### Final fresh native run — 20261106-142304-247195
+
+Overall wrapper and native report **PASS**, eleven targets in an isolated new
+world with the final north/west-wall-supported fixtures. Real authored switches
+were toggled at night in cottage, tower and B1 kitchen rooms with the diagnostic
+torch off: measured brightness deltas **0.396078 / 0.301961 / 0.301961**.
+The test creates no room lights, bulbs or electrical power.
+
+Four actual ordinary walking-action stair traversals passed: tower z0→1 and
+z11→12, fortification z7→8 and public bunker z0→-1. Teleports between test
+locations are not traversal proof. Bound surface population samples were empty;
+the underground remained infected. Native doors, floors, rooms and loot loaded.
+
+The exact compiled sprite set contains 181 names: read-only runtime-registry
+inspection found zero missing sprites, zero invalid textureless sprites and
+seven valid native seasonal tree proxies. The negative control and unchanged
+registry size passed. No Lua errors or unknown map-resource errors were found;
+six actual startup font/Piano fallback diagnostics remain in the receipt.
+This does not claim a warning-free log or a fresh unmodded baseline for this run.
+
+### Isolated save/reload — 20261106-142928-051777
+
+Wrapper and native result **PASS**: persisted token, exact position/floor and
+physical floor loaded from the saved test world. All 4,796 reloaded mod files
+match the final bound candidate. Sprite, Lua and map-resource gates passed again.
+No user save or existing world was opened or migrated; new geometry requires a
+**new Sandbox world**. This is not long-term save or multiplayer certification.
+
+The root reviewer inspected actual final cottage/tower/B1 night pairs, complete
+bed, upper tower stairs, parking and fortification walkway. Supported fixtures
+and brightness changes are visible. The wall frame proves the local walkway,
+not a panoramic skyline; the upper bunker-shaft frame is partly occluded, while
+the after-descent frame shows the player and physical B1 stairs. Full entrance
+pavilion visual coverage is not claimed. Viewpoint underground terrain/ceiling
+bands, full-route driving, the proposed travel-time ratio and multiplayer remain
+outside this acceptance boundary.
+
+See [urban evidence](test-results/2026-11-06-urban/README.md) for untouched failed
+pre-final reports, final/reload receipts and actual screenshots. Those failed
+runs were not relabeled as proof of the final candidate.

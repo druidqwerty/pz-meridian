@@ -13,6 +13,21 @@ infected. The two-storey Continuity habitat beneath them is not.
 
 ## Test build
 
+**0.2.0-alpha.1 — urban/interior rebuilding.** The old near-identical four-room
+stock is replaced by compact homes, L-plan ranches, duplexes, row houses,
+garages, guard huts, schools, police/fire stations and mixed-use shopping rows.
+Native room switches, powered fixtures and verified furniture facing replace
+the former sparse, fixed-facing arrangements. Electricity obeys normal PZ rules.
+
+Meridian now has a high-rise majority: residential towers occupy 9–11 storeys,
+office towers 11–13, with real rooms and stairs. Regional skylines build up along
+the journey. Four separate large shopping centres have broad marked concrete
+parking lots and tiled forecourts; smaller gun shops use native loot categories.
+Continuous sidewalks, facade signs and off-lane road signs add everyday detail.
+The city wall is 13 tiles deep and eight storeys high, with a crown walkway and
+a four-storey-clear gate. See [urban rebuilding](docs/URBANISM.md) and
+[realizable references](docs/REALIZABLE_REFERENCES.md).
+
 - 128.256 km principal road; 49.152 × 49.152 km authored journey envelope,
   native scale. Vanilla wilderness continues outside it.
 - Six civilian districts, six military/research districts, roadside service stops,
@@ -31,7 +46,7 @@ infected. The two-storey Continuity habitat beneath them is not.
   medical wards, laboratories and supply caches on floors −1 and −2.
 - Additional underground research annexes. Thirteen bilingual archive fragments.
 - Metal tunnel doors and salvageable supply barriers; stair landings stay clear.
-- Four city districts: civic, residential, utilities and council homes. Sixteen
+- Four city districts: civic, residential, utilities and council towers. Sixteen
   underground wings include schools, domestic services, recreation and workshops;
   twelve role-specific entrances, service rings and secondary doors create loops.
 - Convoy17's seven-stage trail uses the existing archives and abandoned belongings,
@@ -63,6 +78,9 @@ or new elevated terrain. See [expedition](docs/EXPEDITION.md) and
    tools and skills. The main road always retains a five-tile passage.
 
 Optional spoiler: [archive location guide](docs/ARCHIVES.md).
+Cannot find the bunker? [Entrance map and directions](docs/BUNKER-ACCESS.md).
+From the west gate, head east to X48256, then north to the pavilion's south door
+at X48259,Y1424. The actual stair is at X48255,Y1408. There are twelve entrances.
 
 Do not add this map to an existing save or mix it with another map replacing the
 same cells. Existing saves are not migrated. Normal sandbox zombie population
@@ -118,6 +136,18 @@ GitHub-only prerelease. No Steam or Boosty publication is authorized for this ma
 функциональных крыльев с бытовыми, общественными и техническими помещениями.
 Двенадцать входов ведут в разные сектора, служебные кольца дают пути отхода.
 Через существующие архивы и следы оставленных вещей проходит история колонны17.
+
+В обновлении 0.2.0-alpha.1 переработаны сами планировки: небольшие дома, ранчо с
+двором, дуплексы, гаражи, сторожки, школы, полиция, пожарные станции и торговые
+ряды. У мебели проверено направление; добавлены комнатные выключатели и настоящие
+светильники. Электричество работает по обычным правилам игры.
+К финалу растёт этажность; в Meridian большинство застройки — высотные кварталы,
+жилые башни 9–11 этажей и офисные 11–13. У четырёх крупных ТЦ — просторные
+размеченные парковки и плиточные площади. Есть небольшие оружейные магазины,
+вывески и дорожные знаки; тротуары соединяются через границы клеток карты.
+Стена стала объёмной: 13 клеток толщины, 8 этажей высоты и верхний проход.
+Вход в бункер: от западных ворот на восток до X48256, затем на север к двери
+X48259,Y1424; лестница X48255,Y1408. [Схема](docs/BUNKER-ACCESS.md).
 
 Это **только наполнение карты**, без новых механик: пропусков, радио, запуска
 электроснабжения, особого ремонта, квестового журнала или обязательного финала.

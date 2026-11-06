@@ -6,6 +6,7 @@ laboratory wings have real rooms, vanilla furniture and physical doors/stairs.
 from architecture import put,wall as _wall,room_furniture,TILE,ROOF,PAVING,TILES
 from obstacles import tunnel_obstacles
 from habitat import wing_for,role_for,room_name,wing_summary
+from room_lighting import place_room_lighting
 
 
 def wall(tiles,x,y,z,direction,kind='solid',palette=16):
@@ -54,6 +55,7 @@ def rects_for(points):
     return result
 
 def build_bunker(tiles,rooms,buildings,cx,cy,config):
+    room_start=len(rooms)
     loX,hiX,loY,hiY=[config[k] for k in ('minCX','maxCX','minCY','maxCY')]
     if not(loX<=cx<=hiX and loY<=cy<=hiY): return dict(entrances=[],caches=[])
     shaft=(cx in (loX,hiX) or cy in (loY,hiY))
@@ -132,11 +134,6 @@ def build_bunker(tiles,rooms,buildings,cx,cy,config):
                 wall(tiles,along,across,z,'W',kind,0)
                 wall(tiles,across,along,z,'N',kind,0)
         obstacles.extend(tunnel_obstacles(tiles,cx,cy,z))
-        # Electrical light switches reference genuine B42 room metaobjects.
-        for room in rooms:
-            if room['level']==z and room['rects']:
-                rx,ry,rw,rh=room['rects'][0]
-                if rw>=3 and rh>=3: put(tiles,rx+1,ry,z,'lighting_indoor_01_0')
     # Stairs -2 -> -1. Landing is west of the top, bottom approach east.
     for x,idx in ((130,0),(129,1),(128,2)):
         put(tiles,x,136,-2,'fixtures_stairs_01_'+str(idx)); tiles.pop((x,136,-1),None)
@@ -175,11 +172,14 @@ def build_bunker(tiles,rooms,buildings,cx,cy,config):
             role=erole,name=en,nameRU=ru,wing=wing['id']))
     buildings.append(indices)
     ceiling_tiles=cover_bunker(tiles,coverage,shaft)
+    lighting=[]
+    for rr in rooms[room_start:]:
+        lighting.extend(place_room_lighting(tiles,rr))
     return dict(entrances=entrances,caches=caches,area=total_area,
                 levels=[-2,-1],stairs=2 if shaft else 1,
                 wing=wing_summary(wing),roomRoles=room_roles,
                 serviceRing=dict(rect=[12,12,232,232],width=4),
-                obstacles=obstacles,ceilingTiles=ceiling_tiles,
+                obstacles=obstacles,ceilingTiles=ceiling_tiles,lighting=lighting,
                 metalDoorSprites=['fixtures_doors_01_68','fixtures_doors_01_69'],
                 bulkheads=[dict(x=cx*256+48,y=cy*256+128,z=z,direction='W',
                     sprite='fixtures_doors_01_68') for z in (-2,-1)],
