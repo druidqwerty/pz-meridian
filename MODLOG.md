@@ -200,5 +200,7 @@ Superseded by active urban/interior revision below; these are alpha.1 receipts.
   and exact-byte/hash matched. docs/test-results/2026-11-06-urban now retains
   sanitized release-binding.json/public-release.json. No Steam/Boosty, no duplicate
   game tests or map builds/installs, no player saves touched. ZIP not repackaged.
-  Remaining owner-facing completion: Telegram notification and root memory update;
-  new density-rule tool work is tracked separately in pz-map-tools.
+  DONE owner-facing completion: private Telegram release notification + entrance
+  diagram delivered successfully; root memory updated. No notification retry
+  needed. New density-rule tool is complete separately in pz-map-tools (14new
+  +10urban tests PASS); it is NOT included in the frozen released map files.
