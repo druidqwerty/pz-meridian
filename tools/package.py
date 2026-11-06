@@ -14,11 +14,12 @@ def main():
     files=[p for p in source.rglob('*') if p.is_file()]
     with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for p in sorted(files):z.write(p,'MeridianLongWayHome/'+p.relative_to(source).as_posix())
-        for name in ('README.md','LICENSE','ATTRIBUTION.md'):
+        for name in ('README.md','LICENSE','ATTRIBUTION.md','RELEASE_NOTES.md'):
             z.write(ROOT/name,'MeridianLongWayHome/'+name)
         z.write(ROOT/'tools/CODEC-LICENSE.txt','MeridianLongWayHome/CODEC-LICENSE.txt')
-        for p in (ROOT/'docs').glob('*'):
-            if p.is_file():z.write(p,'MeridianLongWayHome/docs/'+p.name)
+        z.write(ROOT/'tools/CODEC-LICENSE.txt','MeridianLongWayHome/tools/CODEC-LICENSE.txt')
+        for p in sorted((ROOT/'docs').rglob('*')):
+            if p.is_file():z.write(p,'MeridianLongWayHome/docs/'+p.relative_to(ROOT/'docs').as_posix())
         z.write(ROOT/'RUNTIME.md','MeridianLongWayHome/RUNTIME.md')
     with zipfile.ZipFile(target) as z:
         assert z.testzip() is None

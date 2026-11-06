@@ -26,7 +26,7 @@ def landscape(tiles,ground,cx,cy,records,site):
     stats=dict(paving=0,trees=0,benches=0,planters=0,lamps=0)
     if not site:return stats
     city=site.get('kind')=='city'
-    if not city and site.get('kind') not in ('town','service'):return stats
+    if not city and site.get('kind') not in ('town','service','expedition'):return stats
     rng=Random(cx*1000003+cy*104729+60013)
     hard=np.zeros((256,256),dtype=bool)
     setback=np.zeros_like(hard)

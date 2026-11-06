@@ -1,0 +1,39 @@
+{
+  "native_pairs": 2381,
+  "rooms": 6270,
+  "buildings": 866,
+  "native_bytes": 660745098,
+  "safe_zero_density_cells": 16,
+  "unknown_sprites": [],
+  "metadata_part0_bytes": 2090650,
+  "effective_native_cell_bounds": [
+    -250,
+    -250,
+    250,
+    250
+  ],
+  "authored_metadata_lower_bound_bytes": 377554,
+  "main_route_tiles": 128256.0,
+  "road_encounters": 59,
+  "road_salvage_objects": 796,
+  "tunnel_salvage_objects": 494,
+  "building_barricade_squares": 3474,
+  "furniture_sprite_instances": 144523,
+  "content_counts": {
+    "landmark": 10,
+    "stop": 12,
+    "base": 7
+  },
+  "habitat_wings": 16,
+  "entrance_roles": 12,
+  "city_districts": {
+    "civic": 56,
+    "utilities": 64,
+    "residential": 64,
+    "council": 64
+  },
+  "convoy_stages": 7,
+  "supply_lockers": 202,
+  "min_density": 0,
+  "max_density": 26
+}

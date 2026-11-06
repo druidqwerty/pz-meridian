@@ -27,14 +27,39 @@ def main():
     assert safe==16
     assert len(list(folder.glob('*.lotheader')))==len(m['cells'])
     assert len(list(folder.glob('*.lotpack')))==len(m['cells'])
-    # Conservative actual header envelope plus per-room and building metadata.
-    part0=24+8*192*192+10*rooms+23*buildings
+    # Actual first native saved-world META bounds were -250..250 inclusive.
+    # Native B42 wilderness enlarges bounds beyond the authored 192-cell square.
+    authored_part0=24+8*192*192+10*rooms+23*buildings
+    part0=24+8*501*501+10*rooms+23*buildings
     assert part0<9000000
     assert 127000<m['road_tiles']<130000
+    encounters=[e for c in m['cells'] for e in c.get('roadside',{}).get('encounters',[])]
+    road_objects=[o for c in m['cells'] for o in c.get('roadside',{}).get('objects',[])]
+    tunnel_objects=[o for c in m['cells'] if c.get('bunker') for o in c['bunker'].get('obstacles',[])]
+    building_barricades=[p for c in m['cells'] for rec in c['records'] for p in rec.get('barricades',[])]
+    assert encounters and road_objects and tunnel_objects and building_barricades,'Enrichment missing from compiled map'
+    assert len({e['id'] for e in encounters})==len(encounters),'Duplicate encounter anchors'
+    assert all(e['gapWidth']>=5 for e in encounters)
+    content=json.loads((ROOT/'build/content-summary.json').read_text(encoding='utf-8'))
+    assert content['counts']==dict(landmark=10,stop=12,base=7)
+    assert len(content['habitatWings'])==16 and len(content['entrances'])==12
+    assert len(content['convoyStages'])==7 and len(content['cityDistricts'])==4
+    caches=[tuple(p) for c in m['cells'] for r in c['records'] for p in r.get('caches',[])]
+    caches += [(p['x'],p['y'],p['z']) for c in m['cells'] if c.get('bunker') for p in c['bunker']['caches']]
+    assert len(caches)==len(set(caches)), 'Duplicate supply lockers'
+    assert len({(o['x'],o['y'],o['z']) for o in road_objects})==len(road_objects),'Overlapping road props'
     report=dict(native_pairs=len(m['cells']),rooms=rooms,buildings=buildings,
         native_bytes=sum(c['bytes'] for c in m['cells']),safe_zero_density_cells=safe,
         unknown_sprites=sorted(unknown),metadata_part0_bytes=part0,
-        main_route_tiles=m['road_tiles'],
+        effective_native_cell_bounds=[-250,-250,250,250],
+        authored_metadata_lower_bound_bytes=authored_part0,
+        main_route_tiles=m['road_tiles'],road_encounters=len(encounters),
+        road_salvage_objects=len(road_objects),tunnel_salvage_objects=len(tunnel_objects),
+        building_barricade_squares=len(building_barricades),
+        furniture_sprite_instances=sum(c.get('furnitureInstances',0) for c in m['cells']),
+        content_counts=content['counts'],habitat_wings=16,entrance_roles=12,
+        city_districts=content['cityDistricts'],convoy_stages=7,
+        supply_lockers=len(caches),
         min_density=min(c[2] for c in densities),max_density=max(c[3] for c in densities))
     (ROOT/'build/static-audit.json').write_text(json.dumps(report,indent=2))
     print(json.dumps(report,indent=2))

@@ -1,0 +1,24 @@
+{
+  "native_pairs": 2299,
+  "rooms": 5880,
+  "buildings": 754,
+  "native_bytes": 622331381,
+  "safe_zero_density_cells": 16,
+  "unknown_sprites": [],
+  "metadata_part0_bytes": 2084174,
+  "effective_native_cell_bounds": [
+    -250,
+    -250,
+    250,
+    250
+  ],
+  "authored_metadata_lower_bound_bytes": 371078,
+  "main_route_tiles": 128256.0,
+  "road_encounters": 59,
+  "road_salvage_objects": 797,
+  "tunnel_salvage_objects": 494,
+  "building_barricade_squares": 3070,
+  "furniture_sprite_instances": 150465,
+  "min_density": 0,
+  "max_density": 26
+}

@@ -1,0 +1,96 @@
+[
+  {
+    "name": "Sluice Seven waterworks",
+    "x": 14888,
+    "y": 29234,
+    "z": 0,
+    "room": true,
+    "yaw": -1.5707963
+  },
+  {
+    "name": "Dead Letter postal hall",
+    "x": 2856,
+    "y": 35890,
+    "z": 0,
+    "room": true,
+    "yaw": -1.5707963
+  },
+  {
+    "name": "Meridian utility waterworks",
+    "x": 48168,
+    "y": 1778,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "yaw": -1.5707963
+  },
+  {
+    "name": "Meridian residential house",
+    "x": 48673,
+    "y": 1062,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "yaw": -1.5707963
+  },
+  {
+    "name": "Surface bunker stairs",
+    "x": 48255,
+    "y": 1152,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "walkTo": {
+      "x": 48259,
+      "y": 1152,
+      "z": -1
+    },
+    "noViewpoint": true
+  },
+  {
+    "name": "Deep bunker stairs",
+    "x": 48255,
+    "y": 1160,
+    "z": -1,
+    "room": true,
+    "infected": true,
+    "walkTo": {
+      "x": 48259,
+      "y": 1160,
+      "z": -2
+    },
+    "noViewpoint": true
+  },
+  {
+    "name": "Continuity school classroom",
+    "x": 48414,
+    "y": 1316,
+    "z": -1,
+    "room": true,
+    "infected": true,
+    "yaw": -1.5707963
+  },
+  {
+    "name": "Continuity residential laundry",
+    "x": 48446,
+    "y": 1572,
+    "z": -2,
+    "room": true,
+    "infected": true,
+    "yaw": -1.5707963
+  },
+  {
+    "name": "Continuity service ring",
+    "x": 48406,
+    "y": 1294,
+    "z": -1,
+    "infected": true,
+    "walkTo": {
+      "x": 48422,
+      "y": 1294,
+      "z": -1
+    },
+    "walkLabel": "ring_path_traversal",
+    "noViewpoint": true
+  }
+]

@@ -5,6 +5,7 @@ Requires the user's installed game and reusable pz-map-tools alongside this proj
 """
 from __future__ import annotations
 import argparse
+import hashlib
 from datetime import datetime
 import json
 from pathlib import Path
@@ -18,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REUSABLE = ROOT.parent / 'pz-map-tools/tools'
 sys.path.insert(0, str(REUSABLE))
 from game_smoke import DEFAULT_GAME, DEFAULT_JAVAC, options, compile_prompt_helper
+from gameplay_probe import CONTENT
 
 MENU = r'''
 local step,due=0,nil
@@ -115,7 +117,7 @@ local function inspectPoint(label,expected)
  MeridianTest.record(label.."_position",p:getX()..","..p:getY()..","..p:getZ())
  MeridianTest.check(label.."_floor",sq and sq:getFloor()~=nil)
  if expected.room then MeridianTest.check(label.."_room",sq and sq:getRoom()~=nil) end
- local counts={containers=0,items=0,doors=0,stairs=0,zombies=0,surface=0,below=0}
+ local counts={containers=0,items=0,doors=0,stairs=0,zombies=0,surface=0,below=0,safeSurface=0}
  local availableDoor
  local x,y,z=math.floor(p:getX()),math.floor(p:getY()),math.floor(p:getZ())
  for xx=x-35,x+35 do for yy=y-35,y+35 do
@@ -139,6 +141,7 @@ local function inspectPoint(label,expected)
   if math.abs(a:getX()-x)<60 and math.abs(a:getY()-y)<60 then
    counts.zombies=counts.zombies+1
    if a:getZ()>=0 then counts.surface=counts.surface+1 else counts.below=counts.below+1 end
+   if Meridian.isSafeSurface(a:getX(),a:getY(),a:getZ()) then counts.safeSurface=counts.safeSurface+1 end
   end
  end
  for k,v in pairs(counts) do MeridianTest.record(label.."_"..k,v) end
@@ -152,7 +155,10 @@ local function inspectPoint(label,expected)
    if availableDoor:IsOpen()~=was then availableDoor:ToggleDoor(p) end
   end
  end
- if expected.safeSurface then MeridianTest.check(label.."_no_surface_zombies",counts.surface==0) end
+ if expected.safeSurface then
+  MeridianTest.check(label.."_sample_inside_sanctuary",Meridian.isSafeSurface(x,y,z))
+  MeridianTest.check(label.."_no_surface_zombies",counts.safeSurface==0)
+ end
  if expected.infected then MeridianTest.check(label.."_infected",counts.below>0) end
  shot(label)
 end
@@ -164,7 +170,9 @@ local function tick()
    local d=p:getModData()
    MeridianTest.check("reload_token",d.MeridianTestToken==MeridianTestConfig.token)
    MeridianTest.check("reload_position",d.MeridianTestX and math.abs(p:getX()-d.MeridianTestX)<1 and math.abs(p:getY()-d.MeridianTestY)<1 and math.abs(p:getZ()-d.MeridianTestZ)<0.1)
-   inspectPoint("reload",{}); MeridianTest.finish(); return
+   inspectPoint("reload",{})
+   if MeridianTestConfig.resumeTour then phase=2 else MeridianTest.finish() end
+   return
   end
   inspectPoint("spawn",{room=true})
   MeridianTest.check("spawn_position",math.abs(p:getX()-MeridianTestConfig.x)<4 and math.abs(p:getY()-MeridianTestConfig.y)<4)
@@ -185,22 +193,41 @@ local function tick()
   phase=3; due=getTimestampMs()+12000
  elseif phase==3 then
   inspectPoint(target.name,target)
-  if target.vehicle then
+  if target.metalDoor then inspectMetalDoor(target.metalDoor,target.name) end
+  if target.unbarricade then
+   if beginUnbarricade(target.unbarricade,target.name) then phase=17; due=getTimestampMs()+25000
+   else phase=2 end
+  elseif target.salvage then
+   if beginSalvageUnload(target.salvage,target.name) then phase=18; due=getTimestampMs()+2000
+   elseif beginSalvage(target.salvage,target.name) then phase=15; due=getTimestampMs()+70000
+   else phase=2 end
+  elseif target.vehicle then
    testCar=nil
-   local list=getCell():getVehicles()
-   for n=0,list:size()-1 do
-    local car=list:get(n)
-    if (car:getX()-target.x)^2+(car:getY()-target.y)^2<400 then testCar=car; break end
+   for xx=target.x-15,target.x+15 do
+    for yy=target.y-15,target.y+15 do
+     local square=getCell():getGridSquare(xx,yy,0)
+     local car=square and square:getVehicleContainer()
+     if car then testCar=car; break end
+    end
+    if testCar then break end
    end
    MeridianTest.check("starter_vehicle_present",testCar~=nil)
    assert(testCar,"Starter SUV not loaded near expected road position")
    MeridianTest.record("starter_vehicle_script",testCar:getScriptName())
    local tank=testCar:getPartById("GasTank")
    MeridianTest.check("starter_vehicle_fuel",tank and tank:getContainerContentAmount()>1)
-   local haveKey=p:getInventory():haveThisKeyId(testCar:getKeyId())
+   local haveKey=p:getInventory():haveThisKeyId(testCar:getKeyId())~=nil
    MeridianTest.check("starter_vehicle_key",haveKey)
+   ISTimedActionQueue.clear(p)
    testCar:enter(0,p); testCar:setCharacterPosition(p,0,"inside")
    MeridianTest.check("starter_vehicle_enter",p:getVehicle()==testCar)
+   MeridianTest.record("starter_lab_blocked_before",p:isBlockMovement())
+   MeridianTest.record("starter_engine_quality",testCar:getEngineQuality())
+   MeridianTest.record("starter_battery_charge",testCar:getBatteryCharge())
+   MeridianTest.record("starter_engine_state_before",testCar:getEngineState())
+   -- Direct diagnostic entry has no timed-action completion to clear this flag.
+   -- Match normal completed entry; do not alter any car part or engine state.
+   p:setBlockMovement(false)
    testCar:tryStartEngine(haveKey)
    phase=12; due=getTimestampMs()+8000
   elseif target.walkTo then
@@ -212,33 +239,48 @@ local function tick()
    ISTimedActionQueue.add(ISWalkToTimedAction:new(p,dest))
    MeridianTest.record(target.name.."_action","real_ISWalkToTimedAction_no_teleport")
    phase=11; due=getTimestampMs()+20000
-  elseif MeridianTestConfig.viewpoint then phase=4 else phase=2 end
+  elseif MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
+ elseif phase==18 then
+  local ready=salvageUnloadReady(target.name)
+  if ready==true then
+   if beginSalvage(target.salvage,target.name) then phase=15; due=getTimestampMs()+70000 else phase=2 end
+  elseif ready==false then phase=2 else due=getTimestampMs()+2000 end
+ elseif phase==17 then
+  finishUnbarricade(target.name)
+  shot(target.name.."_after_unbarricade")
+  if MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
+ elseif phase==15 then
+  finishSalvage(target.name)
+  shot(target.name.."_after_salvage")
+  if MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
  elseif phase==12 then
   MeridianTest.check("starter_vehicle_engine",testCar:isEngineRunning())
   shot("starter_engine_running")
+  MeridianTest.record("starter_engine_state_after",testCar:getEngineState())
   testCar:shutOff(); testCar:exit(p); testCar:setCharacterPosition(p,0,"outside")
+  p:setBlockMovement(false); ISTimedActionQueue.clear(p)
   testCar=nil
-  if MeridianTestConfig.viewpoint then phase=4 else phase=2 end
+  if MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
  elseif phase==11 then
   local d=target.walkTo
   MeridianTest.record(target.name.."_walk_result",p:getX()..","..p:getY()..","..p:getZ())
-  MeridianTest.check(target.name.."_stair_traversal",math.abs(p:getZ()-d.z)<0.1 and math.abs(p:getX()-d.x)<1.5 and math.abs(p:getY()-d.y)<1.5)
+  MeridianTest.check(target.name.."_"..(target.walkLabel or "stair_traversal"),math.abs(p:getZ()-d.z)<0.1 and math.abs(p:getX()-d.x)<1.5 and math.abs(p:getY()-d.y)<1.5)
   shot(target.name.."_after_stairs")
-  if MeridianTestConfig.viewpoint then phase=4 else phase=2 end
+  if MeridianTestConfig.viewpoint and not target.noViewpoint then phase=4 else phase=2 end
  elseif phase==4 then
   if not RRViewpointProbe.select("first") then return end
-  RRViewpointProbe.aim(-math.pi/4,-0.08)
+  RRViewpointProbe.aim(target.yaw or -math.pi/4,target.pitch or -0.08)
   phase=5; due=getTimestampMs()+3500
  elseif phase==5 then
   MeridianTest.check(target.name.."_first_camera",RRViewpointProbe.mode()=="first"); shot(target.name.."_first")
-  phase=6
+  phase=6; due=getTimestampMs()+1000
  elseif phase==6 then
   if not RRViewpointProbe.select("third") then return end
-  RRViewpointProbe.aim(-math.pi/4,-0.08)
+  RRViewpointProbe.aim(target.yaw or -math.pi/4,target.pitch or -0.08)
   phase=7; due=getTimestampMs()+3500
  elseif phase==7 then
   MeridianTest.check(target.name.."_third_camera",RRViewpointProbe.mode()=="third"); shot(target.name.."_third")
-  phase=9
+  phase=9; due=getTimestampMs()+1000
  elseif phase==9 then
   if not RRViewpointProbe.select("isometric") then return end
   phase=2
@@ -247,15 +289,29 @@ local function tick()
   local map=ISWorldMap_instance
   MeridianTest.check("atlas_opens",map~=nil)
   assert(map,"Native paper map did not open")
+  MeridianTest.record("atlas_hide_unvisited_before_diagnostic_override",map.mapAPI:getBoolean("HideUnvisited"))
   map:setHideUnvisitedAreas(false)
   map.mapAPI:setBoolean("Isometric",false)
   map.mapAPI:resetView()
+  MeridianTest.record("atlas_image_pyramid",map.mapAPI:getBoolean("ImagePyramid"))
+  MeridianTest.record("atlas_features",map.mapAPI:getBoolean("Features"))
   phase=13; due=getTimestampMs()+6000
  elseif phase==13 then
   local map=ISWorldMap_instance
   MeridianTest.check("atlas_loaded",map and map.mapAPI:isDataLoaded() and map.mapAPI:getDataCount()>0)
   shot("native_atlas_overview")
-  map:close(); setGameSpeed(1)
+  phase=19; due=getTimestampMs()+1000
+ elseif phase==19 then
+  local map=ISWorldMap_instance
+  local city=Meridian.Config.safeCity
+  map.mapAPI:centerOn((city.x1+city.x2)/2,(city.y1+city.y2)/2)
+  map.mapAPI:setZoom(14)
+  phase=16; due=getTimestampMs()+5000
+ elseif phase==16 then
+  shot("native_atlas_street_zoom")
+  phase=20; due=getTimestampMs()+1000
+ elseif phase==20 then
+  ISWorldMap_instance:close(); setGameSpeed(1)
   phase=14
  elseif phase==14 then
   local d=p:getModData()
@@ -291,6 +347,16 @@ def write(path, text):
     path.write_text(text, encoding='utf-8', newline='\n')
 
 
+def tree_binding(folder):
+    """Bind the launch copy to product bytes; path+size+SHA-256, not timestamps."""
+    result={}
+    for path in sorted(folder.rglob('*')):
+        if path.is_file():
+            result[path.relative_to(folder).as_posix()]={
+                'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+    return result
+
+
 def lua(value):
     if value is True: return 'true'
     if value is False: return 'false'
@@ -313,6 +379,8 @@ def prepare(args):
         shutil.copytree(old,cache,ignore=shutil.ignore_patterns('console.txt','Logs','Screenshots','meridian-playtest.txt'))
         cfg=prior['config']
         cfg.update(resume=True,saveName=saves[0].parent.name,mode=saves[0].parent.parent.name)
+        if args.resume_targets:
+            cfg.update(resumeTour=True,targets=json.loads(args.resume_targets.read_text(encoding='utf-8')))
         cmd=[c.replace(str(old),str(cache)) for c in prior['command']]
         # Keep prior run's immutable java-agent jars, but new run-local settings/cache.
     else:
@@ -326,6 +394,13 @@ def prepare(args):
         if not match: raise ValueError('Need native absolute spawnpoint')
         x,y,z=map(int,match.groups())
         shutil.copytree(mod,cache/'mods'/mod_id)
+        source_tree=tree_binding(mod)
+        launch_tree=tree_binding(cache/'mods'/mod_id)
+        if source_tree!=launch_tree: raise ValueError('Candidate launch-copy SHA-256 mismatch')
+        write(run/'candidate-bind.json',json.dumps(dict(
+            source=str(mod),copy=str(cache/'mods'/mod_id),files=len(source_tree),
+            treeSHA256=hashlib.sha256(json.dumps(source_tree,sort_keys=True).encode()).hexdigest(),
+            equal=True,entries=source_tree),indent=2))
         (cache/'mods/MeridianPrivateOracle/common').mkdir(parents=True)
         write(cache/'mods/MeridianPrivateOracle/42/mod.info','name=Meridian Private Oracle\nid=MeridianPrivateOracle\nversionMin=42.21\n')
         dependencies=[]; extra=[]
@@ -353,7 +428,7 @@ def prepare(args):
     write(driver/'Config.lua','MeridianTestConfig='+lua(cfg)+'\n')
     write(driver/'Menu.lua',MENU)
     write(driver/'Core.lua',CORE)
-    write(driver/'World.lua',WORLD)
+    write(driver/'World.lua',WORLD.replace('local function tick()',CONTENT+'\nlocal function tick()',1))
     if cfg.get('viewpoint'):
         write(driver/'ZZ_LoadProbe.lua','require "MeridianTest/ViewpointProbe"\n')
     meta=dict(run=str(run),cache=str(cache),command=cmd,config=cfg,game=str(args.game),status='prepared')
@@ -369,6 +444,7 @@ def main():
     p.add_argument('--targets',type=Path)
     p.add_argument('--viewpoint',action='store_true')
     p.add_argument('--resume',type=Path)
+    p.add_argument('--resume-targets',type=Path)
     p.add_argument('--prepare-only',action='store_true')
     p.add_argument('--timeout',type=int,default=600)
     args=p.parse_args()

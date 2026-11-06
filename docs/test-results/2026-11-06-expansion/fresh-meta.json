@@ -1,0 +1,6 @@
+{
+  "run": "20261106-053010-285473",
+  "status": "failed",
+  "lua_error_lines": [],
+  "note": "FAIL retained for two near-boundary counts that included infected outside city. Narrow reload uses exact safeCity bounds."
+}

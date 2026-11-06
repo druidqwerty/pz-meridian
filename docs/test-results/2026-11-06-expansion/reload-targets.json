@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Meridian utility waterworks",
+    "x": 48168,
+    "y": 1778,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "yaw": -1.5707963,
+    "noViewpoint": true
+  },
+  {
+    "name": "Meridian residential house",
+    "x": 48673,
+    "y": 1062,
+    "z": 0,
+    "room": true,
+    "safeSurface": true,
+    "yaw": -1.5707963,
+    "noViewpoint": true
+  },
+  {
+    "name": "Regional detour short walk",
+    "x": 5640,
+    "y": 49024,
+    "z": 0,
+    "walkTo": {
+      "x": 5660,
+      "y": 49024,
+      "z": 0
+    },
+    "walkLabel": "detour_sample_walk",
+    "yaw": 1.5707963
+  }
+]

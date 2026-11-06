@@ -2,6 +2,7 @@
 from math import sin, pi, hypot
 from collections import defaultdict
 from shapely.geometry import LineString, Point, box
+from expedition import enrich_plan
 
 SIZE = 49152
 SAFE = (48128, 1024, 49152, 2048)
@@ -72,6 +73,9 @@ def make_plan():
                 add(LineString([(x*256,y*256+off),((x+1)*256,y*256+off)]).buffer(3),'road',('highway','residential'))
     # Final approach connects to the entire city's avenue network.
     add(ROUTE.buffer(6,cap_style=2,join_style=2),'road',('highway','primary'))
+    # New content is static geography only; existing primary geometry and all
+    # pre-existing settlement/shaft coordinates remain unchanged.
+    enrich_plan(features,settlements,ROUTE,SIZE,SAFE)
     by_cell=defaultdict(list)
     for rec in features:
         a,b,c,d=rec[0].bounds

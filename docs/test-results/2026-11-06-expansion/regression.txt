@@ -1,0 +1,32 @@
+test_bunker_rooms_and_seam_corridors_are_connected (test_architecture.NativeArchitecture) ... ok
+test_native_roundtrip_preserves_negative_floor_rooms (test_architecture.NativeArchitecture) ... ok
+test_surface_rooms_furniture_and_stairs_accessible (test_architecture.NativeArchitecture) ... ok
+test_vector_fallback_is_world_scoped_and_preserves_fog (test_atlas.Atlas) ... ok
+test_all_seven_convoy_stages_emit_real_unobstructive_objects (test_content.ContentAcceptance) ... ok
+test_existing_archive_interactions_get_physical_reachable_filing_desks (test_content.ContentAcceptance) ... ok
+test_four_city_districts_have_different_built_programmes_and_street_access (test_content.ContentAcceptance) ... ok
+test_distinct_content_is_dry_and_clear_of_all_driving_lanes (test_expedition.ExpeditionGeography) ... ok
+test_ten_setpieces_use_native_sprites_and_leave_every_entrance_reachable (test_expedition.ExpeditionGeography) ... ok
+test_three_road_classes_reconnect_without_cross_region_shortcuts (test_expedition.ExpeditionGeography) ... ok
+test_native_furniture_is_complete_and_barricade_crates_are_salvageable (test_furnishing.FurnishingAcceptance) ... ok
+test_plank_frames_are_vanilla_barricade_triggers_attached_to_windows (test_furnishing.FurnishingAcceptance) ... ok
+test_role_details_and_public_halls_are_present_with_layout_variation (test_furnishing.FurnishingAcceptance) ... ok
+test_all_wings_are_distinct_with_real_domestic_and_technical_rooms (test_habitat.HabitatAcceptance) ... ok
+test_room_second_exits_and_original_axis_stairs_remain_accessible (test_habitat.HabitatAcceptance) ... ok
+test_service_ring_remains_connected_when_central_junction_is_unavailable (test_habitat.HabitatAcceptance) ... ok
+test_all_barriers_are_vanilla_salvage_not_decorative_walls (test_obstacles.EncounterInvariants) ... ok
+test_bulkheads_leave_gallery_routes_and_stairs_connected (test_obstacles.EncounterInvariants) ... ok
+test_ceiling_underlay_preserves_surface_objects_and_apertures (test_obstacles.EncounterInvariants) ... ok
+test_route_encounters_keep_five_tile_asphalt_gap (test_obstacles.EncounterInvariants) ... ok
+test_seam_fragments_are_adjacent_not_replicated_cells (test_obstacles.EncounterInvariants) ... ok
+test_only_meridian_pregame_preview_is_initialized (test_preview.Preview) ... ok
+test_all_lua_parse_and_translations (test_runtime.Runtime) ... ok
+test_bunker_persistent_and_zombie_disable (test_runtime.Runtime) ... ok
+test_starter_vehicle_one_per_world (test_runtime.Runtime) ... ok
+test_supplies_not_repeatable (test_runtime.Runtime) ... ok
+test_surface_and_bunker_boundary (test_runtime.Runtime) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 29.413s
+
+OK

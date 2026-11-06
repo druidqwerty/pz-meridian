@@ -104,7 +104,10 @@ style **only for Meridian's selected, pre-game spawn-preview widget** and then
 delegates vanilla initial zoom/render. It does not call exploration-fog APIs,
 change `MapUtils`, touch MetaGrid/global visited state, or change the in-game
 map's fog. Scope regression covers Meridian, other maps and in-game selector.
-Pending re-run in the native game confirms actual rendering.
+Native reruns are complete: preview initialization is error-clean and the atlas
+renders nonblank vectors. Exact failed/passed runs and visually inspected frames
+are recorded in [QA](docs/QA.md); those receipts, not this API contract, define
+the rendering and traversal claims.
 
 ```powershell
 python -m unittest discover -s projects/pz-meridian/tests -p test_runtime.py -v

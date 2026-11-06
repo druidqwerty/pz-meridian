@@ -1,0 +1,58 @@
+[
+  {
+    "label": "Sluice Seven waterworks_first",
+    "file": "gpu-sluice-seven-waterworks-first.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "Dead Letter postal hall_first",
+    "file": "gpu-dead-letter-postal-hall-first.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "Meridian utility waterworks_first",
+    "file": "gpu-meridian-utility-waterworks-first.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "Meridian residential house_first",
+    "file": "gpu-meridian-residential-house-first.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "Continuity school classroom_first",
+    "file": "gpu-continuity-school-classroom-first.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "Continuity residential laundry_first",
+    "file": "gpu-continuity-residential-laundry-first.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "native_atlas_overview",
+    "file": "gpu-native-atlas-overview.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  },
+  {
+    "label": "native_atlas_street_zoom",
+    "file": "gpu-native-atlas-street-zoom.png",
+    "returncode": 0,
+    "iconic_before": false,
+    "foreground_unchanged": true
+  }
+]

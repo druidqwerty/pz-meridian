@@ -10,14 +10,20 @@ from surface import raster, dress, city_wall
 from map_binary import write_cell, audit_cell
 from atlas import write_atlas
 from landscape import landscape
+from obstacles import dress_obstacles
+from content_catalog import city_program
+from story_scenes import convoy_trace
+from expedition_decor import decorate as dress_expedition
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'mod/common/media/maps/Meridian'
 
 
 def compile_cell(job):
-    from architecture import build_structure
+    from architecture import build_structure, TILES
     from bunker import build_bunker
+    from furnishing import EXTRAS, PALETTES
+    from themed_rooms import PROPS
     cx,cy,features,site,bunker=job
     ground,tiles=raster(cx,cy,features)
     rooms,buildings,records=[],[],[]
@@ -28,18 +34,30 @@ def compile_cell(job):
         civilian=['house','house','shop','house','clinic','warehouse','school','fuel']
         urban=['apartment','house','shop','civic','hospital','warehouse','school','police']
         military=['barracks','warehouse','lab','barracks','clinic','civic','warehouse','lab']
-        for i,(x,y) in enumerate(slots):
-            if site['kind']=='service' and i>1:continue
+        plans=site.get('structures')
+        if iscity:
+            district,plans=city_program(cx,cy)
+        if plans is None:
+            plans=[]
+            for i,(x,y) in enumerate(slots):
+                if site['kind']=='service' and i>1:continue
+                kind=(civilian if site['kind'] in ('town','city') else military)[i%8]
+                if site['kind']=='service':kind='fuel' if i==0 else 'warehouse'
+                if site['id']==0 and i==0:kind='cottage'
+                plans.append(dict(x=x,y=y,kind=kind))
+        for i,plan in enumerate(plans):
+            x,y,kind=plan['x'],plan['y'],plan['kind']
             if np.any(ground[y-2:y+36,x-2:x+36]==4):continue
-            kind=(civilian if site['kind'] in ('town','city') else military)[i%8]
-            if iscity:kind=urban[i%8]
-            if site['kind']=='service':kind='fuel' if i==0 else 'warehouse'
-            if site['id']==0 and i==0:kind='cottage'
             rec=build_structure(tiles,rooms,buildings,x,y,kind,seed=cx*1000+cy*31+i)
             rec['rect']=[cx*256+rec['rect'][0],cy*256+rec['rect'][1],*rec['rect'][2:]]
             rec['spawn']=[cx*256+rec['spawn'][0],cy*256+rec['spawn'][1],rec['spawn'][2]]
             rec['site']=site['name'];rec['kind']=kind
+            if iscity:rec['district']=district
+            if site.get('chapter'):rec['chapter']=site['chapter']
+            if rec.get('archiveDesk'):
+                rec['archiveDesk'][0]+=cx*256;rec['archiveDesk'][1]+=cy*256
             for point in rec.get('caches',[]):point[0]+=cx*256;point[1]+=cy*256
+            for point in rec.get('barricades',[]):point[0]+=cx*256;point[1]+=cy*256
             records.append(rec)
             if kind=='fuel':
                 # Actual vanilla pumps carry fuelAmount=20000, not decorative art.
@@ -48,6 +66,9 @@ def compile_cell(job):
                     if py<254:tiles[px,py,0]=['blends_street_01_86','location_shop_fossoil_01_14']
     dress(cx,cy,ground,tiles,bool(site))
     if site:landscape(tiles,ground,cx,cy,records,site)
+    trace=convoy_trace(tiles,ground,cx,cy,records,site)
+    expedition=dress_expedition(tiles,ground,cx,cy,records,site) if site else None
+    roadside=dress_obstacles(cx,cy,ground,tiles,site)
     city_wall(cx,cy,tiles)
     under=None
     if bunker:under=build_bunker(tiles,rooms,buildings,cx,cy,bunker)
@@ -62,9 +83,13 @@ def compile_cell(job):
     stats=write_cell(OUT,cx,cy,tiles,rooms,buildings,density)
     # Every compiled cell is decoded and its exact tile ordering round-tripped.
     audit_cell(OUT,cx,cy,tiles)
+    furnishing_names=set(TILES.values())|set(EXTRAS.values())|set(PROPS.values())|{s for values in PALETTES.values() for s in values}
     return dict(cell=[cx,cy],squares=stats['squares'],rooms=len(rooms),
                 buildings=len(buildings),bytes=stats['bytes'],density=[min(density),max(density)],
-                records=records,bunker=under,sprites=sorted({n for ns in tiles.values() for n in ns}))
+                records=records,bunker=under,roadside=roadside,
+                convoy=trace,expedition=expedition,
+                furnitureInstances=sum(s in furnishing_names for names in tiles.values() for s in names),
+                sprites=sorted({n for ns in tiles.values() for n in ns}))
 
 
 def lua(value):
@@ -110,6 +135,8 @@ def finish(cells,by_cell,sites,start):
         safeCity=list(SAFE),road_tiles=ROUTE.length,route=WAYPOINTS,spawn=spawn,
         settlements=sites,cells=cells,atlas=atlas,seconds=round(monotonic()-start,1))
     (ROOT/'build/manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+    from expedition_guide import write_guide
+    write_guide(ROOT,manifest)
     targets=[dict(name='Last Light',x=spawn[0],y=spawn[1],z=0,room=True)]
     for site_name in ('Stillwater','Station 6'):
         r=next(r for r in records if r['site']==site_name)
