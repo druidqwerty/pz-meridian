@@ -309,3 +309,6 @@ Superseded by active urban/interior revision below; these are alpha.1 receipts.
   Publicreceipt density/public-release.json;source/tested/installed/ZIP stillbound.
   NoSteam/Boosty,player saves/settings/unrelatedmods untouched;no repeatbuild/
   install/game/package needed. Owner completion+memory filing next.
+
+- DONE private Telegram completion+actual finaldormPNG delivered message4252.
+  Memory filed in main/modder workspaces. No notification retry or pending release step.
