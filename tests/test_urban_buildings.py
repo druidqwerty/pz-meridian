@@ -7,6 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools'))
 from architecture import KINDS,build_structure
 from building_layouts import layout
+from building_variants import ARCHETYPE_KINDS,catalog_for_kind,catalog_for_archetype
 from content_catalog import city_program
 from test_architecture import GAME,sprites,reachable
 
@@ -35,6 +36,21 @@ class UrbanProgrammes(unittest.TestCase):
         w,h,levels,roles=KINDS['cottage']
         rooms,_,owners=layout(w,h,roles,'cottage',levels=levels)
         self.assertLess(sum(a*b for _,_,a,b in rooms[0]['rects']),w*h//3)
+
+    def test_every_archetype_and_kind_has_100_distinct_variants(self):
+        self.assertEqual(len(ARCHETYPE_KINDS),12)
+        for arch in ARCHETYPE_KINDS:
+            cat=catalog_for_archetype(arch)
+            self.assertEqual(len(cat),100)
+            self.assertEqual(len({c['variant_id'] for c in cat}),100)
+        for kind in KINDS:
+            cat=catalog_for_kind(kind)
+            self.assertEqual(len(cat),100)
+            keys={(c['wall'],c['upper_wall'],c['interior_wall'],c['window'],
+                   c['ext_door'],c['int_door'],tuple(sorted(c['floors'].items())),
+                   c['roof'],c['silhouette'],c['spine_shift'],c['band_profile'])
+                  for c in cat}
+            self.assertEqual(len(keys),100,kind)
 
 
 @unittest.skipUnless(GAME.exists(),'Requires owner-installed B42 sprite properties')

@@ -404,3 +404,18 @@ actual furnishing purpose as well as native loot names; four target-safety tests
 including the semantic-selection regression pass. Original target JSON, labels
 and reports remain immutable. These samples still do not certify every classroom
 or dining room's visual finish, combat, multiplayer or the complete journey.
+
+## 0.3.0-alpha.1 architectural diversity, parks and parking overhaul
+
+- **3,900 cataloged building variants (100 distinct variants per building kind across 39 kinds and 12 architectural archetypes)**:
+  Every single one of the 3,900 variants passed static B42.21 sprite definition + `.pack` texture verification, stair flight/landing checks, room reachability from entrance/stairs, native type-7 room lighting checks, and area-scaled room furnishing acceptance.
+- **Compiled world (`2,387` cell pairs, `1,188` surface structures, `1,234` `BuildingDef`s, `25,199` `RoomDef`s, `707,386,945` native bytes)**:
+  - **1,049 unique `(kind, variant)` building pairs** placed across the world.
+  - **2,613 park zones** (full-block neighborhood parks on open plots, pocket parks, and residential garden yards).
+  - **697 building-side striped parking lots** plus 4 regional shopping centre aprons (**264,411 total parking squares**).
+  - Static audit (`tools/audit.py`) PASS: `0` unknown sprites, `21,816` furnishing reports (`12,025` zoned rooms 100% accepted, `9,775` compact, `16` circulation), `metadataPart0` `2,288,404` bytes (`< 9 MB`).
+- **Live B42.21 game verification (`20261106-232550-798823`) and isolated save-reload (`20261106-233323-696224`)**:
+  - `sprite_registry_checked=546`, `sprite_registry_missing_count=0`, `sprite_registry_textureless_count=0`, `sprite_registry_seasonal_tree_proxy_count=7` (`all_native_sprites_registered=PASS`, `native_sprite_textures_or_verified_tree_proxy=PASS`).
+  - All 11 compiled-room density, aisle traversal, night switch ON/OFF (`0.898039 -> 0.662745`, `delta=0.235294`), tower stair (`z0 -> z1`), and public bunker descent (`z0 -> z-1`) targets PASS (`0` Lua errors, `0` runtime resource errors, 29 screenshots).
+  - Reload `20261106-233323-696224` PASS: `reload_token=PASS`, `reload_position=PASS` (`48259.5,1408.5,-1`), `402` below-ground zombies retained, `0` surface zombies in sanctuary.
+

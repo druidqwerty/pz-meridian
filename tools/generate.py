@@ -44,7 +44,8 @@ def compile_cell(job):
             if iscity and cx==191 and x==216:x=200
             if iscity and cy==7 and y==216:y=200
             if np.any(ground[y-2:y+36,x-2:x+36]==4):continue
-            rec=build_structure(tiles,rooms,buildings,x,y,kind,seed=cx*1000+cy*31+i)
+            seed_val=plan.get('variant',(cx*37+cy*53+i*19)%100)
+            rec=build_structure(tiles,rooms,buildings,x,y,kind,seed=seed_val)
             rec['rect']=[cx*256+rec['rect'][0],cy*256+rec['rect'][1],*rec['rect'][2:]]
             rec['spawn']=[cx*256+rec['spawn'][0],cy*256+rec['spawn'][1],rec['spawn'][2]]
             rec['site']=site['name'];rec['kind']=kind

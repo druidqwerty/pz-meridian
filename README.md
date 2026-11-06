@@ -13,8 +13,22 @@ infected. The two-storey Continuity habitat beneath them is not.
 
 ## Test build
 
-**0.2.1-alpha.1 — purpose-led large interiors.** Large offices, classrooms,
-shops, storage and shelter facilities now receive a single room-wide plan with
+**0.3.0-alpha.1 — 100 variants per building type, distinct building classes, parks & parking lots.**
+Every building category (private country houses, apartment blocks, high-rise towers,
+commercial retail, gun shops, police stations, fire stations, military camps,
+shopping malls, medical/science, civic/education, and industrial/logistics) now
+draws from **100 distinct cataloged variants per type (3,900 total variants across
+39 building kinds)**, with **1,049 unique `(kind, variant)` pairs** placed across
+the `1,188` surface structures in the world. Each archetype uses unmistakable
+facade palettes, window/door frames, 3D massing silhouettes (courtyards, L-wings,
+U-courts, T-pavilions, stepped podium towers), fenced yards/compounds (picket
+fences & mailboxes for country homes, sandbags & chain-link cages for gun shops
+and military camps, 3-bay apparatus doors & hydrants for fire stations, POLICE
+precinct yards, 25+ commercial brand signs), **2,613 park zones**, and **697
+building-side striped parking lots** (**264,411 total parking squares**).
+
+The purpose-led large-interior furnishing from 0.2.1-alpha.1 remains: large offices, classrooms,
+shops, storage and shelter facilities receive a single room-wide plan with
 activity zones and clear circulation. Public kitchens have one main appliance
 line with distributed preparation/storage, rather than a complete kitchen
 repeated in every bay. Small fitted rooms retain their compact layouts.

@@ -70,22 +70,77 @@ def city_program(cx, cy):
     Over half the city stock has six or more occupied storeys. Homes and service
     buildings remain between towers, instead of replacing the city with offices.
     """
+    sub = (cx % 2) * 2 + (cy % 2)
     if cx < 190 and cy < 6:
-        zone = 'civic'; kinds = ['officetower','residentialtower','officetower','civic',
-            'hospital','residentialtower','school','police','officeblock','officetower',
-            'residentialtower','officetower','clinic','officeblock','house','residentialtower']
+        zone = 'civic'
+        base = [
+            ['officetower','residentialtower','officetower','civic',
+             'hospital','residentialtower','school','police','officeblock','officetower',
+             'residentialtower','officetower','clinic','officeblock','house','residentialtower'],
+            ['officetower','civic','residentialtower','police',
+             'officeblock','officetower','library','firestation','residentialtower','officetower',
+             'archive','residentialtower','postoffice','officeblock','gunshop','officetower'],
+            ['residentialtower','officetower','museum','officeblock',
+             'officetower','hospital','residentialtower','civic','officetower','police',
+             'school','officetower','diner','residentialtower','shop','officeblock'],
+            ['officeblock','officetower','residentialtower','chapel',
+             'officetower','clinic','officeblock','firestation','residentialtower','officetower',
+             'gym','residentialtower','stripmall','officetower','house','officeblock'],
+        ][sub]
     elif cx >= 190 and cy < 6:
-        zone = 'residential'; kinds = ['residentialtower','house','residentialtower','kindergarten',
-            'stripmall','residentialtower','house','clinic','residentialtower','officeblock',
-            'school','residentialtower','duplex','residentialtower','house','residentialtower']
+        zone = 'residential'
+        base = [
+            ['residentialtower','house','residentialtower','kindergarten',
+             'stripmall','residentialtower','house','clinic','residentialtower','officeblock',
+             'school','residentialtower','duplex','residentialtower','house','residentialtower'],
+            ['residentialtower','apartment','residentialtower','cottage',
+             'generalstore','residentialtower','rowhouse','diner','residentialtower','midrise',
+             'gym','residentialtower','ranch','residentialtower','house','officeblock'],
+            ['residentialtower','duplex','residentialtower','school',
+             'shop','residentialtower','apartment','laundry','residentialtower','midrise',
+             'chapel','residentialtower','house','residentialtower','cottage','officetower'],
+            ['residentialtower','rowhouse','residentialtower','kindergarten',
+             'diner','residentialtower','house','clinic','residentialtower','apartment',
+             'library','residentialtower','duplex','residentialtower','gunshop','officeblock'],
+        ][sub]
     elif cx < 190:
-        zone = 'utilities'; kinds = ['depot','workshop','officeblock','waterworks',
-            'laundry','residentialtower','house','gatehouse','firestation','relay',
-            'officeblock','fuel','residentialtower','clinic','warehouse','diner']
+        zone = 'utilities'
+        base = [
+            ['depot','workshop','officeblock','waterworks',
+             'laundry','residentialtower','house','gatehouse','firestation','relay',
+             'officeblock','fuel','residentialtower','clinic','warehouse','diner'],
+            ['warehouse','firestation','officeblock','depot',
+             'gunshop','residentialtower','garage','police','workshop','officetower',
+             'officeblock','fuel','residentialtower','scrapyard','terminal','motel'],
+            ['depot','garage','officetower','warehouse',
+             'workshop','residentialtower','firestation','checkpoint','officeblock','relay',
+             'military','fuel','residentialtower','weighstation','laundry','diner'],
+            ['warehouse','workshop','officeblock','terminal',
+             'depot','residentialtower','gunshop','police','firestation','officetower',
+             'officeblock','gas','residentialtower','garage','barracks','shop'],
+        ][sub]
     else:
-        zone = 'council'; kinds = ['officetower','residentialtower','officetower','officeblock',
-            'residentialtower','officetower','museum','residentialtower','officetower',
-            'residentialtower','officeblock','officetower','residentialtower','officetower',
-            'library','residentialtower']
-    return zone, [dict(x=x,y=y,kind=kinds[i]) for i,(x,y) in enumerate(
-        ( (x,y) for x in (24,88,152,216) for y in (24,88,152,216) ))]
+        zone = 'council'
+        base = [
+            ['officetower','residentialtower','officetower','officeblock',
+             'residentialtower','officetower','museum','residentialtower','officetower',
+             'residentialtower','officeblock','officetower','residentialtower','officetower',
+             'library','residentialtower'],
+            ['officetower','officeblock','residentialtower','officetower',
+             'residentialtower','officetower','archive','residentialtower','officetower',
+             'officeblock','residentialtower','officetower','civic','officetower',
+             'police','residentialtower'],
+            ['residentialtower','officetower','officeblock','officetower',
+             'officetower','residentialtower','sanatorium','officetower','residentialtower',
+             'officetower','officeblock','residentialtower','postoffice','officetower',
+             'gunshop','residentialtower'],
+            ['officetower','residentialtower','officetower','officeblock',
+             'residentialtower','officetower','hospital','residentialtower','officetower',
+             'residentialtower','officeblock','officetower','firestation','officetower',
+             'diner','residentialtower'],
+        ][sub]
+    coords = [(x, y) for x in (24, 88, 152, 216) for y in (24, 88, 152, 216)]
+    return zone, [
+        dict(x=x, y=y, kind=base[i], variant=((cx - 188) * 23 + (cy - 4) * 7 + i * 3) % 100)
+        for i, (x, y) in enumerate(coords)
+    ]

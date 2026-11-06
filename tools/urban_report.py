@@ -22,6 +22,13 @@ def write_report(root,manifest):
         visibleSurfaceSwitches=sum(l['kind']=='switch' for r in records for l in r.get('lighting',[])),
         shoppingCentres=sum(r['kind']=='bigboxmall' for r in records),
         gunshops=sum(r['kind']=='gunshop' for r in records),
+        uniqueKindVariantPairs=len({(r['kind'],r.get('variant',0)) for r in records}),
+        archetypeCounts=dict(Counter(r.get('archetype','unknown') for r in records)),
+        silhouetteCounts=dict(Counter(r.get('silhouette','rect') for r in records)),
+        wallPaletteCounts=dict(Counter(r.get('wallPalette','') for r in records)),
+        parkZones=sum((c.get('streetscape') or {}).get('parks',0) for c in manifest['cells']),
+        lotParkingLots=sum(((c.get('streetscape') or {}).get('publicRealm') or {}).get('lotParkingLots',0) for c in manifest['cells']),
+        totalParkingSquares=sum(((c.get('streetscape') or {}).get('publicRealm') or {}).get('parkingSquares',0) for c in manifest['cells']),
         fortification=dict(depth=13,height=8,walkwayFloor=8,gateWidth=21,gateHeight=4),
         settlements=sites)
     assert report['cityHighrises6Plus']>=report['cityBuildings']//2

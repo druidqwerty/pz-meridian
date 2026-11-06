@@ -312,3 +312,28 @@ Superseded by active urban/interior revision below; these are alpha.1 receipts.
 
 - DONE private Telegram completion+actual finaldormPNG delivered message4252.
   Memory filed in main/modder workspaces. No notification retry or pending release step.
+
+## 0.3.0-alpha.1 architectural diversity, parks and parking overhaul — 2026-11-06
+- DONE building_variants.py + exterior_compounds.py + building_layouts.py +
+  architecture.py + building_signs.py + room_lighting.py: 100 distinct verified
+  variants per building kind across all 39 kinds and 12 architectural archetypes
+  (3,900 total variants). All 3,900 variants verified against B42.21 sprite defs,
+  Tiles2x.pack textures, stair flights, room reachability, type-7 room lighting,
+  and area-scaled furnishing audit.
+- DONE public_realm.py + landscape.py + content_catalog.py + regional_program.py:
+  2,613 park zones (full-block neighborhood parks on open plots, pocket parks,
+  and residential garden yards), 697 building-side striped parking lots + 4
+  regional shopping centre aprons (264,411 total parking squares), and 1,049
+  unique (kind, variant) pairs across 1,188 surface structures.
+- DONE full compile 144.8s + static-audit PASS: 2,387 cell pairs, 25,199 rooms,
+  1,234 BuildingDefs, 21,816 furnishing reports (12,025 zoned rooms 100% accepted),
+  0 unknown sprites. Installed 4,796 files SHA256 verified (backup 232503).
+- DONE live B42.21 playtest 20261106-232550-798823 PASS (546 unique compiled
+  sprites checked, 0 missing, 0 textureless, 0 Lua/resource errors, 11 targets +
+  night light deltas + tower/bunker stairs + vector atlas, 29 screenshots) and
+  isolated reload 20261106-233323-696224 PASS (402 below zombies retained).
+- DONE packaged 0.3.0-alpha.1 ONCE: 155,684,115 bytes ZIP SHA256
+  8d736ecf8309d2dcf77c964162a286f5a6312af670f5ceac2b29146cfe1f0624;
+  candidateTreeSHA256 ab2bb3c3ab9eeb40ea49c6b805599067225fb0eff65d46f228b74495eda37dc3
+  (all 4,796 source == installed == tested == release ZIP).
+

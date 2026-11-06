@@ -20,10 +20,17 @@ TOWNS = {
 def settlement_program(site,cx,cy):
     """Return cell-local placement dicts; bespoke expedition compounds keep theirs."""
     if 'structures' in site:
-        return site['structures']
+        return [
+            dict(s, variant=s.get('variant', (site.get('id', 0) * 17 + idx * 13) % 100))
+            for idx, s in enumerate(site['structures'])
+        ]
     if site['kind'] == 'service':
-        return [dict(x=24,y=24,kind='fuel'),dict(x=152,y=152,kind='garage'),
-                dict(x=92,y=28,kind='guardhut')]
+        sid = site.get('id', 100)
+        return [
+            dict(x=24, y=24, kind='fuel', variant=(sid * 7) % 100),
+            dict(x=152, y=152, kind='garage', variant=(sid * 11 + 3) % 100),
+            dict(x=92, y=28, kind='guardhut', variant=(sid * 13 + 5) % 100),
+        ]
     if site['kind'] == 'town':
         kinds=TOWNS[site['id']]
     else:
@@ -45,5 +52,6 @@ def settlement_program(site,cx,cy):
         if site['id']==0 and i==0: kind='cottage'
         small=kind in ('garage','guardhut','house','ranch','cottage')
         shift=(cell_index+i)%3*2 if small else 0
-        plans.append(dict(x=x+shift,y=y,kind=kind))
+        vid=(site['id']*19 + cell_index*29 + i*7) % 100
+        plans.append(dict(x=x+shift,y=y,kind=kind,variant=vid))
     return plans

@@ -3,12 +3,13 @@
 Native coordinates are local to a 256-tile cell. Entrances face south. The
 unfurnished axial hall/lobby makes every named room and stair accessible.
 """
-from random import Random
 from furnishing import EXTRAS, furnish_room
 from content_catalog import KINDS as CONTENT_KINDS, THEMES
 from themed_rooms import furnish as furnish_themed
 from story_scenes import archive_desk
 from building_layouts import layout
+from building_variants import variant_spec
+from exterior_compounds import dress_building_exterior
 
 WOOD = 'floors_interior_tilesandwood_01_40'
 TILE = 'floors_interior_tilesandwood_01_16'
@@ -43,17 +44,23 @@ KINDS = {
 }
 KINDS.update(CONTENT_KINDS)
 
+
 def put(tiles,x,y,z,sprite):
     if not (0 <= x < 256 and 0 <= y < 256):
         raise ValueError(f'Architecture outside native cell: {x},{y}')
     tiles.setdefault((x,y,z),[]).append(sprite)
 
-def wall(tiles,x,y,z,direction,kind='solid',palette=16):
+
+def wall(tiles,x,y,z,direction,kind='solid',palette=16,*,
+         sheet='walls_exterior_house_02',win=('fixtures_windows_01',0),
+         door=('fixtures_doors_01',0)):
     offset = {'solid':0,'window':8,'door':10}[kind] + (direction == 'N')
-    put(tiles,x,y,z,'walls_exterior_house_02_'+str(palette+offset))
-    if kind != 'solid':
-        sheet = 'fixtures_doors_01_' if kind == 'door' else 'fixtures_windows_01_'
-        put(tiles,x,y,z,sheet+str(int(direction == 'N')))
+    put(tiles,x,y,z,f'{sheet}_{palette+offset}')
+    if kind == 'window':
+        put(tiles,x,y,z,f'{win[0]}_{win[1]+int(direction == "N")}')
+    elif kind == 'door':
+        put(tiles,x,y,z,f'{door[0]}_{door[1]+int(direction == "N")}')
+
 
 def room_furniture(role,x,y,w,h,seed=0,blocked=(),**kwargs):
     """Verified facing and complete furniture grids, respecting actual doors."""
@@ -72,22 +79,28 @@ def plan(w,h,roles):
         doors.append((left if i%2==0 else left+3,ry+rh//2,'W'))
     return rooms,set(doors)
 
+
 def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
-    """Create a function-specific building with native rooms, doors and stairs."""
+    """Create a function-specific building with 100 variant traits per kind."""
     if kind not in KINDS: raise ValueError(f'Unknown structure kind: {kind}')
     w,h,levels,roles=KINDS[kind]
     if not(1<=x and x+w<255 and 1<=y and y+h+3<255):
         raise ValueError('Building requires an intact cell-local margin')
-    rng=Random(seed); palette=rng.choice([0,16,32,48])
+    spec=variant_spec(kind,seed)
+    vid=spec['variant_id']
     if kind=='house' and seed%3==0: levels=2
-    # Variation affects the actual skyline, never an unbounded random floor count.
     if kind in ('residentialtower','officetower'):levels+=seed%3-1
     indices=[];barricades=[];lighting=[];stair_tests=[];furnishing=[];caches=[]
     cache_point=None
-    footprint=set()
+    owners_by_z={}
     for z in range(levels):
+        ext_sheet,ext_base=spec['wall'] if z==0 else spec['upper_wall']
+        int_sheet,int_base=spec['interior_wall']
+        win_spec=spec['window']
+        ext_door=spec['ext_door']
+        int_door=spec['int_door']
         parts,doors,owners=layout(w,h,roles,kind,seed,z,levels)
-        # Native room names and presentation themes remain separate.
+        owners_by_z[z]=set(owners)
         themes=THEMES.get(kind)
         if themes and len(parts)==5:
             for i,room in enumerate(parts[1:]):room['theme']=themes[i]
@@ -105,10 +118,6 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
             blocked|={(x+dx,y+dy) for dx in range(w) for dy in (32,33)}
             blocked|={(x+dx,y+dy) for dx in (w//2-1,w//2) for dy in range(h)}
         if z==0 and seed%7==0:
-            # Cache cabinets are solids, not post-plan decorations on any bare
-            # square: an empty square may be a protected use apron/main aisle.
-            # Pick inside one actual room and preserve the cabinet's S front;
-            # the room planner must then solve around the real obstruction.
             candidates=[(dx,dy) for (dx,dy),owner in sorted(owners.items(),reverse=True)
                 if owner and (x+dx,y+dy) not in blocked
                 and (x+dx,y+dy+1) not in blocked
@@ -118,11 +127,14 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
                 dx,dy=candidates[0];cache_point=(x+dx,y+dy)
                 blocked.add((x+dx,y+dy+1))
         floor_rooms=[]
+        fl=spec['floors']
         for i,room in enumerate(parts):
             indices.append(len(rooms)); rr=dict(name=room['name'],level=z,
                 rects=[(x+a,y+b,c,d) for a,b,c,d in room['rects']],objects=[])
             rooms.append(rr);floor_rooms.append(rr)
-            floor=TILE if room['name'] not in ('bedroom','livingroom','hall') else WOOD
+            rname=room['name']
+            floor=(fl['hall'] if rname=='hall' else fl['wet'] if rname in ('bathroom','kitchen','medical','laboratory')
+                   else fl['secondary'] if rname=='bedroom' else fl['primary'])
             for rx,ry,rw,rh in rr['rects']:
                 for xx in range(rx,rx+rw):
                     for yy in range(ry,ry+rh): tiles[xx,yy,z]=[floor]
@@ -141,51 +153,51 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
                             loot_role=room['name'],
                             obstacles=(cache_point,) if z==0 and cache_point else ()):
                         put(tiles,xx,yy,z,sprite)
-        # Derive the outside shell from the actual footprint, including courts
-        # and setbacks; it is no longer always one rectangular bounding box.
         edges={}
+        period=spec['window_period']
+        wmod=spec['window_mod']
         for dx,dy in owners:
             for ox,oy,direction in ((-1,0,'W'),(1,0,'W'),(0,-1,'N'),(0,1,'N')):
                 if (dx+ox,dy+oy) not in owners:
                     edge=(max(dx,dx+ox),max(dy,dy+oy),direction)
-                    edges[edge]='window' if ((dx if direction=='N' else dy)+seed)%4==2 else 'solid'
+                    pos=dx if direction=='N' else dy
+                    edges[edge]='window' if (pos+vid)%period==wmod else 'solid'
         edges[w//2,h,'N']='door' if z==0 else 'window'
         if z==0 and kind=='stripmall':
-            # Each retail unit has its own public entrance onto a paved arcade.
             for room in parts[1:]:
                 if room['name']!='grocery':continue
                 a,b,c,d=room['rects'][0]
                 edges[0,b+d//2,'W']='door'
         for (dx,dy,direction),style in edges.items():
-            wall(tiles,x+dx,y+dy,z,direction,style,palette)
+            use_door=('fixtures_doors_01',0) if (kind=='stripmall' and dx==0 and direction=='W') else ext_door
+            wall(tiles,x+dx,y+dy,z,direction,style,ext_base,
+                 sheet=ext_sheet,win=win_spec,door=use_door)
         if z==0 and kind in ('garage','firestation','depot'):
-            # Verified native three-part metal garage door, not three singles.
             for dx,index in ((3,3),(4,4),(5,5)):
                 names=tiles[x+dx,y,0]
                 tiles[x+dx,y,0]=[n for n in names if not n.startswith(
-                    ('walls_exterior_house_02_','fixtures_windows_01_','fixtures_doors_01_'))]
+                    ('walls_','fixtures_windows_','fixtures_doors_'))]
                 put(tiles,x+dx,y,0,'walls_garage_01_'+str(index))
             for dx in range(2,7):
                 for dy in range(max(-3,-y),0):tiles[x+dx,y+dy,0]=[PAVING]
         if z==0 and seed%3!=2:
-            # Preserve ordinary native crowbar/hammer window barricades.
             planks=2+seed%3
             north=[(dx,dy) for (dx,dy,d),s in edges.items()
                    if d=='N' and s=='window' and dy==0
-                   and 'fixtures_windows_01_1' in tiles.get((x+dx,y+dy,z),[])]
+                   and any(n.startswith('fixtures_windows_') and int(n.rsplit('_',1)[1])%2==1
+                           for n in tiles.get((x+dx,y+dy,z),[]))]
             for dx,dy in north[:2]:
                 put(tiles,x+dx,y+dy,z,'carpentry_01_'+str(9+2*(planks-1)))
                 barricades.append([x+dx,y+dy,z])
         for (dx,dy),i in owners.items():
             for ox,oy,d in [(-1,0,'W'),(0,-1,'N')]:
                 if (dx+ox,dy+oy) in owners and owners[dx+ox,dy+oy]!=i:
-                    wall(tiles,x+dx,y+dy,z,d,'door' if (dx,dy,d) in doors else 'solid',palette)
+                    wall(tiles,x+dx,y+dy,z,d,'door' if (dx,dy,d) in doors else 'solid',
+                         int_base,sheet=int_sheet,win=win_spec,door=int_door)
         if kind=='bigboxmall':
-            # Complete native wall-sign grids over the fashion/sports units.
             for start,offset in ((2,24),((w-4)//4+2,20)):
                 sheet='location_shop_accessories_genericsigns_01_' if offset==24 else 'location_shop_mall_signs_02_'
                 for delta in range(4):put(tiles,x+start+delta,y+30,z,sheet+str(offset+delta))
-        # Compact entrances get a side table/plant, not five tiles of empty lobby.
         if w>=16:
             put(tiles,x+w-2,y+h-1,z,TILES['plant'])
         if z>0:
@@ -195,28 +207,26 @@ def build_structure(tiles,rooms,buildings,x,y,kind,seed=0):
             stair_tests.append({'from':[x+5,y+h-3,z],'to':[x+1,y+h-3,z+1]})
         from room_lighting import place_room_lighting
         for rr in floor_rooms:lighting.extend(place_room_lighting(tiles,rr,blocked=blocked))
-        footprint.update(owners)
-    for dx,dy in footprint:tiles[x+dx,y+dy,levels]=[ROOF]
+    for z in range(levels):
+        exposed=owners_by_z[z]-owners_by_z.get(z+1,set())
+        for dx,dy in exposed:
+            names=tiles.setdefault((x+dx,y+dy,z+1),[])
+            if ROOF not in names:names.insert(0,ROOF)
+            if spec['roof']!=ROOF and spec['roof'] not in names:
+                names.insert(1,spec['roof'])
+    dress_building_exterior(tiles,x,y,w,h,kind,spec,owners_by_z[0])
     if kind=='stripmall':
-        for dy in range(h+1):
-            for dx in (-2,-1):
-                if x+dx>=0:tiles[x+dx,y+dy,0]=[PAVING]
-    # Sheltered entry apron gives each facade depth; no collision in the doorway.
-    for xx in range(x+w//2-3,x+w//2+4):
-        for yy in range(y+h+1,y+h+3): tiles[xx,yy,0]=[PAVING]
-        for yy in range(y+h,y+h+3): put(tiles,xx,yy,1,ROOF)
-    if seed%4 in (1,2) and kind not in ('house','cottage','ranch','guardhut','duplex','rowhouse'):
-        # Moveable/scrappable shipping crates outside the facade, with an open
-        # entrance apron and a walking route around both ends.
-        for dx,key in ((2,'crate'),(3,'crate'),(4,'metalcrate')):
-            tiles[x+dx,y+h+1,0]=[PAVING,TILES[key]]
-            barricades.append([x+dx,y+h+1,0])
+        for dx in (-2,-1):
+            for dy in range(h+3):tiles[x+dx,y+dy,0]=[PAVING]
+    for dx in range(-1,2):
+        for dy in (0,1,2): tiles[x+w//2+dx,y+h+dy,0]=[PAVING]
+    archive=archive_desk(tiles,x,y,w,h,kind)
     if cache_point:
-        cache=[*cache_point,0];tiles[tuple(cache)].append(TILES['metal']);caches.append(cache)
+        put(tiles,cache_point[0],cache_point[1],0,TILES['metal'])
+        caches.append([cache_point[0],cache_point[1],0])
     buildings.append(indices)
-    document=archive_desk(tiles,x,y,w,h,kind)
-    return dict(kind=kind,rect=[x,y,w,h],levels=levels,spawn=[x+w//2,y+h-2,0],
-                entrance=[x+w//2,y+h,0],cache=caches[0] if caches else None,
-                caches=caches,barricades=barricades,archiveDesk=document,
-                lighting=lighting,stairTests=stair_tests,layout=kind,
-                furnishing=furnishing)
+    return dict(rect=[x,y,w,h],spawn=[x+w//2,y+h-2,0],rooms=len(indices),levels=levels,
+        variant=vid,archetype=spec['archetype'],silhouette=spec['silhouette'],
+        wallPalette=f"{spec['wall'][0]}_{spec['wall'][1]}",
+        caches=caches,archiveDesk=archive,barricades=barricades,
+        lighting=lighting,stairTests=stair_tests,furnishing=furnishing)

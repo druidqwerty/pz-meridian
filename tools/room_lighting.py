@@ -9,11 +9,24 @@ SWITCHES = {'N': 0, 'W': 1, 'E': 2, 'S': 3}
 LAMPS = {'N': 61, 'W': 60, 'E': 62, 'S': 63}
 
 
+WALL_PREFIXES = (
+    'walls_exterior_house_', 'walls_commercial_', 'walls_exterior_wooden_',
+    'walls_garage_', 'walls_interior_house_', 'walls_interior_bathroom_', 'walls_logs_',
+)
+
+
 def _wall(names, direction):
-    # Every authored house-wall palette uses the same N/W low-four-bit layout.
-    expected = 1 if direction == 'N' else 0
-    return any(n.startswith('walls_exterior_house_02_') and
-               int(n.rsplit('_', 1)[1]) % 16 == expected for n in names)
+    # All verified wall palettes use base % 16 in (0, 4): solid W is +0, solid N is +1.
+    expected = (1, 5) if direction == 'N' else (0, 4)
+    for n in names:
+        if not n.startswith(WALL_PREFIXES):
+            continue
+        idx = int(n.rsplit('_', 1)[1])
+        if n.startswith('walls_garage_01_') and idx < 16:
+            continue
+        if idx % 16 in expected:
+            return True
+    return False
 
 
 def place_room_lighting(tiles, room, *, blocked=()):

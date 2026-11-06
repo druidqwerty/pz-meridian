@@ -2,6 +2,6 @@ name=Meridian: The Long Way Home
 id=MeridianLongWayHome
 author=druidqwerty
 description=Original standalone expedition map. Select Meridian as the starting region in a NEW Sandbox world. Optional Viewpoint support; vanilla sprites only.
-modversion=0.2.1-alpha.1
+modversion=0.3.0-alpha.1
 versionMin=42.21
 versionMax=42.21
