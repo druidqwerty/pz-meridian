@@ -38,7 +38,9 @@ def main():
     m=json.loads((ROOT/'build/manifest.json').read_text())
     furnishing,zoned=audit_furnishing(m)
     folder=ROOT/'mod/common/media/maps/Meridian'
-    defs=(GAME/'media/newtiledefinitions.tiles.txt').read_text()
+    tile_defs=GAME/'media/tile_definitions/newtiledefinitions.tiles.txt'
+    if not tile_defs.is_file(): tile_defs=GAME/'media/newtiledefinitions.tiles.txt'
+    defs=tile_defs.read_text()
     sprites=set(re.findall(r'// (\S+)\s+tile\s*\{',defs))
     unknown=set();rooms=0;buildings=0;safe=0;densities=[]
     for c in m['cells']:

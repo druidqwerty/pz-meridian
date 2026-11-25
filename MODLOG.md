@@ -337,3 +337,16 @@ Superseded by active urban/interior revision below; these are alpha.1 receipts.
   candidateTreeSHA256 ab2bb3c3ab9eeb40ea49c6b805599067225fb0eff65d46f228b74495eda37dc3
   (all 4,796 source == installed == tested == release ZIP).
 
+## 0.3.0-alpha.1 Build 42.22.2 compatibility update — 2026-11-25 (local, GitHub-only)
+- Audited `projectzomboid.jar` (rev `3d39148846`): binary formats `LotHeader` (`LOTH` v1),
+  `IsoLot` (`LOTP` v1), `WorldMapBinary` (`IGMB` v2) and all Meridian Lua hooks (`MapSpawnSelect`,
+  `ISWorldMap` / `MapUtils.initDefaultStyleV3`) remain unchanged.
+- Removed `versionMax=42.21` from `mod/42/mod.info` and `mod/common/mod.info` (kept `versionMin=42.21`)
+  so Build 42.22.2 no longer marks the map incompatible.
+- Adapted `tools/audit.py` and `tests/test_architecture.py` to 42.22.2's moved tile definitions
+  (`media/tile_definitions/*.tiles.txt` with fallback to `media/*.tiles.txt`); verified all
+  2,387 `.lotheader` files (546 unique sprites) against 42.22.2 with 0 missing sprites.
+- Added `test_mod_info_and_sandbox_allow_b42_22` and `%` validation in `tests/test_runtime.py`;
+  all 6 unit test suites + `tools/audit.py` PASS (exit 0).
+
+

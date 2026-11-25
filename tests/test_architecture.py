@@ -11,7 +11,8 @@ GAME=Path('G:/Steam/steamapps/common/ProjectZomboid')
 
 def sprites():
     data={}
-    for file in (GAME/'media').glob('*.tiles.txt'):
+    files=list((GAME/'media/tile_definitions').glob('*.tiles.txt')) or list((GAME/'media').glob('*.tiles.txt'))
+    for file in files:
         name=None
         for raw in file.read_text(encoding='utf-8-sig').splitlines():
             line=raw.strip()

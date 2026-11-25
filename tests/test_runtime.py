@@ -138,6 +138,17 @@ class Runtime(unittest.TestCase):
             ru = json.loads((translate/'RU'/name).read_text(encoding='utf-8-sig'))
             self.assertEqual(set(en), set(ru))
             self.assertTrue(all(en.values()) and all(ru.values()))
+            if name == 'Sandbox.json':
+                self.assertFalse(any('%' in str(v) for v in en.values()))
+                self.assertFalse(any('%' in str(v) for v in ru.values()))
+
+    def test_mod_info_and_sandbox_allow_b42_22(self):
+        for rel in ('mod/42/mod.info', 'mod/common/mod.info'):
+            text = (ROOT / rel).read_text(encoding='utf-8')
+            self.assertIn('versionMin=42.21', text)
+            self.assertNotIn('versionMax=42.21', text)
+        sandbox = (ROOT / 'mod/42/media/sandbox-options.txt').read_text(encoding='utf-8')
+        self.assertNotIn('--', sandbox)
 
 
 if __name__ == '__main__':
